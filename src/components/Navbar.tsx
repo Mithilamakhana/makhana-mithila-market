@@ -13,11 +13,13 @@ const Navbar = () => {
     <nav className="bg-mithila-green text-white py-4 sticky top-0 z-50 shadow-md">
       <div className="container mx-auto flex justify-between items-center px-4">
         <Link to="/" className="flex items-center gap-2">
-          <img 
-            src="/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png" 
-            alt="Mithila Sattvik Makhana Logo" 
-            className="h-12 w-12 object-contain"
-          />
+          <div className="bg-white rounded-full p-1">
+            <img 
+              src="/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png" 
+              alt="Mithila Sattvik Makhana Logo" 
+              className="h-12 w-12 object-contain"
+            />
+          </div>
           <span className="text-xl font-semibold hidden md:inline">Mithila Sattvik Makhana</span>
         </Link>
         
