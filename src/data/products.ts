@@ -1,4 +1,3 @@
-
 export interface Product {
   id: string;
   name: string;
@@ -31,7 +30,10 @@ export const products: Product[] = [
     image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
     images: [
       "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
-      "/lovable-uploads/6cde9e41-dea8-4d15-8787-d9ee49aca8fe.png"
+      "/lovable-uploads/6cde9e41-dea8-4d15-8787-d9ee49aca8fe.png",
+      // Adding placeholder images for testing
+      "https://images.unsplash.com/photo-1484980972926-edee96e0960d?q=80&w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=500&auto=format&fit=crop"
     ],
     benefits: [
       "High in protein and low in fat",
@@ -60,7 +62,10 @@ export const products: Product[] = [
     image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
     images: [
       "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
-      "/lovable-uploads/6cde9e41-dea8-4d15-8787-d9ee49aca8fe.png"
+      "/lovable-uploads/6cde9e41-dea8-4d15-8787-d9ee49aca8fe.png",
+      // Adding placeholder images for testing
+      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=500&auto=format&fit=crop"
     ],
     benefits: [
       "Ready-to-eat snack option",

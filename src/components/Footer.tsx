@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-mithila-green text-white pt-10 pb-6">
+    <footer className="bg-mithila-blue text-white pt-10 pb-6">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -12,7 +12,7 @@ const Footer = () => {
               <img 
                 src="/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png" 
                 alt="Mithila Sattvik Makhana Logo" 
-                className="h-12 w-12 object-contain"
+                className="h-12 w-12 object-contain bg-white rounded-full p-1"
               />
               <h3 className="text-xl font-bold">Mithila Sattvik Makhana</h3>
             </Link>

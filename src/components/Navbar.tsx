@@ -10,7 +10,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-mithila-green text-white py-4 sticky top-0 z-50 shadow-md">
+    <nav className="bg-mithila-blue text-white py-4 sticky top-0 z-50 shadow-md">
       <div className="container mx-auto flex justify-between items-center px-4">
         <Link to="/" className="flex items-center gap-2">
           <div className="bg-white rounded-full p-1">
@@ -45,7 +45,7 @@ const Navbar = () => {
               <ShoppingCart className="h-5 w-5 mr-2" />
               Cart
               {getTotalItems() > 0 && (
-                <span className="absolute -top-2 -right-2 bg-mithila-blue text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-mithila-orange text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {getTotalItems()}
                 </span>
               )}
@@ -55,17 +55,17 @@ const Navbar = () => {
         
         {/* Mobile navigation */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-mithila-green shadow-lg py-4 flex flex-col items-center space-y-4">
-            <Link to="/" className="w-full text-center py-2 hover:bg-mithila-blue" onClick={() => setIsMenuOpen(false)}>
+          <div className="md:hidden absolute top-full left-0 right-0 bg-mithila-blue shadow-lg py-4 flex flex-col items-center space-y-4">
+            <Link to="/" className="w-full text-center py-2 hover:bg-mithila-blue/80" onClick={() => setIsMenuOpen(false)}>
               Home
             </Link>
-            <Link to="/products" className="w-full text-center py-2 hover:bg-mithila-blue" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/products" className="w-full text-center py-2 hover:bg-mithila-blue/80" onClick={() => setIsMenuOpen(false)}>
               Products
             </Link>
-            <Link to="/about" className="w-full text-center py-2 hover:bg-mithila-blue" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/about" className="w-full text-center py-2 hover:bg-mithila-blue/80" onClick={() => setIsMenuOpen(false)}>
               About Us
             </Link>
-            <Link to="/cart" className="w-full text-center py-2 hover:bg-mithila-blue" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/cart" className="w-full text-center py-2 hover:bg-mithila-blue/80" onClick={() => setIsMenuOpen(false)}>
               Cart ({getTotalItems()})
             </Link>
           </div>
