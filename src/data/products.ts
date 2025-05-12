@@ -7,6 +7,7 @@ export interface Product {
   price: number;
   weight: string;
   image: string;
+  images: string[]; // New field for multiple images
   benefits: string[];
   ingredients: string[];
   nutritionalInfo: {
@@ -28,6 +29,10 @@ export const products: Product[] = [
     price: 299,
     weight: "250g",
     image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
+    images: [
+      "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
+      "/lovable-uploads/6cde9e41-dea8-4d15-8787-d9ee49aca8fe.png"
+    ],
     benefits: [
       "High in protein and low in fat",
       "Excellent source of antioxidants",
@@ -53,6 +58,10 @@ export const products: Product[] = [
     price: 349,
     weight: "200g",
     image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
+    images: [
+      "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
+      "/lovable-uploads/6cde9e41-dea8-4d15-8787-d9ee49aca8fe.png"
+    ],
     benefits: [
       "Ready-to-eat snack option",
       "Perfect balance of crunch and flavor",

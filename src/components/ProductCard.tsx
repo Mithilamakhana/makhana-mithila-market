@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Product } from '@/data/products';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Images } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -15,12 +15,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border border-mithila-gold/20">
-      <div className="p-4 flex justify-center bg-mithila-beige">
+      <div className="p-4 flex justify-center bg-mithila-beige relative">
         <img 
           src={product.image} 
           alt={product.name} 
           className="h-48 w-48 object-contain"
         />
+        {product.images.length > 1 && (
+          <div className="absolute top-2 right-2 bg-white/80 rounded-full p-1" title="Multiple images available">
+            <Images className="h-4 w-4 text-mithila-green" />
+          </div>
+        )}
       </div>
       
       <div className="p-5">

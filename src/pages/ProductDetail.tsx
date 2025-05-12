@@ -6,6 +6,14 @@ import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, ArrowLeft } from 'lucide-react';
 import MascotFloating from '@/components/MascotFloating';
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+} from '@/components/ui/carousel';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,12 +47,34 @@ const ProductDetail = () => {
         </Button>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          <div className="bg-mithila-beige rounded-lg p-8 flex items-center justify-center">
-            <img 
-              src={product.image} 
-              alt={product.name} 
-              className="h-64 w-64 md:h-80 md:w-80 object-contain"
-            />
+          <div className="bg-mithila-beige rounded-lg p-8">
+            {product.images.length > 1 ? (
+              <Carousel className="w-full max-w-xs mx-auto">
+                <CarouselContent>
+                  {product.images.map((image, index) => (
+                    <CarouselItem key={index}>
+                      <AspectRatio ratio={1 / 1} className="bg-white">
+                        <img 
+                          src={image} 
+                          alt={`${product.name} - View ${index + 1}`} 
+                          className="h-full w-full object-contain"
+                        />
+                      </AspectRatio>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-2" />
+                <CarouselNext className="right-2" />
+              </Carousel>
+            ) : (
+              <div className="flex items-center justify-center">
+                <img 
+                  src={product.image} 
+                  alt={product.name} 
+                  className="h-64 w-64 md:h-80 md:w-80 object-contain"
+                />
+              </div>
+            )}
           </div>
           
           <div>
