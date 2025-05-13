@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { products } from '@/data/products';
@@ -49,12 +48,13 @@ const Index = () => {
       </section>
 
       {/* Makhana Info Slideshow Section */}
-      <section className="py-16 bg-white">
+      <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-mithila-blue mb-4">Discover Our Makhana</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Learn about the exceptional qualities that make our fox nuts a premium healthy snack option.
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-mithila-blue mb-4">Discover Our Makhana</h2>
+            <div className="w-20 h-1 bg-mithila-gold mx-auto mb-6"></div>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Learn about the exceptional qualities that make our fox nuts a premium healthy superfood.
             </p>
           </div>
           
