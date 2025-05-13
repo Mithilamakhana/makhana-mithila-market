@@ -1,9 +1,11 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { products } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import MakhanaSlideshow from '@/components/MakhanaSlideshow';
 
 const Index = () => {
   return (
@@ -43,6 +45,20 @@ const Index = () => {
               />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Makhana Info Slideshow Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-mithila-blue mb-4">Discover Our Makhana</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Learn about the exceptional qualities that make our fox nuts a premium healthy snack option.
+            </p>
+          </div>
+          
+          <MakhanaSlideshow />
         </div>
       </section>
 
