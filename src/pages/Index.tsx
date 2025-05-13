@@ -1,11 +1,9 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { products } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import MascotFloating from '@/components/MascotFloating';
 
 const Index = () => {
   return (
@@ -140,8 +138,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      <MascotFloating />
     </div>
   );
 };

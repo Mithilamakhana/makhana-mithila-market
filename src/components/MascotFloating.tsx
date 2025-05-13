@@ -1,17 +1,50 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 const MascotFloating = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-40 animate-float">
-      <div className="bg-white/80 p-2 rounded-full shadow-lg">
+    <motion.div 
+      className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-40"
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ 
+        y: isVisible ? 0 : 100, 
+        opacity: isVisible ? 1 : 0 
+      }}
+      transition={{ 
+        type: "spring",
+        stiffness: 260,
+        damping: 20
+      }}
+    >
+      <motion.div
+        animate={{ y: [0, -10, 0] }}
+        transition={{ 
+          repeat: Infinity,
+          duration: 3,
+          ease: "easeInOut"
+        }}
+      >
         <img 
           src="/lovable-uploads/6cde9e41-dea8-4d15-8787-d9ee49aca8fe.png" 
           alt="Makhana Mascot" 
-          className="h-20 w-20 md:h-28 md:w-28 object-contain"
+          className="h-24 w-24 md:h-32 md:w-32 object-contain drop-shadow-xl"
+          style={{
+            filter: "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2))"
+          }}
         />
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

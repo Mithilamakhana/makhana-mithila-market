@@ -1,11 +1,9 @@
-
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProductById } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, ArrowLeft } from 'lucide-react';
-import MascotFloating from '@/components/MascotFloating';
 import { 
   Carousel,
   CarouselContent,

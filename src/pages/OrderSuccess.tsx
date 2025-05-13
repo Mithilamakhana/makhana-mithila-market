@@ -3,7 +3,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Home, ShoppingCart } from 'lucide-react';
-import MascotFloating from '@/components/MascotFloating';
 
 const OrderSuccess = () => {
   return (
@@ -41,8 +40,6 @@ const OrderSuccess = () => {
           </div>
         </div>
       </div>
-      
-      <MascotFloating />
     </div>
   );
 };
