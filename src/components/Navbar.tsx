@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '@/context/CartContext';
 import { ShoppingCart, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,12 @@ import { Button } from '@/components/ui/button';
 const Navbar = () => {
   const { getTotalItems } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location]);
 
   return (
     <nav className="bg-mithila-blue text-white py-3 sm:py-4 sticky top-0 z-50 shadow-md">
@@ -20,12 +26,13 @@ const Navbar = () => {
               className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
             />
           </div>
-          <span className="text-lg sm:text-xl font-semibold hidden sm:inline">Mithila Sattvik Makhana</span>
+          <span className="text-lg sm:text-xl font-semibold hidden sm:inline-block">Mithila Sattvik Makhana</span>
+          <span className="text-sm font-semibold sm:hidden">Mithila</span>
         </Link>
         
         {/* Mobile menu button */}
         <button 
-          className="sm:hidden text-white"
+          className="sm:hidden text-white p-2"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -57,17 +64,18 @@ const Navbar = () => {
         {/* Mobile navigation */}
         {isMenuOpen && (
           <div className="sm:hidden absolute top-full left-0 right-0 bg-mithila-blue shadow-lg py-3 flex flex-col items-center space-y-3 transition-all duration-300 ease-in-out">
-            <Link to="/" className="w-full text-center py-2 hover:bg-mithila-blue/80" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/" className="w-full text-center py-3 hover:bg-mithila-blue/80" onClick={() => setIsMenuOpen(false)}>
               Home
             </Link>
-            <Link to="/products" className="w-full text-center py-2 hover:bg-mithila-blue/80" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/products" className="w-full text-center py-3 hover:bg-mithila-blue/80" onClick={() => setIsMenuOpen(false)}>
               Products
             </Link>
-            <Link to="/about" className="w-full text-center py-2 hover:bg-mithila-blue/80" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/about" className="w-full text-center py-3 hover:bg-mithila-blue/80" onClick={() => setIsMenuOpen(false)}>
               About Us
             </Link>
-            <Link to="/cart" className="w-full text-center py-2 hover:bg-mithila-blue/80" onClick={() => setIsMenuOpen(false)}>
-              Cart ({getTotalItems()})
+            <Link to="/cart" className="w-full text-center py-3 hover:bg-mithila-blue/80 flex justify-center items-center gap-2" onClick={() => setIsMenuOpen(false)}>
+              <ShoppingCart className="h-5 w-5" />
+              <span>Cart ({getTotalItems()})</span>
             </Link>
           </div>
         )}

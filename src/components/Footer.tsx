@@ -6,9 +6,9 @@ const Footer = () => {
   return (
     <footer className="bg-mithila-blue text-white pt-8 sm:pt-10 pb-4 sm:pb-6">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10">
           <div>
-            <Link to="/" className="flex items-center gap-2 mb-3 sm:mb-4">
+            <Link to="/" className="flex items-center gap-2 mb-4 sm:mb-5">
               <img 
                 src="/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png" 
                 alt="Mithila Sattvik Makhana Logo" 
@@ -16,37 +16,37 @@ const Footer = () => {
               />
               <h3 className="text-lg sm:text-xl font-bold">Mithila Sattvik Makhana</h3>
             </Link>
-            <p className="text-xs sm:text-sm opacity-80 mb-3 sm:mb-4">
+            <p className="text-sm opacity-80 mb-4 sm:mb-5 max-w-md">
               From the heart of Mithila, to your home. We bring you the finest quality fox nuts (makhana) with traditional methods and values.
             </p>
           </div>
           
           <div>
-            <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Quick Links</h4>
-            <ul className="space-y-1 sm:space-y-2">
-              <li><Link to="/" className="text-mithila-gold hover:underline text-xs sm:text-sm">Home</Link></li>
-              <li><Link to="/products" className="text-mithila-gold hover:underline text-xs sm:text-sm">Products</Link></li>
-              <li><Link to="/about" className="text-mithila-gold hover:underline text-xs sm:text-sm">About Us</Link></li>
-              <li><Link to="/cart" className="text-mithila-gold hover:underline text-xs sm:text-sm">Cart</Link></li>
+            <h4 className="text-base sm:text-lg font-semibold mb-4 sm:mb-5">Quick Links</h4>
+            <ul className="space-y-2 sm:space-y-3">
+              <li><Link to="/" className="text-mithila-gold hover:underline text-sm">Home</Link></li>
+              <li><Link to="/products" className="text-mithila-gold hover:underline text-sm">Products</Link></li>
+              <li><Link to="/about" className="text-mithila-gold hover:underline text-sm">About Us</Link></li>
+              <li><Link to="/cart" className="text-mithila-gold hover:underline text-sm">Cart</Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Contact Us</h4>
-            <address className="not-italic space-y-1 sm:space-y-2">
-              <p className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+            <h4 className="text-base sm:text-lg font-semibold mb-4 sm:mb-5">Contact Us</h4>
+            <address className="not-italic space-y-2 sm:space-y-3">
+              <p className="flex items-center gap-2 text-sm">
                 <span>Email:</span>
                 <a href="mailto:info@mithilamakhana.com" className="text-mithila-gold hover:underline">
                   info@mithilamakhana.com
                 </a>
               </p>
-              <p className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <p className="flex items-center gap-2 text-sm">
                 <span>Phone:</span>
                 <a href="tel:+919876543210" className="text-mithila-gold hover:underline">
                   +91 98765 43210
                 </a>
               </p>
-              <p className="text-xs sm:text-sm">Mithila Region, Bihar, India</p>
+              <p className="text-sm">Mithila Region, Bihar, India</p>
             </address>
           </div>
         </div>

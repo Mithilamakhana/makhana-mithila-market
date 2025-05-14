@@ -84,15 +84,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <span className="text-xs sm:text-sm text-gray-500">{product.weight}</span>
         </div>
         
-        <div className="flex flex-col xs:flex-row justify-between items-stretch xs:items-center gap-2">
-          <Link to={`/product/${product.id}`} className="w-full xs:w-auto">
+        <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2">
+          <Link to={`/product/${product.id}`} className="w-full sm:w-auto">
             <Button variant="outline" className="w-full border-mithila-blue text-mithila-blue hover:bg-mithila-blue hover:text-white text-xs sm:text-sm h-8 sm:h-9">
               View Details
             </Button>
           </Link>
           
           <Button 
-            className="w-full xs:w-auto bg-mithila-orange hover:bg-mithila-gold text-white text-xs sm:text-sm h-8 sm:h-9"
+            className="w-full sm:w-auto bg-mithila-orange hover:bg-mithila-gold text-white text-xs sm:text-sm h-8 sm:h-9"
             onClick={() => addToCart(product)}
           >
             <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />

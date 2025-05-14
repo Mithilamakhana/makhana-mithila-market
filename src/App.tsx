@@ -14,7 +14,6 @@ import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import About from "./pages/About";
 import OrderSuccess from "./pages/OrderSuccess";
-import MascotFloating from "./components/MascotFloating";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +24,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen overflow-x-hidden">
             <Navbar />
             <div className="flex-grow">
               <Routes>
@@ -40,7 +39,6 @@ const App = () => (
             </div>
             <Footer />
           </div>
-          <MascotFloating />
         </BrowserRouter>
       </TooltipProvider>
     </CartProvider>

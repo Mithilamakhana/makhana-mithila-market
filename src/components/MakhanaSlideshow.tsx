@@ -98,7 +98,7 @@ const MakhanaSlideshow = () => {
       >
         <CarouselContent>
           {slides.map((slide, index) => (
-            <CarouselItem key={index} className="sm:basis-1/1 md:basis-1/2 lg:basis-1/3 pl-4">
+            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 pl-4">
               <Card className="overflow-hidden border-2 border-mithila-gold/20 hover:border-mithila-gold/50 transition-all shadow-md h-full">
                 <div className="relative aspect-video w-full overflow-hidden">
                   <img 

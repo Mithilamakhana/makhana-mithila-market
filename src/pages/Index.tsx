@@ -9,12 +9,12 @@ import MakhanaSlideshow from '@/components/MakhanaSlideshow';
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-mithila-beige to-mithila-cream py-12 md:py-16 lg:py-24">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-8 md:mb-0">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-mithila-green mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-mithila-green mb-4 leading-tight">
               From the Heart of Mithila, To Your Home
             </h1>
             <p className="text-base sm:text-lg mb-6 sm:mb-8 text-gray-700">
@@ -23,13 +23,13 @@ const Index = () => {
             </p>
             <div className="flex flex-wrap gap-3 sm:gap-4">
               <Link to="/products">
-                <Button className="bg-mithila-green hover:bg-mithila-blue text-white text-base sm:text-lg px-5 sm:px-8 py-5 sm:py-6">
+                <Button className="bg-mithila-green hover:bg-mithila-blue text-white text-base sm:text-lg px-5 sm:px-8 py-3 sm:py-6 h-auto">
                   Shop Now
                   <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                 </Button>
               </Link>
               <Link to="/about">
-                <Button variant="outline" className="border-mithila-green text-mithila-green hover:bg-mithila-green hover:text-white text-base sm:text-lg px-5 sm:px-8 py-5 sm:py-6">
+                <Button variant="outline" className="border-mithila-green text-mithila-green hover:bg-mithila-green hover:text-white text-base sm:text-lg px-5 sm:px-8 py-3 sm:py-6 h-auto">
                   Learn More
                 </Button>
               </Link>
@@ -74,15 +74,15 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8">
-            {products.map(product => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            {products.slice(0, 2).map(product => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
           
           <div className="text-center mt-8 sm:mt-12">
             <Link to="/products">
-              <Button className="bg-mithila-orange hover:bg-mithila-gold text-white">
+              <Button className="bg-mithila-orange hover:bg-mithila-gold text-white px-5 py-2 h-auto">
                 View All Products
                 <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
               </Button>

@@ -1,10 +1,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useMediaQuery } from '@/hooks/use-mobile';
 
 const MascotFloating = () => {
   const [isVisible, setIsVisible] = useState(true);
-
+  const isMobile = useMediaQuery("(max-width: 640px)");
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -38,7 +40,7 @@ const MascotFloating = () => {
         <img 
           src="/lovable-uploads/6cde9e41-dea8-4d15-8787-d9ee49aca8fe.png" 
           alt="Makhana Mascot" 
-          className="h-24 w-24 md:h-32 md:w-32 object-contain drop-shadow-xl"
+          className={`${isMobile ? 'h-20 w-20' : 'h-24 w-24 md:h-32 md:w-32'} object-contain drop-shadow-xl`}
           style={{
             filter: "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2))"
           }}
