@@ -39,8 +39,7 @@ const MascotFloating = () => {
       }}
       style={{ x: springX, y: springY }}
       drag
-      dragConstraints={{ left: -150, right: 150, top: -150, bottom: 150 }}
-      dragElastic={0.1}
+      dragMomentum={true}
       whileDrag={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
