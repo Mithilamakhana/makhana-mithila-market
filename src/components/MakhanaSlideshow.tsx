@@ -87,10 +87,10 @@ const MakhanaSlideshow = () => {
   }, [api]);
 
   return (
-    <div className="py-8">
+    <div className="py-4 md:py-8">
       <Carousel 
         setApi={setApi}
-        className="w-full max-w-6xl mx-auto"
+        className="w-full max-w-6xl mx-auto px-4 md:px-0"
         opts={{
           align: "start",
           loop: true,
@@ -98,7 +98,7 @@ const MakhanaSlideshow = () => {
       >
         <CarouselContent>
           {slides.map((slide, index) => (
-            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 pl-4">
+            <CarouselItem key={index} className="sm:basis-1/1 md:basis-1/2 lg:basis-1/3 pl-4">
               <Card className="overflow-hidden border-2 border-mithila-gold/20 hover:border-mithila-gold/50 transition-all shadow-md h-full">
                 <div className="relative aspect-video w-full overflow-hidden">
                   <img 
@@ -108,18 +108,18 @@ const MakhanaSlideshow = () => {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                  <h3 className="absolute bottom-4 left-4 font-bold text-white text-2xl drop-shadow-md">{slide.title}</h3>
+                  <h3 className="absolute bottom-4 left-4 font-bold text-white text-xl sm:text-2xl drop-shadow-md">{slide.title}</h3>
                 </div>
-                <CardContent className="p-4 bg-mithila-cream">
-                  <p className="text-gray-700">{slide.description}</p>
+                <CardContent className="p-3 sm:p-4 bg-mithila-cream">
+                  <p className="text-sm sm:text-base text-gray-700">{slide.description}</p>
                 </CardContent>
               </Card>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <div className="flex items-center justify-center mt-6 gap-2">
-          <CarouselPrevious className="static transform-none bg-mithila-blue/90 text-white hover:bg-mithila-blue border-none mx-1" />
-          <CarouselNext className="static transform-none bg-mithila-blue/90 text-white hover:bg-mithila-blue border-none mx-1" />
+        <div className="flex items-center justify-center mt-4 md:mt-6 gap-2">
+          <CarouselPrevious className="static transform-none bg-mithila-blue/90 text-white hover:bg-mithila-blue border-none mx-1 h-8 w-8 md:h-10 md:w-10" />
+          <CarouselNext className="static transform-none bg-mithila-blue/90 text-white hover:bg-mithila-blue border-none mx-1 h-8 w-8 md:h-10 md:w-10" />
         </div>
       </Carousel>
     </div>

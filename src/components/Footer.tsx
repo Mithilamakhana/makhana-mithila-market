@@ -4,55 +4,55 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-mithila-blue text-white pt-10 pb-6">
+    <footer className="bg-mithila-blue text-white pt-8 sm:pt-10 pb-4 sm:pb-6">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
           <div>
-            <Link to="/" className="flex items-center gap-2 mb-4">
+            <Link to="/" className="flex items-center gap-2 mb-3 sm:mb-4">
               <img 
                 src="/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png" 
                 alt="Mithila Sattvik Makhana Logo" 
-                className="h-12 w-12 object-contain bg-white rounded-full p-1"
+                className="h-8 w-8 sm:h-12 sm:w-12 object-contain bg-white rounded-full p-1"
               />
-              <h3 className="text-xl font-bold">Mithila Sattvik Makhana</h3>
+              <h3 className="text-lg sm:text-xl font-bold">Mithila Sattvik Makhana</h3>
             </Link>
-            <p className="text-sm opacity-80 mb-4">
+            <p className="text-xs sm:text-sm opacity-80 mb-3 sm:mb-4">
               From the heart of Mithila, to your home. We bring you the finest quality fox nuts (makhana) with traditional methods and values.
             </p>
           </div>
           
           <div>
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              <li><Link to="/" className="text-mithila-gold hover:underline">Home</Link></li>
-              <li><Link to="/products" className="text-mithila-gold hover:underline">Products</Link></li>
-              <li><Link to="/about" className="text-mithila-gold hover:underline">About Us</Link></li>
-              <li><Link to="/cart" className="text-mithila-gold hover:underline">Cart</Link></li>
+            <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Quick Links</h4>
+            <ul className="space-y-1 sm:space-y-2">
+              <li><Link to="/" className="text-mithila-gold hover:underline text-xs sm:text-sm">Home</Link></li>
+              <li><Link to="/products" className="text-mithila-gold hover:underline text-xs sm:text-sm">Products</Link></li>
+              <li><Link to="/about" className="text-mithila-gold hover:underline text-xs sm:text-sm">About Us</Link></li>
+              <li><Link to="/cart" className="text-mithila-gold hover:underline text-xs sm:text-sm">Cart</Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
-            <address className="not-italic space-y-2">
-              <p className="flex items-center gap-2">
+            <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Contact Us</h4>
+            <address className="not-italic space-y-1 sm:space-y-2">
+              <p className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
                 <span>Email:</span>
                 <a href="mailto:info@mithilamakhana.com" className="text-mithila-gold hover:underline">
                   info@mithilamakhana.com
                 </a>
               </p>
-              <p className="flex items-center gap-2">
+              <p className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
                 <span>Phone:</span>
                 <a href="tel:+919876543210" className="text-mithila-gold hover:underline">
                   +91 98765 43210
                 </a>
               </p>
-              <p>Mithila Region, Bihar, India</p>
+              <p className="text-xs sm:text-sm">Mithila Region, Bihar, India</p>
             </address>
           </div>
         </div>
         
-        <div className="border-t border-mithila-gold/30 mt-8 pt-6 text-center">
-          <p className="text-sm opacity-70">
+        <div className="border-t border-mithila-gold/30 mt-6 sm:mt-8 pt-4 sm:pt-6 text-center">
+          <p className="text-xs sm:text-sm opacity-70">
             © {new Date().getFullYear()} Mithila Sattvik Makhana. All rights reserved.
           </p>
         </div>

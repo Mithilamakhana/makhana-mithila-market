@@ -29,8 +29,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border border-mithila-gold/20">
       <Link to={`/product/${product.id}`}>
-        <div className="p-4 relative bg-mithila-beige h-64 flex justify-center items-center overflow-hidden">
-          <div className="relative w-48 h-48">
+        <div className="p-3 sm:p-4 relative bg-mithila-beige h-48 sm:h-56 md:h-64 flex justify-center items-center overflow-hidden">
+          <div className="relative w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48">
             {product.images.length > 0 && (
               <img 
                 src={product.images[currentImageIndex]} 
@@ -44,58 +44,58 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <>
               <button 
                 onClick={prevImage}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 hover:bg-white"
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-1 sm:p-2 hover:bg-white"
                 aria-label="Previous image"
               >
-                <ChevronLeft className="h-4 w-4 text-mithila-blue" />
+                <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4 text-mithila-blue" />
               </button>
               
               <button 
                 onClick={nextImage}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 hover:bg-white"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-1 sm:p-2 hover:bg-white"
                 aria-label="Next image"
               >
-                <ChevronRight className="h-4 w-4 text-mithila-blue" />
+                <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 text-mithila-blue" />
               </button>
               
               <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
                 {product.images.map((_, idx) => (
                   <div 
                     key={idx} 
-                    className={`h-2 w-2 rounded-full ${idx === currentImageIndex ? 'bg-mithila-orange' : 'bg-white/60'}`}
+                    className={`h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full ${idx === currentImageIndex ? 'bg-mithila-orange' : 'bg-white/60'}`}
                   />
                 ))}
               </div>
               
               <div className="absolute top-2 right-2 bg-white/80 rounded-full p-1" title="Multiple images available">
-                <Images className="h-4 w-4 text-mithila-blue" />
+                <Images className="h-3 w-3 sm:h-4 sm:w-4 text-mithila-blue" />
               </div>
             </>
           )}
         </div>
       </Link>
       
-      <div className="p-5">
-        <h3 className="text-xl font-semibold text-mithila-blue mb-2">{product.name}</h3>
-        <p className="text-gray-600 mb-3 text-sm">{product.shortDescription}</p>
+      <div className="p-3 sm:p-5">
+        <h3 className="text-base sm:text-lg md:text-xl font-semibold text-mithila-blue mb-1 sm:mb-2">{product.name}</h3>
+        <p className="text-gray-600 mb-2 sm:mb-3 text-xs sm:text-sm">{product.shortDescription}</p>
         
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-lg font-bold text-mithila-blue">₹{product.price}</span>
-          <span className="text-sm text-gray-500">{product.weight}</span>
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
+          <span className="text-base sm:text-lg font-bold text-mithila-blue">₹{product.price}</span>
+          <span className="text-xs sm:text-sm text-gray-500">{product.weight}</span>
         </div>
         
-        <div className="flex justify-between items-center gap-2">
-          <Link to={`/product/${product.id}`}>
-            <Button variant="outline" className="border-mithila-blue text-mithila-blue hover:bg-mithila-blue hover:text-white">
+        <div className="flex flex-col xs:flex-row justify-between items-stretch xs:items-center gap-2">
+          <Link to={`/product/${product.id}`} className="w-full xs:w-auto">
+            <Button variant="outline" className="w-full border-mithila-blue text-mithila-blue hover:bg-mithila-blue hover:text-white text-xs sm:text-sm h-8 sm:h-9">
               View Details
             </Button>
           </Link>
           
           <Button 
-            className="bg-mithila-orange hover:bg-mithila-gold text-white"
+            className="w-full xs:w-auto bg-mithila-orange hover:bg-mithila-gold text-white text-xs sm:text-sm h-8 sm:h-9"
             onClick={() => addToCart(product)}
           >
-            <ShoppingCart className="h-4 w-4 mr-2" />
+            <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
             Add to Cart
           </Button>
         </div>
