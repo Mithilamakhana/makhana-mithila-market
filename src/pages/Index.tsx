@@ -5,7 +5,6 @@ import ProductCard from '@/components/ProductCard';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import MakhanaSlideshow from '@/components/MakhanaSlideshow';
-import VersatileSuperfoodSlideshow from '@/components/VersatileSuperfoodSlideshow';
 import MascotFloating from '@/components/MascotFloating';
 
 const Index = () => {
@@ -63,23 +62,6 @@ const Index = () => {
           <MakhanaSlideshow />
         </div>
       </section>
-
-      {/* Versatile Superfood Slideshow Section */}
-      <section className="py-8 sm:py-10 md:py-12 bg-mithila-beige">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-6 sm:mb-8">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-mithila-green mb-3 sm:mb-4">Versatile Superfood</h2>
-            <div className="w-16 sm:w-20 h-1 bg-mithila-gold mx-auto mb-4 sm:mb-6"></div>
-            <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg px-4">
-              Discover the endless ways to enjoy makhana - from simple snacking to gourmet cooking.
-            </p>
-          </div>
-          
-          <VersatileSuperfoodSlideshow />
-        </div>
-      </section>
-
-      {/* Featured Products Section */}
       <section className="py-10 sm:py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8 sm:mb-12">
