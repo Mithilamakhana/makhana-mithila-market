@@ -24,6 +24,33 @@ const MascotFloating = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Handle wraparound when mascot reaches screen edges
+  const handleDragEnd = () => {
+    const currentX = x.get();
+    const currentY = y.get();
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const mascotSize = isMobile ? 80 : 128; // Approximate mascot size
+    
+    // Check horizontal boundaries
+    if (currentX > screenWidth - mascotSize) {
+      // If dragged past right edge, appear from left
+      x.set(-mascotSize + 50);
+    } else if (currentX < -mascotSize) {
+      // If dragged past left edge, appear from right
+      x.set(screenWidth - mascotSize - 50);
+    }
+    
+    // Check vertical boundaries
+    if (currentY > screenHeight - mascotSize) {
+      // If dragged past bottom edge, appear from top
+      y.set(-mascotSize + 50);
+    } else if (currentY < -mascotSize) {
+      // If dragged past top edge, appear from bottom
+      y.set(screenHeight - mascotSize - 50);
+    }
+  };
+
   return (
     <motion.div 
       className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-40 cursor-grab active:cursor-grabbing touch-none"
@@ -40,6 +67,7 @@ const MascotFloating = () => {
       style={{ x: springX, y: springY }}
       drag
       dragMomentum={true}
+      onDragEnd={handleDragEnd}
       whileDrag={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
