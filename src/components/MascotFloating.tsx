@@ -33,21 +33,21 @@ const MascotFloating = () => {
     const mascotSize = isMobile ? 80 : 128; // Approximate mascot size
     
     // Check horizontal boundaries
-    if (currentX > screenWidth - mascotSize) {
+    if (currentX > screenWidth - 50) {
       // If dragged past right edge, appear from left
-      x.set(-mascotSize + 50);
-    } else if (currentX < -mascotSize) {
+      x.set(-mascotSize + 20);
+    } else if (currentX < -mascotSize + 20) {
       // If dragged past left edge, appear from right
-      x.set(screenWidth - mascotSize - 50);
+      x.set(screenWidth - 80);
     }
     
     // Check vertical boundaries
-    if (currentY > screenHeight - mascotSize) {
+    if (currentY > screenHeight - 100) {
       // If dragged past bottom edge, appear from top
-      y.set(-mascotSize + 50);
-    } else if (currentY < -mascotSize) {
+      y.set(-mascotSize + 20);
+    } else if (currentY < -mascotSize + 20) {
       // If dragged past top edge, appear from bottom
-      y.set(screenHeight - mascotSize - 50);
+      y.set(screenHeight - 120);
     }
   };
 
