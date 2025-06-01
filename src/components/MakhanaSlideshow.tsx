@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect , useState} from 'react';
 import { 
   Carousel,
   CarouselContent,
@@ -9,38 +9,49 @@ import {
 } from '@/components/ui/carousel';
 import { useMediaQuery } from '@/hooks/use-mobile';
 import { Card, CardContent } from '@/components/ui/card';
+import preminummakhana from '/pictures/PremiumMakhana.jpg'
+import GrowninNaturalWaters from '/pictures/GrowninNaturalWaters.webp'
+import harvested  from '/pictures/harvested.jpg'
+import Nutrients  from '/pictures/Nutrients.jpg'
+import Kheer  from '/pictures/Kheer.jpg'
+import roasted  from '/pictures/roasted.jpg'
+import curry  from '/pictures/curry.jpg'
+// import roasted  from '/pictures/roasted.jpg'
+// import roasted  from '/pictures/roasted.jpg'
+
 
 interface SlideInfo {
-  image: string;
+  image?: string;
+  images?: string[];
   title: string;
   description: string;
 }
 
 const slides: SlideInfo[] = [
   {
-    image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
+    image: preminummakhana,
     title: "Premium Makhana",
-    description: "Our fox nuts are 100% organic and carefully selected for the highest quality. Each batch is handpicked to ensure only the best reach your table."
+    description: "Our fox nuts are 100% organic and carefully selected for the highest quality. Each batch is handpicked to ensure only the best reach your table. Trusted by health enthusiasts, loved by all."
   },
   {
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+    image: GrowninNaturalWaters,
     title: "Grown in Natural Waters",
-    description: "Makhana thrives in the pristine, unpolluted waters of the Mithila region. The unique ecosystem creates perfect conditions for growth."
+    description: "Makhana thrives in the pristine, unpolluted waters of the Mithila region. Harvested from clean, natural ponds for authentic flavor. The unique ecosystem creates perfect conditions for growth."
   },
   {
-    image: "https://images.unsplash.com/photo-1501854140801-50d01698950b",
+    image: harvested,
     title: "Sustainable Harvesting",
     description: "We follow traditional methods that preserve the environment and support local communities. Our harvesting practices have been perfected over generations."
   },
   {
-    image: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9",
+    image: Nutrients,
     title: "Packed with Nutrients",
     description: "Low in calories, high in protein and antioxidants - makhana contains essential minerals like potassium, magnesium, and phosphorus for your wellbeing."
   },
   {
-    image: "https://images.unsplash.com/photo-1587411768638-ec71f8e33b78",
+    images: [Kheer,roasted,curry],
     title: "Versatile Superfood",
-    description: "Makhana can be enjoyed in multiple ways - as a roasted snack, added to curries, or ground into flour for healthy baking alternatives."
+    description: "Makhana is a wholesome snack, enjoyed roasted, spiced, or sweetened for every craving. Beyond snacking, it's used in curries, desserts, and even festive delicacies."
   }
 ];
 
@@ -48,12 +59,22 @@ const MakhanaSlideshow = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [api, setApi] = React.useState<any>(null);
   
+  const [versatileIndex, setVersatileIndex] = useState(0);
+
+useEffect(() => {
+    const versatileSlide = slides.find(s => s.title === "Versatile Superfood");
+    if (!versatileSlide?.images) return;
+    const interval = setInterval(() => {
+      setVersatileIndex(i => (i + 1) % versatileSlide.images!.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     if (!api) return;
     
     // Start autoplay
     let autoplayInterval: ReturnType<typeof setInterval>;
-    
     const startAutoplay = () => {
       autoplayInterval = setInterval(() => {
         api.scrollNext();
@@ -101,12 +122,21 @@ const MakhanaSlideshow = () => {
             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 pl-4">
               <Card className="overflow-hidden border-2 border-mithila-gold/20 hover:border-mithila-gold/50 transition-all shadow-md h-full">
                 <div className="relative aspect-video w-full overflow-hidden">
-                  <img 
-                    src={slide.image}
-                    alt={slide.title} 
-                    className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
-                    loading="lazy"
-                  />
+                  {slide.images ? (
+                    <img
+                      src={slide.images[versatileIndex]}
+                      alt={slide.title}
+                      className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <img
+                      src={slide.image}
+                      alt={slide.title}
+                      className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
+                      loading="lazy"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                   <h3 className="absolute bottom-4 left-4 font-bold text-white text-xl sm:text-2xl drop-shadow-md">{slide.title}</h3>
                 </div>
