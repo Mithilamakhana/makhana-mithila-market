@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Facebook, Instagram, Linkedin } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -51,10 +51,43 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-mithila-gold/30 mt-6 sm:mt-8 pt-4 sm:pt-6 text-center">
-          <p className="text-xs sm:text-sm opacity-70">
-            © {new Date().getFullYear()} Mithila Sattvik Makhana. All rights reserved.
-          </p>
+        {/* Social Media Links */}
+        <div className="border-t border-mithila-gold/30 mt-6 sm:mt-8 pt-4 sm:pt-6">
+          <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+            <p className="text-xs sm:text-sm opacity-70">
+              © {new Date().getFullYear()} Mithila Sattvik Makhana. All rights reserved.
+            </p>
+            
+            <div className="flex space-x-4">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-mithila-gold/20 flex items-center justify-center hover:bg-mithila-gold hover:text-mithila-blue transition-colors"
+                aria-label="Follow us on Facebook"
+              >
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-mithila-gold/20 flex items-center justify-center hover:bg-mithila-gold hover:text-mithila-blue transition-colors"
+                aria-label="Follow us on Instagram"
+              >
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-mithila-gold/20 flex items-center justify-center hover:bg-mithila-gold hover:text-mithila-blue transition-colors"
+                aria-label="Connect with us on LinkedIn"
+              >
+                <Linkedin className="h-5 w-5" />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
