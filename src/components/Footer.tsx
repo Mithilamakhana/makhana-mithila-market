@@ -1,10 +1,11 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-mithila-blue text-white pt-8 sm:pt-10 pb-4 sm:pb-6">
+    <footer className="bg-gradient-to-r from-slate-800 to-slate-900 text-white pt-8 sm:pt-10 pb-4 sm:pb-6">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10">
           <div>
@@ -12,49 +13,49 @@ const Footer = () => {
               <img 
                 src="/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png" 
                 alt="Mithila Sattvik Makhana Logo" 
-                className="h-8 w-8 sm:h-12 sm:w-12 object-contain bg-white rounded-full p-1"
+                className="h-8 w-8 sm:h-12 sm:w-12 object-contain bg-white rounded-full p-1 shadow-md"
               />
               <h3 className="text-lg sm:text-xl font-bold">Mithila Sattvik Makhana</h3>
             </Link>
-            <p className="text-sm opacity-80 mb-4 sm:mb-5 max-w-md">
+            <p className="text-sm opacity-90 mb-4 sm:mb-5 max-w-md leading-relaxed">
               From the heart of Mithila, to your home. We bring you the finest quality fox nuts (makhana) with traditional methods and values.
             </p>
           </div>
           
           <div>
-            <h4 className="text-base sm:text-lg font-semibold mb-4 sm:mb-5">Quick Links</h4>
+            <h4 className="text-base sm:text-lg font-semibold mb-4 sm:mb-5 text-mithila-gold">Quick Links</h4>
             <ul className="space-y-2 sm:space-y-3">
-              <li><Link to="/" className="text-mithila-gold hover:underline text-sm">Home</Link></li>
-              <li><Link to="/products" className="text-mithila-gold hover:underline text-sm">Products</Link></li>
-              <li><Link to="/about" className="text-mithila-gold hover:underline text-sm">About Us</Link></li>
-              <li><Link to="/cart" className="text-mithila-gold hover:underline text-sm">Cart</Link></li>
+              <li><Link to="/" className="text-gray-300 hover:text-mithila-gold hover:underline text-sm transition-colors">Home</Link></li>
+              <li><Link to="/products" className="text-gray-300 hover:text-mithila-gold hover:underline text-sm transition-colors">Products</Link></li>
+              <li><Link to="/about" className="text-gray-300 hover:text-mithila-gold hover:underline text-sm transition-colors">About Us</Link></li>
+              <li><Link to="/cart" className="text-gray-300 hover:text-mithila-gold hover:underline text-sm transition-colors">Cart</Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-base sm:text-lg font-semibold mb-4 sm:mb-5">Contact Us</h4>
+            <h4 className="text-base sm:text-lg font-semibold mb-4 sm:mb-5 text-mithila-gold">Contact Us</h4>
             <address className="not-italic space-y-2 sm:space-y-3">
               <p className="flex items-center gap-2 text-sm">
-                <span>Email:</span>
-                <a href="mailto:info@mithilamakhana.com" className="text-mithila-gold hover:underline">
+                <span className="text-gray-300">Email:</span>
+                <a href="mailto:info@mithilamakhana.com" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors">
                   info@mithilamakhana.com
                 </a>
               </p>
               <p className="flex items-center gap-2 text-sm">
-                <span>Phone:</span>
-                <a href="tel:+919876543210" className="text-mithila-gold hover:underline">
+                <span className="text-gray-300">Phone:</span>
+                <a href="tel:+919876543210" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors">
                   +91 98765 43210
                 </a>
               </p>
-              <p className="text-sm">Mithila Region, Bihar, India</p>
+              <p className="text-sm text-gray-300">Mithila Region, Bihar, India</p>
             </address>
           </div>
         </div>
         
         {/* Social Media Links */}
-        <div className="border-t border-mithila-gold/30 mt-6 sm:mt-8 pt-4 sm:pt-6">
+        <div className="border-t border-gray-600 mt-6 sm:mt-8 pt-4 sm:pt-6">
           <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-            <p className="text-xs sm:text-sm opacity-70">
+            <p className="text-xs sm:text-sm text-gray-400">
               © {new Date().getFullYear()} Mithila Sattvik Makhana. All rights reserved.
             </p>
             
@@ -63,7 +64,7 @@ const Footer = () => {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-mithila-gold/20 flex items-center justify-center hover:bg-mithila-gold hover:text-mithila-blue transition-colors"
+                className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all duration-300 shadow-md"
                 aria-label="Follow us on Facebook"
               >
                 <Facebook className="h-5 w-5" />
@@ -72,7 +73,7 @@ const Footer = () => {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-mithila-gold/20 flex items-center justify-center hover:bg-mithila-gold hover:text-mithila-blue transition-colors"
+                className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:scale-110 transition-all duration-300 shadow-md"
                 aria-label="Follow us on Instagram"
               >
                 <Instagram className="h-5 w-5" />
@@ -81,7 +82,7 @@ const Footer = () => {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-mithila-gold/20 flex items-center justify-center hover:bg-mithila-gold hover:text-mithila-blue transition-colors"
+                className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-blue-700 hover:scale-110 transition-all duration-300 shadow-md"
                 aria-label="Connect with us on LinkedIn"
               >
                 <Linkedin className="h-5 w-5" />
