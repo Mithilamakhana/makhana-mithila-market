@@ -25,29 +25,25 @@ const MascotFloating = () => {
   }, []);
 
   // Handle wraparound when mascot reaches screen edges
-  const handleDragEnd = () => {
+  const handleDrag = () => {
     const currentX = x.get();
     const currentY = y.get();
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
-    const mascotSize = isMobile ? 80 : 128; // Approximate mascot size
+    const mascotSize = isMobile ? 80 : 128;
     
-    // Check horizontal boundaries
-    if (currentX > screenWidth - 50) {
-      // If dragged past right edge, appear from left
-      x.set(-mascotSize + 20);
+    // Continuous horizontal wraparound
+    if (currentX > screenWidth - 20) {
+      x.set(-mascotSize + 40);
     } else if (currentX < -mascotSize + 20) {
-      // If dragged past left edge, appear from right
-      x.set(screenWidth - 80);
+      x.set(screenWidth - 60);
     }
     
-    // Check vertical boundaries - adjusted to avoid footer overlap
-    if (currentY > screenHeight - 180) {
-      // If dragged past bottom edge (accounting for footer), appear from top
-      y.set(-mascotSize + 20);
+    // Continuous vertical wraparound - avoid footer overlap
+    if (currentY > screenHeight - 160) {
+      y.set(-mascotSize + 40);
     } else if (currentY < -mascotSize + 20) {
-      // If dragged past top edge, appear from bottom
-      y.set(screenHeight - 200);
+      y.set(screenHeight - 180);
     }
   };
 
@@ -67,7 +63,7 @@ const MascotFloating = () => {
       style={{ x: springX, y: springY }}
       drag
       dragMomentum={true}
-      onDragEnd={handleDragEnd}
+      onDrag={handleDrag}
       whileDrag={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
