@@ -41,19 +41,19 @@ const MascotFloating = () => {
       x.set(screenWidth - 80);
     }
     
-    // Check vertical boundaries
-    if (currentY > screenHeight - 100) {
-      // If dragged past bottom edge, appear from top
+    // Check vertical boundaries - adjusted to avoid footer overlap
+    if (currentY > screenHeight - 180) {
+      // If dragged past bottom edge (accounting for footer), appear from top
       y.set(-mascotSize + 20);
     } else if (currentY < -mascotSize + 20) {
       // If dragged past top edge, appear from bottom
-      y.set(screenHeight - 120);
+      y.set(screenHeight - 200);
     }
   };
 
   return (
     <motion.div 
-      className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-40 cursor-grab active:cursor-grabbing touch-none"
+      className="fixed bottom-20 right-4 md:bottom-24 md:right-8 z-50 cursor-grab active:cursor-grabbing touch-none"
       initial={{ y: 100, opacity: 0 }}
       animate={{ 
         y: isVisible ? 0 : 100, 
