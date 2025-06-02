@@ -5,7 +5,7 @@ import { Facebook, Instagram, Linkedin } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-slate-800 to-slate-900 text-white pt-8 sm:pt-10 pb-4 sm:pb-6">
+    <footer className="bg-gradient-to-r from-emerald-700 to-teal-800 text-white pt-8 sm:pt-10 pb-4 sm:pb-6">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10">
           <div>
@@ -35,18 +35,20 @@ const Footer = () => {
           <div>
             <h4 className="text-base sm:text-lg font-semibold mb-4 sm:mb-5 text-mithila-gold">Contact Us</h4>
             <address className="not-italic space-y-2 sm:space-y-3">
-              <p className="flex items-center gap-2 text-sm">
-                <span className="text-gray-300">Email:</span>
-                <a href="mailto:info@mithilamakhana.com" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors">
-                  info@mithilamakhana.com
-                </a>
-              </p>
-              <p className="flex items-center gap-2 text-sm">
-                <span className="text-gray-300">Phone:</span>
-                <a href="tel:+919876543210" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors">
-                  +91 98765 43210
-                </a>
-              </p>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 space-y-2 sm:space-y-0">
+                <p className="flex items-center gap-2 text-sm">
+                  <span className="text-gray-300">Email:</span>
+                  <a href="mailto:info@mithilamakhana.com" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors">
+                    info@mithilamakhana.com
+                  </a>
+                </p>
+                <p className="flex items-center gap-2 text-sm">
+                  <span className="text-gray-300">Phone:</span>
+                  <a href="tel:+919876543210" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors">
+                    +91 98765 43210
+                  </a>
+                </p>
+              </div>
               <p className="text-sm text-gray-300">Mithila Region, Bihar, India</p>
             </address>
           </div>
@@ -64,7 +66,7 @@ const Footer = () => {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all duration-300 shadow-md"
+                className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all duration-300 shadow-md"
                 aria-label="Follow us on Facebook"
               >
                 <Facebook className="h-5 w-5" />
@@ -73,7 +75,7 @@ const Footer = () => {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:scale-110 transition-all duration-300 shadow-md"
+                className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:scale-110 transition-all duration-300 shadow-md"
                 aria-label="Follow us on Instagram"
               >
                 <Instagram className="h-5 w-5" />
@@ -82,7 +84,7 @@ const Footer = () => {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-blue-700 hover:scale-110 transition-all duration-300 shadow-md"
+                className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center hover:bg-blue-700 hover:scale-110 transition-all duration-300 shadow-md"
                 aria-label="Connect with us on LinkedIn"
               >
                 <Linkedin className="h-5 w-5" />
