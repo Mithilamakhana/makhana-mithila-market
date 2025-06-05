@@ -23,11 +23,17 @@ const Navbar = () => {
             <img 
               src="/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png" 
               alt="Mithila Sattvik Makhana Logo" 
-              className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
+              className="h-8 w-8 xs:h-10 xs:w-10 sm:h-12 sm:w-12 object-contain"
             />
           </div>
-          <span className="text-lg sm:text-xl font-semibold hidden sm:inline-block">Mithila Sattvik Makhana</span>
-          <span className="text-sm font-semibold sm:hidden">Mithila</span>
+          <div className="flex flex-col">
+            <span className="text-xs xs:text-sm sm:text-lg md:text-xl font-semibold leading-tight">
+              Mithila Sattvik
+            </span>
+            <span className="text-xs xs:text-sm sm:text-lg md:text-xl font-semibold leading-tight">
+              Makhana
+            </span>
+          </div>
         </Link>
         
         {/* Mobile menu button */}
