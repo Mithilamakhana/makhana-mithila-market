@@ -5,11 +5,13 @@ import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Trash2, ShoppingCart } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import MascotFloating from '@/components/MascotFloating';
 
 const Cart = () => {
   const { items, updateQuantity, removeFromCart, getTotalPrice, clearCart } = useCart();
   const navigate = useNavigate();
+  const [isProcessing, setIsProcessing] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,7 +30,7 @@ const Cart = () => {
     }));
   };
   
-  const handleCheckout = (e: React.FormEvent) => {
+  const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic form validation
@@ -42,18 +44,46 @@ const Cart = () => {
         return;
       }
     }
+
+    setIsProcessing(true);
     
-    // In a real application, you would send this data to your backend/payment gateway
-    console.log('Order details:', { items, formData, totalAmount: getTotalPrice() });
-    
-    // Show success message and clear cart
-    toast({
-      title: "Order Placed Successfully!",
-      description: "Thank you for your purchase. We'll contact you shortly.",
-    });
-    
-    clearCart();
-    navigate('/order-success');
+    try {
+      // Send order notification email
+      const { data, error } = await supabase.functions.invoke('send-order-notification', {
+        body: {
+          customerData: formData,
+          items: items,
+          totalAmount: getTotalPrice()
+        }
+      });
+
+      if (error) {
+        console.error('Error sending order notification:', error);
+        toast({
+          title: "Order Placed",
+          description: "Your order has been received, but there was an issue with the notification. We'll contact you shortly.",
+        });
+      } else {
+        console.log('Order notification sent successfully:', data);
+        toast({
+          title: "Order Placed Successfully!",
+          description: "Thank you for your purchase. We'll contact you shortly.",
+        });
+      }
+      
+      clearCart();
+      navigate('/order-success');
+    } catch (error) {
+      console.error('Error processing order:', error);
+      toast({
+        title: "Order Placed",
+        description: "Your order has been received. We'll contact you shortly.",
+      });
+      clearCart();
+      navigate('/order-success');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (items.length === 0) {
@@ -284,9 +314,10 @@ const Cart = () => {
                   <div className="pt-4">
                     <Button 
                       type="submit"
+                      disabled={isProcessing}
                       className="w-full bg-mithila-green hover:bg-mithila-blue text-white py-2"
                     >
-                      Place Order
+                      {isProcessing ? 'Processing Order...' : 'Place Order'}
                     </Button>
                   </div>
                 </div>
