@@ -38,18 +38,18 @@ const Footer = () => {
               <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 space-y-2 sm:space-y-0">
                 <p className="flex items-center gap-2 text-sm">
                   <span className="text-gray-300">Email:</span>
-                  <a href="mailto:info@mithilamakhana.com" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors">
-                    info@mithilamakhana.com
+                  <a href="mailto:mithilasattvikmakhan@gmail.com" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors">
+                    mithilasattvikmakhan@gmail.com
                   </a>
                 </p>
                 <p className="flex items-center gap-2 text-sm">
                   <span className="text-gray-300">Phone:</span>
                   <a href="tel:+919876543210" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors">
-                    +91 98765 43210
+                    9993068534
                   </a>
                 </p>
               </div>
-              <p className="text-sm text-gray-300">Mithila Region, Bihar, India</p>
+              <p className="text-sm text-gray-300">Darbhanga, Bihar, India</p>
             </address>
           </div>
         </div>
@@ -63,7 +63,7 @@ const Footer = () => {
             
             <div className="flex space-x-4">
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/share/1AXPMmrwyD/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all duration-300 shadow-md"
@@ -72,7 +72,7 @@ const Footer = () => {
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/mithila_sattvik_makhan/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:scale-110 transition-all duration-300 shadow-md"
@@ -81,7 +81,7 @@ const Footer = () => {
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/mithila-sattvik-makhana-3a839b365?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center hover:bg-blue-700 hover:scale-110 transition-all duration-300 shadow-md"
