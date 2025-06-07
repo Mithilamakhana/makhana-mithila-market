@@ -1,8 +1,14 @@
+// This file is part of the Mithila Sattvik Makhana project.
+import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
+import { Resend } from "resend";
 
-import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@2.0.0";
+const isDeno = typeof globalThis.Deno !== "undefined" && typeof globalThis.Deno.env !== "undefined";
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+const RESEND_API_KEY = isDeno
+  ? globalThis.Deno.env.get("RESEND_API_KEY")
+  : process.env.RESEND_API_KEY;
+
+const resend = new Resend(RESEND_API_KEY);
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
