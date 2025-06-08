@@ -32,20 +32,38 @@ const MascotFloating = () => {
     const screenHeight = window.innerHeight;
     const mascotSize = isMobile ? 80 : 128;
     
-    // Continuous horizontal wraparound
-    if (currentX > screenWidth - 20) {
-      x.set(-mascotSize + 40);
+    // Continuous horizontal wraparound - bring back from opposite side
+    if (currentX > screenWidth - 40) {
+      x.set(-mascotSize + 20);
     } else if (currentX < -mascotSize + 20) {
       x.set(screenWidth - 60);
     }
     
-    // Continuous vertical wraparound - avoid footer overlap
-    if (currentY > screenHeight - 160) {
-      y.set(-mascotSize + 40);
+    // Continuous vertical wraparound - avoid footer overlap and bring back from opposite side
+    if (currentY > screenHeight - 200) {
+      y.set(-mascotSize + 20);
     } else if (currentY < -mascotSize + 20) {
-      y.set(screenHeight - 180);
+      y.set(screenHeight - 220);
     }
   };
+
+  // Use requestAnimationFrame for smoother boundary checking
+  useEffect(() => {
+    let animationFrame: number;
+    
+    const checkBoundaries = () => {
+      handleDrag();
+      animationFrame = requestAnimationFrame(checkBoundaries);
+    };
+    
+    animationFrame = requestAnimationFrame(checkBoundaries);
+    
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [isMobile]);
 
   return (
     <motion.div 

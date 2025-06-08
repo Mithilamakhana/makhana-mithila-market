@@ -35,14 +35,14 @@ const Footer = () => {
           <div>
             <h4 className="text-base sm:text-lg font-semibold mb-4 sm:mb-5 text-mithila-gold">Contact Us</h4>
             <address className="not-italic space-y-2 sm:space-y-3">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 space-y-2 sm:space-y-0">
-                <p className="flex items-center gap-2 text-sm">
+              <div className="flex flex-col space-y-2">
+                <p className="flex flex-col sm:flex-row sm:items-center sm:gap-2 text-sm">
                   <span className="text-gray-300">Email:</span>
-                  <a href="mailto:mithilasattvikmakhan@gmail.com" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors">
+                  <a href="mailto:mithilasattvikmakhan@gmail.com" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors break-all">
                     mithilasattvikmakhan@gmail.com
                   </a>
                 </p>
-                <p className="flex items-center gap-2 text-sm">
+                <p className="flex flex-col sm:flex-row sm:items-center sm:gap-2 text-sm">
                   <span className="text-gray-300">Phone:</span>
                   <a href="tel:+919876543210" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors">
                     9993068534
