@@ -32,38 +32,38 @@ const MascotFloating = () => {
     const screenHeight = window.innerHeight;
     const mascotSize = isMobile ? 80 : 128;
     
-    // Continuous horizontal wraparound - bring back from opposite side
+    // Horizontal wraparound with immediate repositioning
     if (currentX > screenWidth - 40) {
-      x.set(-mascotSize + 20);
-    } else if (currentX < -mascotSize + 20) {
-      x.set(screenWidth - 60);
+      x.set(-mascotSize + 40); // Appears from left side
+    } else if (currentX < -mascotSize + 40) {
+      x.set(screenWidth - 80); // Appears from right side
     }
     
-    // Continuous vertical wraparound - avoid footer overlap and bring back from opposite side
+    // Vertical wraparound with immediate repositioning
     if (currentY > screenHeight - 200) {
-      y.set(-mascotSize + 20);
-    } else if (currentY < -mascotSize + 20) {
-      y.set(screenHeight - 220);
+      y.set(-mascotSize + 40); // Appears from top
+    } else if (currentY < -mascotSize + 40) {
+      y.set(screenHeight - 240); // Appears from bottom
     }
   };
 
-  // Use requestAnimationFrame for smoother boundary checking
+  // Use a more frequent boundary check
   useEffect(() => {
-    let animationFrame: number;
+    let intervalId: number;
     
     const checkBoundaries = () => {
       handleDrag();
-      animationFrame = requestAnimationFrame(checkBoundaries);
     };
     
-    animationFrame = requestAnimationFrame(checkBoundaries);
+    // Check boundaries every 50ms for smoother wraparound
+    intervalId = setInterval(checkBoundaries, 50);
     
     return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
+      if (intervalId) {
+        clearInterval(intervalId);
       }
     };
-  }, [isMobile]);
+  }, [isMobile, x, y]);
 
   return (
     <motion.div 
