@@ -1,18 +1,12 @@
+
 // This file is part of the Mithila Sattvik Makhana project.
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { Resend } from "resend";
 
-const isDeno = typeof globalThis.Deno !== "undefined" && typeof globalThis.Deno.env !== "undefined";
-
-const RESEND_API_KEY = isDeno
-  ? globalThis.Deno.env.get("RESEND_API_KEY")
-  : process.env.RESEND_API_KEY;
-
-const resend = new Resend(RESEND_API_KEY);
-
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
 interface OrderNotificationRequest {
@@ -40,10 +34,29 @@ interface OrderNotificationRequest {
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+    return new Response(null, { 
+      status: 200,
+      headers: corsHeaders 
+    });
   }
 
   try {
+    // Check if RESEND_API_KEY is available
+    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+    
+    if (!RESEND_API_KEY) {
+      console.error("RESEND_API_KEY is not set");
+      return new Response(
+        JSON.stringify({ error: "Email service not configured" }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    const resend = new Resend(RESEND_API_KEY);
+
     const { customerData, items, totalAmount }: OrderNotificationRequest = await req.json();
 
     console.log("Processing order notification for:", customerData.name);
