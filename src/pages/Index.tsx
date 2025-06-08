@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom';
 import { products } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, User } from 'lucide-react';
 import MakhanaSlideshow from '@/components/MakhanaSlideshow';
 import MascotFloating from '@/components/MascotFloating';
+import { useAuth } from '@/context/AuthContext';
 
 const Index = () => {
+  const { user } = useAuth();
+
   return (
     <div className="min-h-screen overflow-x-hidden">
       {/* Hero Section */}
@@ -33,6 +36,14 @@ const Index = () => {
                   Learn More
                 </Button>
               </Link>
+              {!user && (
+                <Link to="/auth">
+                  <Button variant="outline" className="border-mithila-orange text-mithila-orange hover:bg-mithila-orange hover:text-white text-base sm:text-lg px-5 sm:px-8 py-3 sm:py-6 h-auto">
+                    <User className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                    Sign In
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
           <div className="md:w-1/2 flex justify-center">

@@ -2,11 +2,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '@/context/CartContext';
-import { ShoppingCart, Menu, X } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { ShoppingCart, Menu, X, User, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
 
 const Navbar = () => {
   const { getTotalItems } = useCart();
+  const { user, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   
@@ -14,6 +23,10 @@ const Navbar = () => {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location]);
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <nav className="bg-gradient-to-r from-mithila-green to-mithila-blue text-white py-3 sm:py-4 sticky top-0 z-50 shadow-lg">
@@ -54,6 +67,7 @@ const Navbar = () => {
           <Link to="/" className="hover:text-mithila-gold transition-colors text-sm md:text-base font-medium">Home</Link>
           <Link to="/products" className="hover:text-mithila-gold transition-colors text-sm md:text-base font-medium">Products</Link>
           <Link to="/about" className="hover:text-mithila-gold transition-colors text-sm md:text-base font-medium">About Us</Link>
+          
           <Link to="/cart">
             <Button variant="outline" className="relative bg-mithila-orange text-white hover:bg-mithila-gold hover:text-mithila-blue border-2 border-mithila-orange hover:border-mithila-gold h-9 px-3 md:h-10 md:px-4 font-medium shadow-md">
               <ShoppingCart className="h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-2" />
@@ -65,6 +79,35 @@ const Navbar = () => {
               )}
             </Button>
           </Link>
+
+          {/* User Authentication */}
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="bg-white/10 text-white hover:bg-white/20 border-white/30">
+                  <User className="h-4 w-4 mr-2" />
+                  Account
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem disabled className="text-xs text-gray-600">
+                  {user.email}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link to="/auth">
+              <Button variant="outline" className="bg-white/10 text-white hover:bg-white/20 border-white/30">
+                <User className="h-4 w-4 mr-2" />
+                Sign In
+              </Button>
+            </Link>
+          )}
         </div>
         
         {/* Mobile navigation */}
@@ -83,6 +126,24 @@ const Navbar = () => {
               <ShoppingCart className="h-5 w-5" />
               <span>Cart ({getTotalItems()})</span>
             </Link>
+            
+            {user ? (
+              <div className="w-full border-t border-white/20 pt-3">
+                <div className="text-center py-2 text-xs text-white/70">
+                  {user.email}
+                </div>
+                <button 
+                  onClick={handleSignOut}
+                  className="w-full text-center py-3 hover:bg-white/10 font-medium text-red-300"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link to="/auth" className="w-full text-center py-3 hover:bg-white/10 font-medium border-t border-white/20" onClick={() => setIsMenuOpen(false)}>
+                Sign In
+              </Link>
+            )}
           </div>
         )}
       </div>
