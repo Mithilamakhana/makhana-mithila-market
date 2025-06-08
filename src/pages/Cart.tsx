@@ -1,12 +1,12 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '@/context/CartContext';
-import { Button } from '@/components/ui/button';
+import { useCart } from "../context/CartContext.tsx";
+import { Button } from "../components/ui/button.tsx";
 import { ArrowLeft, Trash2, ShoppingCart } from 'lucide-react';
-import { toast } from '@/components/ui/use-toast';
-import { supabase } from '@/integrations/supabase/client';
-import MascotFloating from '@/components/MascotFloating';
+import { toast } from "../components/ui/use-toast.ts";
+import { supabase } from "../integrations/supabase/client.ts";
+import MascotFloating from "../components/MascotFloating.tsx";
 
 const Cart = () => {
   const { items, updateQuantity, removeFromCart, getTotalPrice, clearCart } = useCart();
@@ -23,7 +23,9 @@ const Cart = () => {
   });
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const target = e.target as HTMLInputElement;
+    const name = target.name as keyof typeof formData;
+    const value = target.value;
     setFormData(prev => ({
       ...prev,
       [name]: value

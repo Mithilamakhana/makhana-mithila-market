@@ -1,12 +1,12 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { products } from '@/data/products';
-import ProductCard from '@/components/ProductCard';
-import { Button } from '@/components/ui/button';
+import { products } from "../data/products.ts";
+import ProductCard from "../components/ProductCard.tsx";
+import { Button } from '../components/ui/button.tsx';
 import { ArrowRight } from 'lucide-react';
-import MakhanaSlideshow from '@/components/MakhanaSlideshow';
-import MascotFloating from '@/components/MascotFloating';
+import MakhanaSlideshow from '../components/MakhanaSlideshow.tsx';
+import MascotFloating from '../components/MascotFloating.tsx';
 
 const Index = () => {
   return (

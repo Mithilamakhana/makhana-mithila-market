@@ -1,5 +1,5 @@
 // This file is part of the Mithila Sattvik Makhana project.
-import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.224.0/http/mod.ts";
 import { Resend } from "npm:resend@2.0.0";
 
 const corsHeaders = {
@@ -39,6 +39,19 @@ const handler = async (req: Request): Promise<Response> => {
     });
   }
 
+  // Authorization header check
+  const authHeader = req.headers.get("authorization");
+  if (!authHeader) {
+    return new Response(
+      JSON.stringify({ code: 401, message: "Missing authorization header" }),
+      {
+        status: 401,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      }
+    );
+  }
+Deno.env.set("RESEND_API_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFweHdjaWplZ3V2dmxiZWhrbG1tIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTMwMjczOSwiZXhwIjoyMDY0ODc4NzM5fQ.MLXSWlmJxlY8S8sdDibm-EClLFbcRN_LHaaT3WXGklQ");
+console.log(Deno.env.get("RESEND_API_KEY"));
   try {
     // Check if RESEND_API_KEY is available
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
@@ -134,10 +147,10 @@ const handler = async (req: Request): Promise<Response> => {
         ...corsHeaders,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error in send-order-notification function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: error }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
