@@ -1,7 +1,6 @@
-
 // This file is part of the Mithila Sattvik Makhana project.
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
-import { Resend } from "resend";
+import { Resend } from "npm:resend@2.0.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
