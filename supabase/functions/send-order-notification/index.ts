@@ -72,6 +72,7 @@ const handler = async (req: Request): Promise<Response> => {
     const { customerData, items, totalAmount }: OrderNotificationRequest = await req.json();
 
     console.log("Processing order notification for:", customerData.name);
+    console.log("Customer email:", customerData.email);
 
     // Generate order items HTML
     const orderItemsHtml = items.map(item => `
@@ -186,30 +187,60 @@ const handler = async (req: Request): Promise<Response> => {
       </html>
     `;
 
-    // Send email to business
-    const businessEmailResponse = await resend.emails.send({
-      from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
-      to: ["mithilasattvikmakhan@gmail.com"],
-      subject: `New Order from ${customerData.name} - ₹${totalAmount}`,
-      html: businessEmailHtml,
-    });
+    let businessEmailSuccess = false;
+    let customerEmailSuccess = false;
+    let businessEmailResponse = null;
+    let customerEmailResponse = null;
+    let businessEmailError = null;
+    let customerEmailError = null;
 
-    console.log("Business email sent successfully:", businessEmailResponse);
+    // Send email to business
+    try {
+      console.log("Sending business email to: mithilasattvikmakhan@gmail.com");
+      businessEmailResponse = await resend.emails.send({
+        from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
+        to: ["mithilasattvikmakhan@gmail.com"],
+        subject: `New Order from ${customerData.name} - ₹${totalAmount}`,
+        html: businessEmailHtml,
+      });
+      
+      console.log("Business email sent successfully:", businessEmailResponse);
+      businessEmailSuccess = true;
+    } catch (error) {
+      console.error("Failed to send business email:", error);
+      businessEmailError = error;
+    }
 
     // Send confirmation email to customer
-    const customerEmailResponse = await resend.emails.send({
-      from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
-      to: [customerData.email],
-      subject: `Order Confirmation - Thank you for your purchase!`,
-      html: customerEmailHtml,
-    });
+    try {
+      console.log("Sending customer email to:", customerData.email);
+      customerEmailResponse = await resend.emails.send({
+        from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
+        to: [customerData.email],
+        subject: `Order Confirmation - Thank you for your purchase!`,
+        html: customerEmailHtml,
+      });
+      
+      console.log("Customer email sent successfully:", customerEmailResponse);
+      customerEmailSuccess = true;
+    } catch (error) {
+      console.error("Failed to send customer email:", error);
+      customerEmailError = error;
+    }
 
-    console.log("Customer email sent successfully:", customerEmailResponse);
-
+    // Return detailed response about email status
     return new Response(JSON.stringify({ 
-      success: true, 
-      businessEmailId: businessEmailResponse.data?.id,
-      customerEmailId: customerEmailResponse.data?.id
+      success: businessEmailSuccess || customerEmailSuccess,
+      businessEmail: {
+        success: businessEmailSuccess,
+        emailId: businessEmailResponse?.data?.id,
+        error: businessEmailError?.message
+      },
+      customerEmail: {
+        success: customerEmailSuccess,
+        emailId: customerEmailResponse?.data?.id,
+        error: customerEmailError?.message
+      }
     }), {
       status: 200,
       headers: {
