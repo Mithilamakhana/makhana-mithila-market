@@ -49,7 +49,7 @@ const MascotFloating = () => {
 
   // Use a more frequent boundary check
   useEffect(() => {
-    let intervalId: number;
+    let intervalId: ReturnType<typeof setInterval>;
     
     const checkBoundaries = () => {
       handleDrag();
