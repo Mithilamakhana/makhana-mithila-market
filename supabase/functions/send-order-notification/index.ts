@@ -1,3 +1,4 @@
+
 // This file is part of the Mithila Sattvik Makhana project.
 import { serve } from "https://deno.land/std@0.224.0/http/mod.ts";
 import { Resend } from "npm:resend@2.0.0";
@@ -50,8 +51,7 @@ const handler = async (req: Request): Promise<Response> => {
       }
     );
   }
-Deno.env.set("RESEND_API_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFweHdjaWplZ3V2dmxiZWhrbG1tIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTMwMjczOSwiZXhwIjoyMDY0ODc4NzM5fQ.MLXSWlmJxlY8S8sdDibm-EClLFbcRN_LHaaT3WXGklQ");
-console.log(Deno.env.get("RESEND_API_KEY"));
+
   try {
     // Check if RESEND_API_KEY is available
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
@@ -84,7 +84,8 @@ console.log(Deno.env.get("RESEND_API_KEY"));
       </tr>
     `).join('');
 
-    const emailHtml = `
+    // Business notification email
+    const businessEmailHtml = `
       <html>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
           <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -131,16 +132,85 @@ console.log(Deno.env.get("RESEND_API_KEY"));
       </html>
     `;
 
-    const emailResponse = await resend.emails.send({
+    // Customer confirmation email
+    const customerEmailHtml = `
+      <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h1 style="color: #2E7D32; text-align: center;">Order Confirmation</h1>
+            
+            <div style="background-color: #e8f5e8; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center;">
+              <h2 style="color: #2E7D32; margin-top: 0;">Thank you for your order, ${customerData.name}!</h2>
+              <p style="margin: 5px 0;">We have received your order and will contact you shortly to confirm the details and arrange delivery.</p>
+            </div>
+
+            <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="color: #2E7D32; margin-top: 0;">Delivery Information</h3>
+              <p><strong>Name:</strong> ${customerData.name}</p>
+              <p><strong>Phone:</strong> ${customerData.phone}</p>
+              <p><strong>Address:</strong> ${customerData.address}, ${customerData.city}, ${customerData.state} - ${customerData.pincode}</p>
+            </div>
+
+            <div style="margin: 20px 0;">
+              <h3 style="color: #2E7D32;">Your Order Details</h3>
+              <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                <thead>
+                  <tr style="background-color: #2E7D32; color: white;">
+                    <th style="padding: 12px; text-align: left;">Product</th>
+                    <th style="padding: 12px; text-align: center;">Weight</th>
+                    <th style="padding: 12px; text-align: center;">Quantity</th>
+                    <th style="padding: 12px; text-align: right;">Price</th>
+                    <th style="padding: 12px; text-align: right;">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${orderItemsHtml}
+                </tbody>
+              </table>
+            </div>
+
+            <div style="background-color: #e8f5e8; padding: 15px; border-radius: 8px; text-align: right;">
+              <h3 style="color: #2E7D32; margin: 0;">Total Amount: ₹${totalAmount}</h3>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px; text-align: center;">
+              <p style="margin: 0; color: #666;"><strong>What's Next?</strong></p>
+              <p style="margin: 5px 0; color: #666;">Our team will contact you within 24 hours to confirm your order and arrange delivery. Thank you for choosing Mithila Sattvik Makhana!</p>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center; color: #888; font-size: 12px;">
+              <p>If you have any questions, please contact us at mithilasattvikmakhan@gmail.com</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+
+    // Send email to business
+    const businessEmailResponse = await resend.emails.send({
       from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
       to: ["mithilasattvikmakhan@gmail.com"],
       subject: `New Order from ${customerData.name} - ₹${totalAmount}`,
-      html: emailHtml,
+      html: businessEmailHtml,
     });
 
-    console.log("Email sent successfully:", emailResponse);
+    console.log("Business email sent successfully:", businessEmailResponse);
 
-    return new Response(JSON.stringify({ success: true, emailId: emailResponse.data?.id }), {
+    // Send confirmation email to customer
+    const customerEmailResponse = await resend.emails.send({
+      from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
+      to: [customerData.email],
+      subject: `Order Confirmation - Thank you for your purchase!`,
+      html: customerEmailHtml,
+    });
+
+    console.log("Customer email sent successfully:", customerEmailResponse);
+
+    return new Response(JSON.stringify({ 
+      success: true, 
+      businessEmailId: businessEmailResponse.data?.id,
+      customerEmailId: customerEmailResponse.data?.id
+    }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
