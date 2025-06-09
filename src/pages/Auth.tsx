@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -29,6 +28,13 @@ const Auth = () => {
     }
   }, [user, navigate]);
 
+  const getErrorMessage = (error: unknown): string => {
+    if (error && typeof error === 'object' && 'message' in error) {
+      return String(error.message);
+    }
+    return 'An unexpected error occurred';
+  };
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!loginEmail || !loginPassword) {
@@ -46,7 +52,7 @@ const Auth = () => {
       if (error) {
         toast({
           title: "Sign In Error",
-          description: error.message,
+          description: getErrorMessage(error),
           variant: "destructive",
         });
       } else {
@@ -96,7 +102,7 @@ const Auth = () => {
       if (error) {
         toast({
           title: "Sign Up Error",
-          description: error.message,
+          description: getErrorMessage(error),
           variant: "destructive",
         });
       } else {
