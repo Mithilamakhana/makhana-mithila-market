@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from "../context/CartContext.tsx";
 import { Button } from "../components/ui/button.tsx";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select.tsx";
 import { ArrowLeft, Trash2, ShoppingCart } from 'lucide-react';
 import { toast } from "../components/ui/use-toast.ts";
 import { supabase } from "../integrations/supabase/client.ts";
 import MascotFloating from "../components/MascotFloating.tsx";
+import { indianStates, citiesByState } from "../data/indianStatesAndCities.ts";
 
 const Cart = () => {
   const { items, updateQuantity, removeFromCart, getTotalPrice, clearCart } = useCart();
@@ -25,6 +27,7 @@ const Cart = () => {
     phone: '',
     pincode: ''
   });
+  const [availableCities, setAvailableCities] = useState<string[]>([]);
   
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -80,7 +83,23 @@ const Cart = () => {
     
     setFormErrors(newErrors);
   };
-  
+
+  const handleStateChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      state: value,
+      city: '' // Reset city when state changes
+    }));
+    setAvailableCities(citiesByState[value] || []);
+  };
+
+  const handleCityChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      city: value
+    }));
+  };
+
   const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -361,33 +380,39 @@ const Cart = () => {
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
-                        City
-                      </label>
-                      <input 
-                        type="text" 
-                        id="city" 
-                        name="city" 
-                        value={formData.city}
-                        onChange={handleInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mithila-green"
-                        required
-                      />
-                    </div>
-                    
-                    <div>
                       <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-1">
                         State
                       </label>
-                      <input 
-                        type="text" 
-                        id="state" 
-                        name="state" 
-                        value={formData.state}
-                        onChange={handleInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mithila-green"
-                        required
-                      />
+                      <Select value={formData.state} onValueChange={handleStateChange}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select state" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {indianStates.map((state) => (
+                            <SelectItem key={state} value={state}>
+                              {state}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
+                        City
+                      </label>
+                      <Select value={formData.city} onValueChange={handleCityChange} disabled={!formData.state}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select city" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {availableCities.map((city) => (
+                            <SelectItem key={city} value={city}>
+                              {city}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                   
