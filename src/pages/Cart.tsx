@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from "../context/CartContext.tsx";
@@ -21,21 +20,75 @@ const Cart = () => {
     state: '',
     pincode: ''
   });
+  const [formErrors, setFormErrors] = useState({
+    email: '',
+    phone: '',
+    pincode: ''
+  });
   
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone: string): boolean => {
+    const phoneRegex = /^[6-9]\d{9}$/; // Indian phone number format
+    return phoneRegex.test(phone);
+  };
+
+  const validatePincode = (pincode: string): boolean => {
+    const pincodeRegex = /^\d{6}$/; // 6-digit pincode
+    return pincodeRegex.test(pincode);
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     const name = target.name as keyof typeof formData;
     const value = target.value;
+    
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+
+    // Clear previous errors and validate on change
+    const newErrors = { ...formErrors };
+    
+    if (name === 'email') {
+      if (value && !validateEmail(value)) {
+        newErrors.email = 'Please enter a valid email address';
+      } else {
+        newErrors.email = '';
+      }
+    }
+    
+    if (name === 'phone') {
+      if (value && !validatePhone(value)) {
+        newErrors.phone = 'Please enter a valid 10-digit Indian phone number';
+      } else {
+        newErrors.phone = '';
+      }
+    }
+
+    if (name === 'pincode') {
+      if (value && !validatePincode(value)) {
+        newErrors.pincode = 'Please enter a valid 6-digit PIN code';
+      } else {
+        newErrors.pincode = '';
+      }
+    }
+    
+    setFormErrors(newErrors);
   };
   
   const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Basic form validation
+    // Validate all fields
+    const newErrors = { email: '', phone: '', pincode: '' };
+    let hasErrors = false;
+
+    // Check if all required fields are filled
     for (const key in formData) {
       if (formData[key as keyof typeof formData] === '') {
         toast({
@@ -45,6 +98,35 @@ const Cart = () => {
         });
         return;
       }
+    }
+
+    // Validate email
+    if (!validateEmail(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+      hasErrors = true;
+    }
+
+    // Validate phone
+    if (!validatePhone(formData.phone)) {
+      newErrors.phone = 'Please enter a valid 10-digit Indian phone number';
+      hasErrors = true;
+    }
+
+    // Validate pincode
+    if (!validatePincode(formData.pincode)) {
+      newErrors.pincode = 'Please enter a valid 6-digit PIN code';
+      hasErrors = true;
+    }
+
+    setFormErrors(newErrors);
+
+    if (hasErrors) {
+      toast({
+        title: "Validation Error",
+        description: "Please correct the errors in the form",
+        variant: "destructive"
+      });
+      return;
     }
 
     setIsProcessing(true);
@@ -231,9 +313,14 @@ const Cart = () => {
                       name="email" 
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mithila-green"
+                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-mithila-green ${
+                        formErrors.email ? 'border-red-500' : 'border-gray-300'
+                      }`}
                       required
                     />
+                    {formErrors.email && (
+                      <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>
+                    )}
                   </div>
                   
                   <div>
@@ -246,9 +333,15 @@ const Cart = () => {
                       name="phone" 
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mithila-green"
+                      placeholder="10-digit mobile number"
+                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-mithila-green ${
+                        formErrors.phone ? 'border-red-500' : 'border-gray-300'
+                      }`}
                       required
                     />
+                    {formErrors.phone && (
+                      <p className="text-red-500 text-xs mt-1">{formErrors.phone}</p>
+                    )}
                   </div>
                   
                   <div>
@@ -308,9 +401,15 @@ const Cart = () => {
                       name="pincode" 
                       value={formData.pincode}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mithila-green"
+                      placeholder="6-digit PIN code"
+                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-mithila-green ${
+                        formErrors.pincode ? 'border-red-500' : 'border-gray-300'
+                      }`}
                       required
                     />
+                    {formErrors.pincode && (
+                      <p className="text-red-500 text-xs mt-1">{formErrors.pincode}</p>
+                    )}
                   </div>
                   
                   <div className="pt-4">
