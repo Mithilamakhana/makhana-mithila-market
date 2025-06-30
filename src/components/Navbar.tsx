@@ -36,18 +36,33 @@ const Navbar = () => {
           </div>
         </Link>
         
-        {/* Mobile menu button */}
-        <button 
-          className="sm:hidden text-white p-2 hover:bg-white/10 rounded-md transition-colors"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? (
-            <X className="h-6 w-6" />
-          ) : (
-            <Menu className="h-6 w-6" />
-          )}
-        </button>
+        {/* Mobile cart and menu buttons */}
+        <div className="sm:hidden flex items-center gap-2">
+          {/* Mobile cart button */}
+          <Link to="/cart">
+            <Button variant="outline" className="relative bg-mithila-orange text-white hover:bg-mithila-gold hover:text-mithila-blue border-2 border-mithila-orange hover:border-mithila-gold h-9 px-3 font-medium shadow-md">
+              <ShoppingCart className="h-4 w-4" />
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md">
+                  {getTotalItems()}
+                </span>
+              )}
+            </Button>
+          </Link>
+          
+          {/* Mobile menu button */}
+          <button 
+            className="text-white p-2 hover:bg-white/10 rounded-md transition-colors"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+        </div>
 
         {/* Desktop navigation */}
         <div className="hidden sm:flex items-center gap-4 md:gap-6">
@@ -79,10 +94,6 @@ const Navbar = () => {
             </Link>
             <Link to="/about" className="w-full text-center py-3 hover:bg-white/10 font-medium" onClick={() => setIsMenuOpen(false)}>
               About Us
-            </Link>
-            <Link to="/cart" className="w-full text-center py-3 hover:bg-white/10 flex justify-center items-center gap-2 font-medium" onClick={() => setIsMenuOpen(false)}>
-              <ShoppingCart className="h-5 w-5" />
-              <span>Cart ({getTotalItems()})</span>
             </Link>
           </div>
         )}
