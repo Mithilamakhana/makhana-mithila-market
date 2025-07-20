@@ -85,12 +85,16 @@ const handler = async (req: Request): Promise<Response> => {
       </tr>
     `).join('');
 
-    // Business notification email
+    // Business notification email (includes customer details for reference)
     const businessEmailHtml = `
       <html>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
           <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
             <h1 style="color: #2E7D32; text-align: center;">New Order Received!</h1>
+            
+            <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0;">
+              <p style="margin: 0; color: #856404;"><strong>Note:</strong> Customer confirmation email will be sent once domain is verified. For now, all order details are included below.</p>
+            </div>
             
             <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <h2 style="color: #2E7D32; margin-top: 0;">Customer Information</h2>
@@ -126,61 +130,11 @@ const handler = async (req: Request): Promise<Response> => {
             </div>
 
             <div style="margin-top: 20px; padding: 15px; background-color: #fff3cd; border-radius: 8px;">
-              <p style="margin: 0; color: #856404;"><strong>Action Required:</strong> Please contact the customer to confirm the order and arrange delivery.</p>
-            </div>
-          </div>
-        </body>
-      </html>
-    `;
-
-    // Customer confirmation email
-    const customerEmailHtml = `
-      <html>
-        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-            <h1 style="color: #2E7D32; text-align: center;">Order Confirmation</h1>
-            
-            <div style="background-color: #e8f5e8; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center;">
-              <h2 style="color: #2E7D32; margin-top: 0;">Thank you for your order, ${customerData.name}!</h2>
-              <p style="margin: 5px 0;">We have received your order and will contact you shortly to confirm the details and arrange delivery.</p>
+              <p style="margin: 0; color: #856404;"><strong>Action Required:</strong> Please contact the customer at ${customerData.email} or ${customerData.phone} to confirm the order and arrange delivery.</p>
             </div>
 
-            <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="color: #2E7D32; margin-top: 0;">Delivery Information</h3>
-              <p><strong>Name:</strong> ${customerData.name}</p>
-              <p><strong>Phone:</strong> ${customerData.phone}</p>
-              <p><strong>Address:</strong> ${customerData.address}, ${customerData.city}, ${customerData.state} - ${customerData.pincode}</p>
-            </div>
-
-            <div style="margin: 20px 0;">
-              <h3 style="color: #2E7D32;">Your Order Details</h3>
-              <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
-                <thead>
-                  <tr style="background-color: #2E7D32; color: white;">
-                    <th style="padding: 12px; text-align: left;">Product</th>
-                    <th style="padding: 12px; text-align: center;">Weight</th>
-                    <th style="padding: 12px; text-align: center;">Quantity</th>
-                    <th style="padding: 12px; text-align: right;">Price</th>
-                    <th style="padding: 12px; text-align: right;">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${orderItemsHtml}
-                </tbody>
-              </table>
-            </div>
-
-            <div style="background-color: #e8f5e8; padding: 15px; border-radius: 8px; text-align: right;">
-              <h3 style="color: #2E7D32; margin: 0;">Total Amount: ₹${totalAmount}</h3>
-            </div>
-
-            <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px; text-align: center;">
-              <p style="margin: 0; color: #666;"><strong>What's Next?</strong></p>
-              <p style="margin: 5px 0; color: #666;">Our team will contact you within 24 hours to confirm your order and arrange delivery. Thank you for choosing Mithila Sattvik Makhana!</p>
-            </div>
-
-            <div style="margin-top: 30px; text-align: center; color: #888; font-size: 12px;">
-              <p>If you have any questions, please contact us at mithilasattvikmakhan@gmail.com</p>
+            <div style="margin-top: 20px; padding: 15px; background-color: #f8d7da; border-radius: 8px;">
+              <p style="margin: 0; color: #721c24;"><strong>Setup Reminder:</strong> To send confirmation emails directly to customers, please verify your domain at https://resend.com/domains</p>
             </div>
           </div>
         </body>
@@ -188,19 +142,16 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     let businessEmailSuccess = false;
-    let customerEmailSuccess = false;
     let businessEmailResponse = null;
-    let customerEmailResponse = null;
     let businessEmailError = null;
-    let customerEmailError = null;
 
-    // Send email to business
+    // Send email to business (only sending to verified email for now)
     try {
       console.log("Sending business email to: mithilasattvikmakhan@gmail.com");
       businessEmailResponse = await resend.emails.send({
         from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
         to: ["mithilasattvikmakhan@gmail.com"],
-        subject: `New Order from ${customerData.name} - ₹${totalAmount}`,
+        subject: `New Order from ${customerData.name} (${customerData.email}) - ₹${totalAmount}`,
         html: businessEmailHtml,
       });
       
@@ -211,35 +162,20 @@ const handler = async (req: Request): Promise<Response> => {
       businessEmailError = error;
     }
 
-    // Send confirmation email to customer
-    try {
-      console.log("Sending customer email to:", customerData.email);
-      customerEmailResponse = await resend.emails.send({
-        from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
-        to: [customerData.email],
-        subject: `Order Confirmation - Thank you for your purchase!`,
-        html: customerEmailHtml,
-      });
-      
-      console.log("Customer email sent successfully:", customerEmailResponse);
-      customerEmailSuccess = true;
-    } catch (error) {
-      console.error("Failed to send customer email:", error);
-      customerEmailError = error;
-    }
-
-    // Return detailed response about email status
+    // Return response indicating email status
     return new Response(JSON.stringify({ 
-      success: businessEmailSuccess || customerEmailSuccess,
+      success: businessEmailSuccess,
+      message: businessEmailSuccess 
+        ? "Order notification sent successfully. Customer will be contacted directly." 
+        : "Order received but notification failed. Please contact customer manually.",
       businessEmail: {
         success: businessEmailSuccess,
         emailId: businessEmailResponse?.data?.id,
         error: businessEmailError?.message
       },
       customerEmail: {
-        success: customerEmailSuccess,
-        emailId: customerEmailResponse?.data?.id,
-        error: customerEmailError?.message
+        success: false,
+        note: "Customer email will be enabled after domain verification"
       }
     }), {
       status: 200,
