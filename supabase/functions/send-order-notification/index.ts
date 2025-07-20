@@ -159,7 +159,7 @@ const handler = async (req: Request): Promise<Response> => {
       console.log("Sending customer copy to: mithilasattvikmakhan@gmail.com");
       await resend.emails.send({
         from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
-        to: ["mithilasattvikmakhan@gmail.com"],
+        to: [customerData.email],
         subject: `Order Confirmation for ${customerData.name} - ₹${totalAmount}`,
         html: `
           <html>
