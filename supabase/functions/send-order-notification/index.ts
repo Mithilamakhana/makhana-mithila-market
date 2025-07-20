@@ -154,6 +154,54 @@ const handler = async (req: Request): Promise<Response> => {
         subject: `New Order from ${customerData.name} (${customerData.email}) - ₹${totalAmount}`,
         html: businessEmailHtml,
       });
+
+      // Also send a copy to the customer using the verified email
+      console.log("Sending customer copy to: mithilasattvikmakhan@gmail.com");
+      await resend.emails.send({
+        from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
+        to: ["mithilasattvikmakhan@gmail.com"],
+        subject: `Order Confirmation for ${customerData.name} - ₹${totalAmount}`,
+        html: `
+          <html>
+            <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+              <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+                <h1 style="color: #2E7D32; text-align: center;">Order Received!</h1>
+                
+                <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                  <p style="margin: 0; color: #856404;"><strong>Note:</strong> This email was sent to the business email due to domain verification requirements. Customer email: ${customerData.email}</p>
+                </div>
+                
+                <p>Dear ${customerData.name},</p>
+                <p>Thank you for your order! Here are the details:</p>
+                
+                <div style="margin: 20px 0;">
+                  <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                    <thead>
+                      <tr style="background-color: #2E7D32; color: white;">
+                        <th style="padding: 12px; text-align: left;">Product</th>
+                        <th style="padding: 12px; text-align: center;">Weight</th>
+                        <th style="padding: 12px; text-align: center;">Quantity</th>
+                        <th style="padding: 12px; text-align: right;">Price</th>
+                        <th style="padding: 12px; text-align: right;">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${orderItemsHtml}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div style="background-color: #e8f5e8; padding: 15px; border-radius: 8px; text-align: right;">
+                  <h3 style="color: #2E7D32; margin: 0;">Total Amount: ₹${totalAmount}</h3>
+                </div>
+
+                <p>We will contact you soon to confirm your order and arrange delivery.</p>
+                <p>Thank you for choosing Mithila Sattvik Makhana!</p>
+              </div>
+            </body>
+          </html>
+        `,
+      });
       
       console.log("Business email sent successfully:", businessEmailResponse);
       businessEmailSuccess = true;
