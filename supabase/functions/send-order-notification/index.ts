@@ -2,6 +2,7 @@
 // This file is part of the Mithila Sattvik Makhana project.
 import { serve } from "https://deno.land/std@0.224.0/http/mod.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -69,10 +70,41 @@ const handler = async (req: Request): Promise<Response> => {
 
     const resend = new Resend(RESEND_API_KEY);
 
+    // Initialize Supabase client
+    const supabase = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    );
+
     const { customerData, items, totalAmount }: OrderNotificationRequest = await req.json();
 
     console.log("Processing order notification for:", customerData.name);
     console.log("Customer email:", customerData.email);
+
+    // Insert order into database
+    console.log("Inserting order into database...");
+    const { data: insertedOrder, error: insertError } = await supabase
+      .from('orders')
+      .insert({
+        customer_name: customerData.name,
+        customer_email: customerData.email,
+        customer_phone: customerData.phone,
+        customer_address: customerData.address,
+        customer_city: customerData.city,
+        customer_state: customerData.state,
+        customer_pin: customerData.pincode,
+        total_amount: totalAmount,
+        order_items: items
+      })
+      .select()
+      .single();
+
+    if (insertError) {
+      console.error("Error inserting order:", insertError);
+      throw insertError;
+    }
+
+    console.log("Order inserted successfully:", insertedOrder);
 
     // Generate order items HTML
     const orderItemsHtml = items.map(item => `

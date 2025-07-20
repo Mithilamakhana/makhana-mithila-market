@@ -50,6 +50,48 @@ export type Database = {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          created_at: string
+          customer_address: string | null
+          customer_city: string | null
+          customer_email: string | null
+          customer_name: string
+          customer_phone: string | null
+          customer_pin: string | null
+          customer_state: string | null
+          id: number
+          order_items: Json
+          total_amount: number
+        }
+        Insert: {
+          created_at?: string
+          customer_address?: string | null
+          customer_city?: string | null
+          customer_email?: string | null
+          customer_name: string
+          customer_phone?: string | null
+          customer_pin?: string | null
+          customer_state?: string | null
+          id?: number
+          order_items: Json
+          total_amount: number
+        }
+        Update: {
+          created_at?: string
+          customer_address?: string | null
+          customer_city?: string | null
+          customer_email?: string | null
+          customer_name?: string
+          customer_phone?: string | null
+          customer_pin?: string | null
+          customer_state?: string | null
+          id?: number
+          order_items?: Json
+          total_amount?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
