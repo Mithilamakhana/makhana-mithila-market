@@ -25,7 +25,7 @@ export const products: Product[] = [
     name: "Premium Makhana",
     description: "Our flagship product, these premium grade fox nuts are carefully sourced from the heart of Mithila region. Each fox nut is handpicked to ensure superior quality and taste. Rich in protein and low in fat, these makhanas are perfect for health-conscious snackers and those looking to add a nutritional boost to their diet.",
     shortDescription: "Premium quality fox nuts from the heart of Mithila",
-    price: 299,
+    price: 549,
     weight: "250g",
     image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
     images: [
@@ -57,8 +57,8 @@ export const products: Product[] = [
     name: "Roasted Makhana",
     description: "Our specially roasted makhanas are a perfect blend of tradition and taste. Lightly roasted to perfection, these fox nuts offer a delightful crunch with each bite. With no added preservatives or artificial flavors, they retain their natural goodness while providing an enhanced taste experience.",
     shortDescription: "Perfectly roasted fox nuts for a delightful crunch",
-    price: 349,
-    weight: "200g",
+    price: 649,
+    weight: "250g",
     image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
     images: [
       "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
