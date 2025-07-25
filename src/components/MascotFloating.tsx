@@ -6,6 +6,7 @@ import { useMediaQuery } from '@/hooks/use-mobile';
 const MascotFloating = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [isSpinning, setIsSpinning] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
   const isMobile = useMediaQuery("(max-width: 640px)");
   
   // Motion values for dragging
@@ -69,7 +70,11 @@ const MascotFloating = () => {
   // Handle double-click for Shaktimaan-style rotation
   const handleDoubleClick = () => {
     setIsSpinning(true);
-    setTimeout(() => setIsSpinning(false), 2000); // Stop spinning after 2 seconds
+    setShowCelebration(true);
+    setTimeout(() => {
+      setIsSpinning(false);
+      setShowCelebration(false);
+    }, 1500); // Stop spinning and celebration after 1.5 seconds
   };
 
   return (
@@ -95,7 +100,7 @@ const MascotFloating = () => {
       <motion.div
         animate={{ 
           y: [0, -10, 0],
-          rotate: isSpinning ? 720 : 0
+          rotate: isSpinning ? 1440 : 0 // Faster rotation - 4 full spins
         }}
         transition={{ 
           y: {
@@ -104,19 +109,63 @@ const MascotFloating = () => {
             ease: "easeInOut"
           },
           rotate: {
-            duration: 2,
-            ease: "easeInOut"
+            duration: 1, // Much faster rotation
+            ease: "linear"
           }
         }}
         onDoubleClick={handleDoubleClick}
-        className="cursor-pointer"
+        className="cursor-pointer relative"
       >
+        {/* Celebration Effects */}
+        {showCelebration && (
+          <>
+            {/* Sparkles/Stars around mascot */}
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute text-yellow-400 text-lg pointer-events-none"
+                style={{
+                  left: '50%',
+                  top: '50%',
+                  transformOrigin: 'center'
+                }}
+                initial={{ scale: 0, rotate: i * 45 }}
+                animate={{
+                  scale: [0, 1, 0],
+                  x: [0, Math.cos(i * 45 * Math.PI / 180) * 60],
+                  y: [0, Math.sin(i * 45 * Math.PI / 180) * 60],
+                  rotate: [i * 45, i * 45 + 360]
+                }}
+                transition={{
+                  duration: 1.5,
+                  ease: "easeOut"
+                }}
+              >
+                ⭐
+              </motion.div>
+            ))}
+            
+            {/* Welcome Message */}
+            <motion.div
+              className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-mithila-green text-white px-3 py-1 rounded-lg text-sm font-bold whitespace-nowrap pointer-events-none shadow-lg"
+              initial={{ scale: 0, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0, y: -20, opacity: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              🎉 Welcome to Mithila Makhana! 🎉
+            </motion.div>
+          </>
+        )}
+        
         <img 
           src="/lovable-uploads/6cde9e41-dea8-4d15-8787-d9ee49aca8fe.png" 
           alt="Makhana Mascot" 
-          className={`${isMobile ? 'h-20 w-20' : 'h-24 w-24 md:h-32 md:w-32'} object-contain drop-shadow-xl`}
+          className={`${isMobile ? 'h-20 w-20' : 'h-24 w-24 md:h-32 md:w-32'} object-contain drop-shadow-xl ${showCelebration ? 'brightness-110' : ''}`}
           style={{
-            filter: "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2))"
+            filter: showCelebration 
+              ? "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.6))" 
+              : "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2))"
           }}
           draggable="false"
         />
