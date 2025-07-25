@@ -147,7 +147,7 @@ const MascotFloating = () => {
             
             {/* Welcome Message */}
             <motion.div
-              className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-mithila-green text-white px-3 py-1 rounded-lg text-sm font-bold whitespace-nowrap pointer-events-none shadow-lg"
+              className="absolute -top-12 sm:-top-16 left-1/2 transform -translate-x-1/2 bg-mithila-green text-white px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-bold whitespace-nowrap pointer-events-none shadow-lg z-10"
               initial={{ scale: 0, y: 20, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0, y: -20, opacity: 0 }}
