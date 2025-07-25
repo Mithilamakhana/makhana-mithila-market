@@ -7,6 +7,7 @@ const MascotFloating = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [isSpinning, setIsSpinning] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
   const isMobile = useMediaQuery("(max-width: 640px)");
   
   // Motion values for dragging
@@ -71,10 +72,18 @@ const MascotFloating = () => {
   const handleDoubleClick = () => {
     setIsSpinning(true);
     setShowCelebration(true);
+    setShowWelcomeMessage(true);
+    
+    // Stop spinning after 1 second
     setTimeout(() => {
       setIsSpinning(false);
       setShowCelebration(false);
-    }, 1500); // Stop spinning and celebration after 1.5 seconds
+    }, 1000);
+    
+    // Hide welcome message after 3 seconds
+    setTimeout(() => {
+      setShowWelcomeMessage(false);
+    }, 3000);
   };
 
   return (
