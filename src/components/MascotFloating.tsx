@@ -5,6 +5,7 @@ import { useMediaQuery } from '@/hooks/use-mobile';
 
 const MascotFloating = () => {
   const [isVisible, setIsVisible] = useState(true);
+  const [isSpinning, setIsSpinning] = useState(false);
   const isMobile = useMediaQuery("(max-width: 640px)");
   
   // Motion values for dragging
@@ -65,6 +66,12 @@ const MascotFloating = () => {
     };
   }, [isMobile, x, y]);
 
+  // Handle double-click for Shaktimaan-style rotation
+  const handleDoubleClick = () => {
+    setIsSpinning(true);
+    setTimeout(() => setIsSpinning(false), 2000); // Stop spinning after 2 seconds
+  };
+
   return (
     <motion.div 
       className="fixed bottom-20 right-4 md:bottom-24 md:right-8 z-50 cursor-grab active:cursor-grabbing touch-none"
@@ -86,12 +93,23 @@ const MascotFloating = () => {
       whileTap={{ scale: 0.95 }}
     >
       <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ 
-          repeat: Infinity,
-          duration: 3,
-          ease: "easeInOut"
+        animate={{ 
+          y: [0, -10, 0],
+          rotate: isSpinning ? 720 : 0
         }}
+        transition={{ 
+          y: {
+            repeat: Infinity,
+            duration: 3,
+            ease: "easeInOut"
+          },
+          rotate: {
+            duration: 2,
+            ease: "easeInOut"
+          }
+        }}
+        onDoubleClick={handleDoubleClick}
+        className="cursor-pointer"
       >
         <img 
           src="/lovable-uploads/6cde9e41-dea8-4d15-8787-d9ee49aca8fe.png" 
