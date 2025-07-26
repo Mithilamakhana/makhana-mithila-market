@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { ArrowLeft, Trash2, ShoppingCart } from 'lucide-react';
 import { toast } from "../components/ui/use-toast.ts";
 import { supabase } from "../integrations/supabase/client.ts";
-import MascotFloating from "../components/MascotFloating.tsx";
+
 import { indianStates, citiesByState } from "../data/indianStatesAndCities.ts";
 
 const Cart = () => {
@@ -452,8 +452,6 @@ const Cart = () => {
           </div>
         </div>
       </div>
-      
-      <MascotFloating />
     </div>
   );
 };

@@ -2,7 +2,7 @@
 import React from 'react';
 import { products } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
-import MascotFloating from '@/components/MascotFloating';
+
 
 const ProductsPage = () => {
   return (
@@ -23,7 +23,7 @@ const ProductsPage = () => {
         </div>
       </div>
 
-      <MascotFloating />
+      
     </div>
   );
 };

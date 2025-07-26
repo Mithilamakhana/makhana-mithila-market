@@ -6,7 +6,6 @@ import ProductCard from "../components/ProductCard.tsx";
 import { Button } from '../components/ui/button.tsx';
 import { ArrowRight } from 'lucide-react';
 import MakhanaSlideshow from '../components/MakhanaSlideshow.tsx';
-import MascotFloating from '../components/MascotFloating.tsx';
 
 const Index = () => {
   return (
@@ -156,8 +155,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Add Mascot Floating Component */}
-      <MascotFloating />
     </div>
   );
 };

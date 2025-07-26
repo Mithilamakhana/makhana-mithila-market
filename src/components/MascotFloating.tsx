@@ -36,18 +36,18 @@ const MascotFloating = () => {
     const screenHeight = window.innerHeight;
     const mascotSize = isMobile ? 80 : 128;
     
-    // Horizontal wraparound with immediate repositioning
-    if (currentX > screenWidth - 40) {
-      x.set(-mascotSize + 40); // Appears from left side
-    } else if (currentX < -mascotSize + 40) {
-      x.set(screenWidth - 80); // Appears from right side
+    // Horizontal wraparound with boundary check
+    if (currentX > screenWidth - mascotSize) {
+      x.set(-mascotSize + 20); // Appears from left side
+    } else if (currentX < -mascotSize + 20) {
+      x.set(screenWidth - mascotSize - 20); // Appears from right side
     }
     
-    // Vertical wraparound with immediate repositioning
-    if (currentY > screenHeight - 200) {
-      y.set(-mascotSize + 40); // Appears from top
-    } else if (currentY < -mascotSize + 40) {
-      y.set(screenHeight - 240); // Appears from bottom
+    // Vertical wraparound with boundary check  
+    if (currentY > screenHeight - mascotSize - 100) {
+      y.set(-mascotSize + 20); // Appears from top
+    } else if (currentY < -mascotSize + 20) {
+      y.set(screenHeight - mascotSize - 100); // Appears from bottom with footer space
     }
   };
 
