@@ -16,7 +16,6 @@ import Cart from "./pages/Cart";
 import About from "./pages/About";
 import OrderSuccess from "./pages/OrderSuccess";
 import Auth from "./pages/Auth";
-import MascotFloating from "./components/MascotFloating";
 
 const queryClient = new QueryClient();
 
@@ -43,7 +42,6 @@ const App = () => (
                 </Routes>
               </div>
               <Footer />
-              <MascotFloating />
             </div>
           </BrowserRouter>
         </TooltipProvider>

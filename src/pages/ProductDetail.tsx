@@ -15,7 +15,7 @@ import { useMediaQuery } from '@/hooks/use-mobile';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from '@/hooks/use-toast';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
-
+import MascotFloating from '@/components/MascotFloating';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -159,7 +159,7 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      
+      <MascotFloating />
     </div>
   );
 };
