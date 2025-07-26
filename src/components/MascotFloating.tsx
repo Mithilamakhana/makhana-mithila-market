@@ -8,6 +8,7 @@ const MascotFloating = () => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
+  const [showFullScreenWelcome, setShowFullScreenWelcome] = useState(false);
   const isMobile = useMediaQuery("(max-width: 640px)");
   
   // Motion values for dragging
@@ -73,6 +74,7 @@ const MascotFloating = () => {
     setIsSpinning(true);
     setShowCelebration(true);
     setShowWelcomeMessage(true);
+    setShowFullScreenWelcome(true);
     
     // Stop spinning after 1 second
     setTimeout(() => {
@@ -84,28 +86,85 @@ const MascotFloating = () => {
     setTimeout(() => {
       setShowWelcomeMessage(false);
     }, 3000);
+    
+    // Hide full screen welcome after 3 seconds
+    setTimeout(() => {
+      setShowFullScreenWelcome(false);
+    }, 3000);
   };
 
   return (
-    <motion.div 
-      className="fixed bottom-20 right-4 md:bottom-24 md:right-8 z-50 cursor-grab active:cursor-grabbing touch-none"
-      initial={{ y: 100, opacity: 0 }}
-      animate={{ 
-        y: isVisible ? 0 : 100, 
-        opacity: isVisible ? 1 : 0 
-      }}
-      transition={{ 
-        type: "spring",
-        stiffness: 260,
-        damping: 20
-      }}
-      style={{ x: springX, y: springY }}
-      drag
-      dragMomentum={true}
-      onDrag={handleDrag}
-      whileDrag={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-    >
+    <>
+      {/* Full Screen Welcome Overlay */}
+      {showFullScreenWelcome && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <motion.div
+            className="text-center px-8 py-12 bg-gradient-to-br from-primary to-primary/80 rounded-3xl shadow-2xl border-4 border-white/20"
+            initial={{ scale: 0.5, opacity: 0, y: 50 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.5, opacity: 0, y: -50 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 300,
+              damping: 25,
+              duration: 0.6 
+            }}
+          >
+            <motion.h1 
+              className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 drop-shadow-lg"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              Welcome to
+            </motion.h1>
+            <motion.h2 
+              className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-yellow-300 mb-6 drop-shadow-xl"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
+              Mithila Sattvik Makhana
+            </motion.h2>
+            <motion.div
+              className="flex justify-center space-x-4 text-6xl"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.6, duration: 0.3 }}
+            >
+              <span>🌿</span>
+              <span>🥜</span>
+              <span>✨</span>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      )}
+
+      <motion.div 
+        className="fixed bottom-20 right-4 md:bottom-24 md:right-8 z-50 cursor-grab active:cursor-grabbing touch-none"
+        initial={{ y: 100, opacity: 0 }}
+        animate={{ 
+          y: isVisible ? 0 : 100, 
+          opacity: isVisible ? 1 : 0 
+        }}
+        transition={{ 
+          type: "spring",
+          stiffness: 260,
+          damping: 20
+        }}
+        style={{ x: springX, y: springY }}
+        drag
+        dragMomentum={true}
+        onDrag={handleDrag}
+        whileDrag={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+      >
       <motion.div
         animate={{ 
           y: [0, -10, 0],
@@ -180,6 +239,7 @@ const MascotFloating = () => {
         />
       </motion.div>
     </motion.div>
+    </>
   );
 };
 
