@@ -34,11 +34,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
             : item
         );
       } else {
-        toast({
-          title: "Product added",
-          description: `${product.name} added to your cart.`,
-        });
-        
         return [...prevItems, { product, quantity }];
       }
     });
