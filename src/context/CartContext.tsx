@@ -28,11 +28,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       const existingItem = prevItems.find(item => item.product.id === product.id);
       
       if (existingItem) {
-        toast({
-          title: "Product updated",
-          description: `${product.name} quantity updated in your cart.`,
-        });
-        
         return prevItems.map(item => 
           item.product.id === product.id
             ? { ...item, quantity: item.quantity + quantity }
