@@ -4,6 +4,7 @@ import { getProductById } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, ArrowLeft } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Carousel,
   CarouselContent,
@@ -22,8 +23,17 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [quantity, setQuantity] = React.useState(1);
+  const [showPlusOne, setShowPlusOne] = React.useState(false);
   
   const product = id ? getProductById(id) : undefined;
+  
+  const handleAddToCart = () => {
+    if (product) {
+      addToCart(product, quantity);
+      setShowPlusOne(true);
+      setTimeout(() => setShowPlusOne(false), 1000);
+    }
+  };
   
   if (!product) {
     return (
@@ -107,13 +117,31 @@ const ProductDetail = () => {
                 </button>
               </div>
               
-              <Button 
-                className="bg-mithila-orange hover:bg-mithila-gold text-white"
-                onClick={() => addToCart(product, quantity)}
-              >
-                <ShoppingCart className="mr-2 h-5 w-5" />
-                Add to Cart
-              </Button>
+              <div className="relative">
+                <Button 
+                  className="bg-mithila-orange hover:bg-mithila-gold text-white"
+                  onClick={handleAddToCart}
+                >
+                  <ShoppingCart className="mr-2 h-5 w-5" />
+                  Add to Cart
+                </Button>
+                
+                <AnimatePresence>
+                  {showPlusOne && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, y: -30, scale: 1 }}
+                      exit={{ opacity: 0, y: -60, scale: 0.8 }}
+                      transition={{ duration: 0.8, ease: "easeOut" }}
+                      className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2 pointer-events-none"
+                    >
+                      <div className="bg-mithila-green text-white text-lg font-bold px-3 py-2 rounded-full shadow-lg">
+                        +{quantity}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
             
             <div className="bg-mithila-beige rounded-lg p-4">

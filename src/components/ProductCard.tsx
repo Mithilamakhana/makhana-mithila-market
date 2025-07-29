@@ -5,6 +5,7 @@ import { Product } from '@/data/products';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
 import { ShoppingCart, Images, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface ProductCardProps {
   product: Product;
@@ -13,6 +14,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showPlusOne, setShowPlusOne] = useState(false);
 
   const nextImage = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -24,6 +26,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex(prev => (prev - 1 + product.images.length) % product.images.length);
+  };
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    setShowPlusOne(true);
+    setTimeout(() => setShowPlusOne(false), 1000);
   };
 
   return (
@@ -91,13 +99,31 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </Button>
           </Link>
           
-          <Button 
-            className="w-full sm:w-auto bg-mithila-orange hover:bg-mithila-gold text-white text-xs sm:text-sm h-8 sm:h-9"
-            onClick={() => addToCart(product)}
-          >
-            <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-            Add to Cart
-          </Button>
+          <div className="relative w-full sm:w-auto">
+            <Button 
+              className="w-full sm:w-auto bg-mithila-orange hover:bg-mithila-gold text-white text-xs sm:text-sm h-8 sm:h-9"
+              onClick={handleAddToCart}
+            >
+              <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              Add to Cart
+            </Button>
+            
+            <AnimatePresence>
+              {showPlusOne && (
+                <motion.div
+                  initial={{ opacity: 0, y: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, y: -20, scale: 1 }}
+                  exit={{ opacity: 0, y: -40, scale: 0.8 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2 pointer-events-none"
+                >
+                  <div className="bg-mithila-green text-white text-sm font-bold px-2 py-1 rounded-full shadow-lg">
+                    +1
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </div>
