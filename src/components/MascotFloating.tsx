@@ -86,10 +86,14 @@ const MascotFloating = () => {
       whileTap={{ scale: 0.95 }}
     >
       <motion.div
-        animate={{ y: [0, -10, 0] }}
+        animate={{ 
+          y: [0, -15, 0],
+          x: [0, -10, 10, 0],
+          rotate: [0, 5, -5, 0]
+        }}
         transition={{ 
           repeat: Infinity,
-          duration: 3,
+          duration: 4,
           ease: "easeInOut"
         }}
       >

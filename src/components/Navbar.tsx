@@ -19,14 +19,14 @@ const Navbar = () => {
     <nav className="bg-gradient-to-r from-mithila-green to-mithila-blue text-white py-3 sm:py-4 fixed top-0 left-0 right-0 z-50 shadow-lg">
       <div className="container mx-auto flex justify-between items-center px-4">
         <Link to="/" className="flex items-center gap-2">
-          <div className="bg-white rounded-full p-1 shadow-md">
+          <div className="bg-white rounded-full p-1 shadow-md animate-[float_3s_ease-in-out_infinite]">
             <img 
               src="/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png" 
               alt="Mithila Sattvik Makhana Logo" 
               className="h-8 w-8 xs:h-10 xs:w-10 sm:h-12 sm:w-12 object-contain"
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col animate-[slideLeft_4s_ease-in-out_infinite]">
             <span className="text-xs xs:text-sm sm:text-lg md:text-xl font-semibold leading-tight">
               Mithila Sattvik
             </span>
