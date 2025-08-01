@@ -18,7 +18,7 @@ const Index = () => {
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-mithila-green mb-4 leading-tight">
               From the Heart of Mithila, To Your Home
             </h1>
-            <p className="text-base sm:text-lg mb-6 sm:mb-8 text-gray-700 animate-[slideLeft_4s_ease-in-out_infinite]">
+            <p className="text-base sm:text-lg mb-6 sm:mb-8 text-gray-700">
               Experience the authentic taste of premium quality fox nuts (makhana) 
               harvested from the pristine waters of Mithila region.
             </p>
