@@ -39,7 +39,7 @@ const Footer = () => {
                 <p className="flex flex-col sm:flex-row sm:items-center sm:gap-2 text-sm">
                   <span className="text-gray-300">Email:</span>
                   <a href="mailto:mithilasattvikmakhana@gmail.com" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors break-all">
-                    mithilasattvikmakhan@gmail.com
+                    mithilasattvikmakhana@gmail.com
                   </a>
                 </p>
                 <p className="flex flex-col sm:flex-row sm:items-center sm:gap-2 text-sm">
