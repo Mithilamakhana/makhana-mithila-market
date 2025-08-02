@@ -78,6 +78,18 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { customerData, items, totalAmount }: OrderNotificationRequest = await req.json();
 
+    // Format date and time for email subject
+    const now = new Date();
+    const dateTime = now.toLocaleDateString('en-IN', { 
+      day: '2-digit', 
+      month: '2-digit', 
+      year: '2-digit' 
+    }) + ' ' + now.toLocaleTimeString('en-IN', { 
+      hour: '2-digit', 
+      minute: '2-digit', 
+      hour12: true 
+    });
+
     console.log("Processing order notification for:", customerData.name);
     console.log("Customer email:", customerData.email);
 
@@ -183,7 +195,7 @@ const handler = async (req: Request): Promise<Response> => {
       businessEmailResponse = await resend.emails.send({
         from: "Mithila Sattvik Makhana <orders@mithilasattvikmakhana.com>",
         to: ["mithilasattvikmakhan@gmail.com"],
-        subject: `New Order from ${customerData.name} (${customerData.email}) - ₹${totalAmount}`,
+        subject: `New Order from ${customerData.name} (${customerData.email}) - ₹${totalAmount} | ${dateTime}`,
         html: businessEmailHtml,
       });
       
@@ -204,7 +216,7 @@ const handler = async (req: Request): Promise<Response> => {
       customerEmailResponse = await resend.emails.send({
         from: "Mithila Sattvik Makhana <orders@mithilasattvikmakhana.com>",
         to: [customerData.email],
-        subject: `Order Confirmation for ${customerData.name} - ₹${totalAmount}`,
+        subject: `Order Confirmation for ${customerData.name} - ₹${totalAmount} | ${dateTime}`,
         html: `
           <html>
             <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
