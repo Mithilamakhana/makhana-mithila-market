@@ -32,6 +32,84 @@ interface OrderNotificationRequest {
   totalAmount: number;
 }
 
+// Mithila painting CSS styles for email borders and decorations
+const mithilaBorderStyles = `
+  <style>
+    .mithila-border {
+      border: 8px solid transparent;
+      border-image: linear-gradient(45deg, #D4AF37, #B8860B, #DAA520, #FFD700, #F0E68C) 1;
+      background: linear-gradient(white, white) padding-box, 
+                  linear-gradient(45deg, #D4AF37, #B8860B, #DAA520, #FFD700, #F0E68C) border-box;
+      position: relative;
+    }
+    
+    .mithila-border::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      background: repeating-linear-gradient(
+        0deg,
+        #D4AF37 0px,
+        #D4AF37 2px,
+        transparent 2px,
+        transparent 8px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        #B8860B 0px,
+        #B8860B 2px,
+        transparent 2px,
+        transparent 8px
+      );
+      z-index: -1;
+    }
+    
+    .mithila-pattern {
+      background-image: 
+        radial-gradient(circle at 25% 25%, #D4AF37 2px, transparent 2px),
+        radial-gradient(circle at 75% 75%, #B8860B 2px, transparent 2px);
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+      padding: 10px;
+    }
+    
+    .mithila-header {
+      background: linear-gradient(135deg, #2E7D32, #4CAF50, #66BB6A);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      border-bottom: 4px solid #D4AF37;
+      position: relative;
+    }
+    
+    .mithila-header::after {
+      content: '🪷 ॐ 🪷';
+      display: block;
+      font-size: 14px;
+      margin-top: 5px;
+      color: #FFD700;
+    }
+    
+    .mithila-footer {
+      background: linear-gradient(135deg, #D4AF37, #B8860B);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      border-top: 4px solid #2E7D32;
+    }
+    
+    .lotus-divider {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 20px;
+      color: #D4AF37;
+    }
+  </style>
+`;
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -108,65 +186,78 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Generate order items HTML
     const orderItemsHtml = items.map(item => `
-      <tr style="border-bottom: 1px solid #eee;">
-        <td style="padding: 10px; text-align: left;">${item.product.name}</td>
-        <td style="padding: 10px; text-align: center;">${item.product.weight}</td>
-        <td style="padding: 10px; text-align: center;">${item.quantity}</td>
-        <td style="padding: 10px; text-align: right;">₹${item.product.price}</td>
-        <td style="padding: 10px; text-align: right;">₹${item.product.price * item.quantity}</td>
+      <tr style="border-bottom: 1px solid #D4AF37;">
+        <td style="padding: 12px; text-align: left; border-right: 1px solid #F0E68C;">${item.product.name}</td>
+        <td style="padding: 12px; text-align: center; border-right: 1px solid #F0E68C;">${item.product.weight}</td>
+        <td style="padding: 12px; text-align: center; border-right: 1px solid #F0E68C;">${item.quantity}</td>
+        <td style="padding: 12px; text-align: right; border-right: 1px solid #F0E68C;">₹${item.product.price}</td>
+        <td style="padding: 12px; text-align: right;">₹${item.product.price * item.quantity}</td>
       </tr>
     `).join('');
 
-    // Business notification email (includes customer details for reference)
+    // Business notification email with Mithila design
     const businessEmailHtml = `
       <html>
-        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-            <h1 style="color: #2E7D32; text-align: center;">New Order Received!</h1>
-            
-            <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0;">
-              <p style="margin: 0; color: #856404;"><strong>Note:</strong> Customer confirmation email will be sent once domain is verified. For now, all order details are included below.</p>
+        <head>
+          ${mithilaBorderStyles}
+        </head>
+        <body style="font-family: 'Georgia', serif; line-height: 1.6; color: #333; background-color: #FFF8DC; margin: 0; padding: 20px;">
+          <div class="mithila-border" style="max-width: 650px; margin: 0 auto; background-color: white; border-radius: 10px; overflow: hidden;">
+            <div class="mithila-header">
+              <h1 style="margin: 0; font-size: 28px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🕉️ नया ऑर्डर प्राप्त हुआ! 🕉️</h1>
+              <h2 style="margin: 5px 0 0 0; font-size: 20px;">New Order Received!</h2>
             </div>
             
-            <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h2 style="color: #2E7D32; margin-top: 0;">Customer Information</h2>
-              <p><strong>Name:</strong> ${customerData.name}</p>
-              <p><strong>Email:</strong> ${customerData.email}</p>
-              <p><strong>Phone:</strong> ${customerData.phone}</p>
-              <p><strong>Address:</strong> ${customerData.address}</p>
-              <p><strong>City:</strong> ${customerData.city}</p>
-              <p><strong>State:</strong> ${customerData.state}</p>
-              <p><strong>PIN Code:</strong> ${customerData.pincode}</p>
+            <div class="mithila-pattern" style="background-color: #FFF8DC;">
+              <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px; border: 2px solid #D4AF37;">
+                <p style="margin: 0; color: #856404; text-align: center;"><strong>📧 ध्यान दें:</strong> Customer will receive confirmation email directly from verified domain</p>
+              </div>
+              
+              <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px; border: 3px solid #2E7D32;">
+                <h2 style="color: #2E7D32; margin-top: 0; text-align: center; font-size: 22px;">🙏 ग्राहक विवरण | Customer Information 🙏</h2>
+                <div class="lotus-divider">🪷 ❋ 🪷</div>
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr><td style="padding: 8px; font-weight: bold; color: #2E7D32; width: 30%;">नाम | Name:</td><td style="padding: 8px;">${customerData.name}</td></tr>
+                  <tr style="background-color: #f0f8f0;"><td style="padding: 8px; font-weight: bold; color: #2E7D32;">ईमेल | Email:</td><td style="padding: 8px;">${customerData.email}</td></tr>
+                  <tr><td style="padding: 8px; font-weight: bold; color: #2E7D32;">फोन | Phone:</td><td style="padding: 8px;">${customerData.phone}</td></tr>
+                  <tr style="background-color: #f0f8f0;"><td style="padding: 8px; font-weight: bold; color: #2E7D32;">पता | Address:</td><td style="padding: 8px;">${customerData.address}</td></tr>
+                  <tr><td style="padding: 8px; font-weight: bold; color: #2E7D32;">शहर | City:</td><td style="padding: 8px;">${customerData.city}</td></tr>
+                  <tr style="background-color: #f0f8f0;"><td style="padding: 8px; font-weight: bold; color: #2E7D32;">राज्य | State:</td><td style="padding: 8px;">${customerData.state}</td></tr>
+                  <tr><td style="padding: 8px; font-weight: bold; color: #2E7D32;">पिन | PIN:</td><td style="padding: 8px;">${customerData.pincode}</td></tr>
+                </table>
+              </div>
+
+              <div style="margin: 20px;">
+                <h2 style="color: #2E7D32; text-align: center; font-size: 22px;">🛒 ऑर्डर विवरण | Order Details 🛒</h2>
+                <div class="lotus-divider">🪷 ❋ 🪷</div>
+                <table style="width: 100%; border-collapse: collapse; border: 2px solid #D4AF37; border-radius: 8px; overflow: hidden;">
+                  <thead>
+                    <tr style="background: linear-gradient(135deg, #2E7D32, #4CAF50); color: white;">
+                      <th style="padding: 15px; text-align: left;">उत्पाद | Product</th>
+                      <th style="padding: 15px; text-align: center;">वजन | Weight</th>
+                      <th style="padding: 15px; text-align: center;">मात्रा | Quantity</th>
+                      <th style="padding: 15px; text-align: right;">कीमत | Price</th>
+                      <th style="padding: 15px; text-align: right;">कुल | Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${orderItemsHtml}
+                  </tbody>
+                </table>
+              </div>
+
+              <div style="background: linear-gradient(135deg, #e8f5e8, #c8e6c9); padding: 20px; border-radius: 8px; text-align: center; margin: 20px; border: 3px solid #4CAF50;">
+                <h3 style="color: #2E7D32; margin: 0; font-size: 24px;">💰 कुल राशि | Total Amount: ₹${totalAmount} 💰</h3>
+              </div>
+
+              <div style="margin: 20px; padding: 20px; background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-radius: 8px; border: 2px solid #D4AF37;">
+                <p style="margin: 0; color: #856404; text-align: center; font-size: 16px;"><strong>🎯 कार्य आवश्यक | Action Required:</strong><br>कृपया ग्राहक से संपर्क करें | Please contact customer at ${customerData.email} or ${customerData.phone}</p>
+              </div>
             </div>
 
-            <div style="margin: 20px 0;">
-              <h2 style="color: #2E7D32;">Order Details</h2>
-              <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
-                <thead>
-                  <tr style="background-color: #2E7D32; color: white;">
-                    <th style="padding: 12px; text-align: left;">Product</th>
-                    <th style="padding: 12px; text-align: center;">Weight</th>
-                    <th style="padding: 12px; text-align: center;">Quantity</th>
-                    <th style="padding: 12px; text-align: right;">Price</th>
-                    <th style="padding: 12px; text-align: right;">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${orderItemsHtml}
-                </tbody>
-              </table>
-            </div>
-
-            <div style="background-color: #e8f5e8; padding: 15px; border-radius: 8px; text-align: right;">
-              <h3 style="color: #2E7D32; margin: 0;">Total Amount: ₹${totalAmount}</h3>
-            </div>
-
-            <div style="margin-top: 20px; padding: 15px; background-color: #fff3cd; border-radius: 8px;">
-              <p style="margin: 0; color: #856404;"><strong>Action Required:</strong> Please contact the customer at ${customerData.email} or ${customerData.phone} to confirm the order and arrange delivery.</p>
-            </div>
-
-            <div style="margin-top: 20px; padding: 15px; background-color: #f8d7da; border-radius: 8px;">
-              <p style="margin: 0; color: #721c24;"><strong>Setup Reminder:</strong> To send confirmation emails directly to customers, please verify your domain at https://resend.com/domains</p>
+            <div class="mithila-footer">
+              <p style="margin: 0; font-size: 16px;">🕉️ मिथिला सात्विक मखाना | Mithila Sattvik Makhana 🕉️</p>
+              <p style="margin: 5px 0 0 0; font-size: 12px;">प्राकृतिक स्वास्थ्य का खजाना | Natural Health Treasure</p>
             </div>
           </div>
         </body>
@@ -183,7 +274,7 @@ const handler = async (req: Request): Promise<Response> => {
       businessEmailResponse = await resend.emails.send({
         from: "Mithila Sattvik Makhana <orders@mithilasattvikmakhana.com>",
         to: ["mithilasattvikmakhan@gmail.com"],
-        subject: `New Order from ${customerData.name} (${customerData.email}) - ₹${totalAmount}`,
+        subject: `🕉️ New Order from ${customerData.name} (${customerData.email}) - ₹${totalAmount}`,
         html: businessEmailHtml,
       });
       
@@ -201,32 +292,36 @@ const handler = async (req: Request): Promise<Response> => {
     
     try {
       console.log("Sending customer confirmation to:", customerData.email);
-      customerEmailResponse = await resend.emails.send({
-        from: "Mithila Sattvik Makhana <orders@mithilasattvikmakhana.com>",
-        to: [customerData.email],
-        subject: `Order Confirmation for ${customerData.name} - ₹${totalAmount}`,
-        html: `
-          <html>
-            <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-              <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-                <h1 style="color: #2E7D32; text-align: center;">Order Received!</h1>
+      
+      const customerEmailHtml = `
+        <html>
+          <head>
+            ${mithilaBorderStyles}
+          </head>
+          <body style="font-family: 'Georgia', serif; line-height: 1.6; color: #333; background-color: #FFF8DC; margin: 0; padding: 20px;">
+            <div class="mithila-border" style="max-width: 650px; margin: 0 auto; background-color: white; border-radius: 10px; overflow: hidden;">
+              <div class="mithila-header">
+                <h1 style="margin: 0; font-size: 28px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🕉️ ऑर्डर की पुष्टि! 🕉️</h1>
+                <h2 style="margin: 5px 0 0 0; font-size: 20px;">Order Confirmation!</h2>
+              </div>
+              
+              <div class="mithila-pattern" style="background-color: #FFF8DC; padding: 30px;">
+                <p style="font-size: 18px; text-align: center; color: #2E7D32;"><strong>प्रिय ${customerData.name} जी | Dear ${customerData.name},</strong></p>
                 
-                <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                  <p style="margin: 0; color: #856404;"><strong>Note:</strong> This email was sent to the business email due to domain verification requirements. Customer email: ${customerData.email}</p>
-                </div>
+                <div class="lotus-divider">🪷 ❋ 🪷</div>
                 
-                <p>Dear ${customerData.name},</p>
-                <p>Thank you for your order! Here are the details:</p>
+                <p style="font-size: 16px; text-align: center;">आपके ऑर्डर के लिए धन्यवाद! | Thank you for your order!</p>
+                <p style="font-size: 16px; text-align: center;">यहाँ आपके ऑर्डर का विवरण है | Here are your order details:</p>
                 
-                <div style="margin: 20px 0;">
-                  <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                <div style="margin: 30px 0;">
+                  <table style="width: 100%; border-collapse: collapse; border: 2px solid #D4AF37; border-radius: 8px; overflow: hidden;">
                     <thead>
-                      <tr style="background-color: #2E7D32; color: white;">
-                        <th style="padding: 12px; text-align: left;">Product</th>
-                        <th style="padding: 12px; text-align: center;">Weight</th>
-                        <th style="padding: 12px; text-align: center;">Quantity</th>
-                        <th style="padding: 12px; text-align: right;">Price</th>
-                        <th style="padding: 12px; text-align: right;">Total</th>
+                      <tr style="background: linear-gradient(135deg, #2E7D32, #4CAF50); color: white;">
+                        <th style="padding: 15px; text-align: left;">उत्पाद | Product</th>
+                        <th style="padding: 15px; text-align: center;">वजन | Weight</th>
+                        <th style="padding: 15px; text-align: center;">मात्रा | Quantity</th>
+                        <th style="padding: 15px; text-align: right;">कीमत | Price</th>
+                        <th style="padding: 15px; text-align: right;">कुल | Total</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -235,16 +330,41 @@ const handler = async (req: Request): Promise<Response> => {
                   </table>
                 </div>
 
-                <div style="background-color: #e8f5e8; padding: 15px; border-radius: 8px; text-align: right;">
-                  <h3 style="color: #2E7D32; margin: 0;">Total Amount: ₹${totalAmount}</h3>
+                <div style="background: linear-gradient(135deg, #e8f5e8, #c8e6c9); padding: 20px; border-radius: 8px; text-align: center; border: 3px solid #4CAF50;">
+                  <h3 style="color: #2E7D32; margin: 0; font-size: 24px;">💰 कुल राशि | Total Amount: ₹${totalAmount} 💰</h3>
                 </div>
 
-                <p>We will contact you soon to confirm your order and arrange delivery.</p>
-                <p>Thank you for choosing Mithila Sattvik Makhana!</p>
+                <div class="lotus-divider">🪷 ❋ 🪷</div>
+
+                <div style="background-color: #e1f5fe; padding: 20px; border-radius: 8px; border: 2px solid #2E7D32; text-align: center;">
+                  <p style="margin: 0; color: #1565c0; font-size: 16px;">
+                    <strong>🤝 हम जल्द ही आपसे संपर्क करेंगे | We will contact you soon</strong><br>
+                    आपके ऑर्डर की पुष्टि और डिलिवरी की व्यवस्था के लिए<br>
+                    To confirm your order and arrange delivery
+                  </p>
+                </div>
+
+                <div style="text-align: center; margin: 30px 0;">
+                  <p style="font-size: 18px; color: #2E7D32;"><strong>मिथिला सात्विक मखाना चुनने के लिए धन्यवाद!</strong></p>
+                  <p style="font-size: 16px; color: #555;">Thank you for choosing Mithila Sattvik Makhana!</p>
+                  <div style="font-size: 20px; color: #D4AF37; margin: 10px 0;">🙏 नमस्ते 🙏</div>
+                </div>
               </div>
-            </body>
-          </html>
-        `,
+
+              <div class="mithila-footer">
+                <p style="margin: 0; font-size: 16px;">🕉️ मिथिला सात्विक मखाना | Mithila Sattvik Makhana 🕉️</p>
+                <p style="margin: 5px 0 0 0; font-size: 12px;">प्राकृतिक स्वास्थ्य का खजाना | Natural Health Treasure</p>
+              </div>
+            </div>
+          </body>
+        </html>
+      `;
+
+      customerEmailResponse = await resend.emails.send({
+        from: "Mithila Sattvik Makhana <orders@mithilasattvikmakhana.com>",
+        to: [customerData.email],
+        subject: `🕉️ Order Confirmation for ${customerData.name} - ₹${totalAmount}`,
+        html: customerEmailHtml,
       });
       
       console.log("Customer email sent successfully:", customerEmailResponse);
@@ -256,10 +376,12 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Return response indicating email status
     return new Response(JSON.stringify({ 
-      success: businessEmailSuccess,
-      message: businessEmailSuccess 
-        ? "Order notification sent successfully. Customer will be contacted directly." 
-        : "Order received but notification failed. Please contact customer manually.",
+      success: businessEmailSuccess || customerEmailSuccess,
+      message: (businessEmailSuccess && customerEmailSuccess) 
+        ? "Order notifications sent successfully to both business and customer." 
+        : businessEmailSuccess 
+        ? "Order notification sent to business. Customer will be contacted directly."
+        : "Order received but notifications failed. Please contact customer manually.",
       businessEmail: {
         success: businessEmailSuccess,
         emailId: businessEmailResponse?.data?.id,
