@@ -86,7 +86,7 @@ const mithilaBorderStyles = `
     }
     
     .mithila-header::after {
-      content: '🪷 ॐ 🪷';
+      content: '🪷 🪷 🪷';
       display: block;
       font-size: 14px;
       margin-top: 5px;
