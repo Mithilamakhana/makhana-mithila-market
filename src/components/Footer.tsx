@@ -38,14 +38,14 @@ const Footer = () => {
               <div className="flex flex-col space-y-2">
                 <p className="flex flex-col sm:flex-row sm:items-center sm:gap-2 text-sm">
                   <span className="text-gray-300">Email:</span>
-                  <a href="mailto:mithilasattvikmakhan@gmail.com" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors break-all">
+                  <a href="mailto:mithilasattvikmakhana@gmail.com" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors break-all">
                     mithilasattvikmakhan@gmail.com
                   </a>
                 </p>
                 <p className="flex flex-col sm:flex-row sm:items-center sm:gap-2 text-sm">
                   <span className="text-gray-300">Phone:</span>
                   <a href="tel:+919876543210" className="text-mithila-gold hover:text-yellow-300 hover:underline transition-colors">
-                    9993068534
+                    9288205923
                   </a>
                 </p>
               </div>
