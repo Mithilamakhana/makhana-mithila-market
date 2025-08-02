@@ -187,10 +187,15 @@ const handler = async (req: Request): Promise<Response> => {
         html: businessEmailHtml,
       });
 
-      // Also send a copy to the customer using the verified email
-      console.log("Sending customer copy to: mithilasattvikmakhan@gmail.com");
-      await resend.emails.send({
-        from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
+    // Send confirmation email to customer
+    let customerEmailSuccess = false;
+    let customerEmailResponse = null;
+    let customerEmailError = null;
+    
+    try {
+      console.log("Sending customer confirmation to:", customerData.email);
+      customerEmailResponse = await resend.emails.send({
+        from: "Mithila Sattvik Makhana <orders@mithilasattvikmakhana.com>",
         to: [customerData.email],
         subject: `Order Confirmation for ${customerData.name} - ₹${totalAmount}`,
         html: `
@@ -235,6 +240,13 @@ const handler = async (req: Request): Promise<Response> => {
         `,
       });
       
+      console.log("Customer email sent successfully:", customerEmailResponse);
+      customerEmailSuccess = true;
+    } catch (error) {
+      console.error("Failed to send customer email:", error);
+      customerEmailError = error;
+    }
+      
       console.log("Business email sent successfully:", businessEmailResponse);
       businessEmailSuccess = true;
     } catch (error) {
@@ -254,8 +266,9 @@ const handler = async (req: Request): Promise<Response> => {
         error: businessEmailError?.message
       },
       customerEmail: {
-        success: false,
-        note: "Customer email will be enabled after domain verification"
+        success: customerEmailSuccess,
+        emailId: customerEmailResponse?.data?.id,
+        error: customerEmailError?.message
       }
     }), {
       status: 200,
