@@ -195,7 +195,7 @@ const handler = async (req: Request): Promise<Response> => {
       businessEmailResponse = await resend.emails.send({
         from: "Mithila Sattvik Makhana <orders@mithilasattvikmakhana.com>",
         to: ["mithilasattvikmakhan@gmail.com"],
-        subject: `New Order from ${customerData.name} (${customerData.email}) - ₹${totalAmount} | ${dateTime}`,
+        subject: `New Order from ${customerData.name} - ₹${totalAmount} | ${dateTime}`,
         html: businessEmailHtml,
       });
       
