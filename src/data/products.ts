@@ -1,4 +1,5 @@
 import brand_product1 from '/pictures/brand_product1.png'
+import Product2 from '/pictures/Product2.png'
 import product4 from '/pictures/product4.png'
 import roasted_product1 from '/pictures/roasted_product1.png'
 import roasted from '/pictures/roasted.jpg'
@@ -66,13 +67,10 @@ export const products: Product[] = [
     price: 649,
     weight: "250g",
     image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
-    images: [
-      "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
-      "/lovable-uploads/6cde9e41-dea8-4d15-8787-d9ee49aca8fe.png",
-      // Adding placeholder images for testing
-      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=500&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=500&auto=format&fit=crop"
-    ],
+    images: [Product2,
+      roasted_product1,
+      roasted,
+      pudding_product1],
     benefits: [
       "High in protein and low in fat",
       "Excellent source of antioxidants",
