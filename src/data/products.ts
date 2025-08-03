@@ -1,5 +1,7 @@
 import brand_product1 from '/pictures/brand_product1.png'
+import product4 from '/pictures/product4.png'
 import roasted_product1 from '/pictures/roasted_product1.png'
+import roasted from '/pictures/roasted.jpg'
 import pudding_product1 from '/pictures/pudding_product1.png'
 
 export interface Product {
@@ -34,7 +36,9 @@ export const products: Product[] = [
     image: brand_product1,
     images: [
       brand_product1,
+      product4,
       roasted_product1,
+      roasted,
       pudding_product1,
     ],
     benefits: [
