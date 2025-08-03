@@ -69,7 +69,7 @@ const ProductDetail = () => {
                         <img 
                           src={image} 
                           alt={`${product.name} - View ${index + 1}`} 
-                          className="h-full w-full object-contain"
+                          className="h-full w-full object-cover"
                         />
                       </AspectRatio>
                     </CarouselItem>
@@ -79,13 +79,13 @@ const ProductDetail = () => {
                 <CarouselNext className="right-2" />
               </Carousel>
             ) : (
-              <div className="flex items-center justify-center">
+              <AspectRatio ratio={1 / 1} className="bg-white">
                 <img 
                   src={product.image} 
                   alt={product.name} 
-                  className="w-full h-auto max-h-[90vh] object-contain"
+                  className="h-full w-full object-cover"
                 />
-              </div>
+              </AspectRatio>
             )}
           </div>
           
