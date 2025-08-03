@@ -59,9 +59,9 @@ const ProductDetail = () => {
         </Button>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          <div className="bg-mithila-beige rounded-lg p-8">
+          <div className="bg-mithila-beige rounded-lg p-4">
             {product.images.length > 1 ? (
-              <Carousel className="w-full max-w-xs mx-auto">
+              <Carousel className="w-full max-w-lg mx-auto">
                 <CarouselContent>
                   {product.images.map((image, index) => (
                     <CarouselItem key={index}>
@@ -83,7 +83,7 @@ const ProductDetail = () => {
                 <img 
                   src={product.image} 
                   alt={product.name} 
-                  className="h-64 w-64 md:h-80 md:w-80 object-contain"
+                  className="h-80 w-80 md:h-96 md:w-96 lg:h-[28rem] lg:w-[28rem] object-contain"
                 />
               </div>
             )}
