@@ -1,3 +1,7 @@
+import brand_product1 from '/pictures/brand_product1.png'
+import roasted_product1 from '/pictures/roasted_product1.png'
+import pudding_product1 from '/pictures/pudding_product1.png'
+
 export interface Product {
   id: string;
   name: string;
@@ -27,13 +31,11 @@ export const products: Product[] = [
     shortDescription: "Premium quality fox nuts from the heart of Mithila",
     price: 549,
     weight: "250g",
-    image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
+    image: brand_product1,
     images: [
-      "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
-      "/lovable-uploads/6cde9e41-dea8-4d15-8787-d9ee49aca8fe.png",
-      // Adding placeholder images for testing
-      "https://images.unsplash.com/photo-1484980972926-edee96e0960d?q=80&w=500&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=500&auto=format&fit=crop"
+      brand_product1,
+      roasted_product1,
+      pudding_product1,
     ],
     benefits: [
       "High in protein and low in fat",
