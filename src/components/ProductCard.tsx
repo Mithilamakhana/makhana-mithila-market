@@ -38,12 +38,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border border-mithila-gold/20">
       <Link to={`/product/${product.id}`}>
         <div className="p-3 sm:p-4 relative bg-mithila-beige h-48 sm:h-56 md:h-64 flex justify-center items-center overflow-hidden">
-          <div className="relative w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48">
+          <div className="relative w-full h-full">
             {product.images.length > 0 && (
               <img 
                 src={product.images[currentImageIndex]} 
                 alt={`${product.name} - View ${currentImageIndex + 1}`} 
-                className="h-full w-full object-contain transition-opacity duration-300"
+                className="h-full w-full object-cover transition-opacity duration-300"
               />
             )}
           </div>
