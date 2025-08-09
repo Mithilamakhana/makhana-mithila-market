@@ -32,6 +32,38 @@ interface OrderNotificationRequest {
   totalAmount: number;
 }
 
+async function sendWhatsAppMessage(phone: string, message: string, twilioAccountSid: string, twilioAuthToken: string, twilioWhatsAppNumber: string) {
+  const url = `https://api.twilio.com/2010-04-01/Accounts/${twilioAccountSid}/Messages.json`;
+  
+  // Format phone number for WhatsApp (ensure it starts with country code)
+  const formattedPhone = phone.startsWith('+') ? phone : `+91${phone}`;
+  const whatsappToNumber = `whatsapp:${formattedPhone}`;
+  const whatsappFromNumber = `whatsapp:${twilioWhatsAppNumber}`;
+  
+  const body = new URLSearchParams({
+    From: whatsappFromNumber,
+    To: whatsappToNumber,
+    Body: message
+  });
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Basic ${btoa(`${twilioAccountSid}:${twilioAuthToken}`)}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: body.toString()
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error('WhatsApp API Error:', errorText);
+    throw new Error(`WhatsApp API Error: ${response.status} ${errorText}`);
+  }
+
+  return await response.json();
+}
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -69,6 +101,11 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const resend = new Resend(RESEND_API_KEY);
+
+    // Get Twilio credentials for WhatsApp
+    const TWILIO_ACCOUNT_SID = Deno.env.get("TWILIO_ACCOUNT_SID");
+    const TWILIO_AUTH_TOKEN = Deno.env.get("TWILIO_AUTH_TOKEN");
+    const TWILIO_WHATSAPP_NUMBER = Deno.env.get("TWILIO_WHATSAPP_NUMBER");
 
     // Initialize Supabase client
     const supabase = createClient(
@@ -266,11 +303,62 @@ const handler = async (req: Request): Promise<Response> => {
       customerEmailError = error;
     }
 
-    // Return response indicating email status
+    // Send WhatsApp message to customer
+    let whatsappSuccess = false;
+    let whatsappResponse = null;
+    let whatsappError = null;
+
+    if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && TWILIO_WHATSAPP_NUMBER) {
+      try {
+        console.log("Sending WhatsApp message to:", customerData.phone);
+        
+        // Create WhatsApp message with order details
+        const orderItemsText = items.map(item => 
+          `• ${item.product.name} (${item.product.weight}) - Qty: ${item.quantity} - ₹${item.product.price * item.quantity}`
+        ).join('\n');
+
+        const whatsappMessage = `🛒 *Order Confirmation - Mithila Sattvik Makhana*
+
+Dear ${customerData.name},
+
+Thank you for your order! Here are your order details:
+
+*Order Items:*
+${orderItemsText}
+
+*Total Amount: ₹${totalAmount}*
+
+*Delivery Address:*
+${customerData.address}
+${customerData.city}, ${customerData.state} - ${customerData.pincode}
+
+We will contact you soon to confirm your order and arrange delivery.
+
+Thank you for choosing Mithila Sattvik Makhana! 🌿`;
+
+        whatsappResponse = await sendWhatsAppMessage(
+          customerData.phone,
+          whatsappMessage,
+          TWILIO_ACCOUNT_SID,
+          TWILIO_AUTH_TOKEN,
+          TWILIO_WHATSAPP_NUMBER
+        );
+        
+        console.log("WhatsApp message sent successfully:", whatsappResponse);
+        whatsappSuccess = true;
+      } catch (error) {
+        console.error("Failed to send WhatsApp message:", error);
+        whatsappError = error;
+      }
+    } else {
+      console.log("WhatsApp credentials not configured, skipping WhatsApp notification");
+    }
+
+    // Return response indicating email and WhatsApp status
     return new Response(JSON.stringify({ 
       success: businessEmailSuccess,
       message: businessEmailSuccess 
-        ? "Order notification sent successfully. Customer will be contacted directly." 
+        ? `Order notification sent successfully. ${whatsappSuccess ? 'WhatsApp message sent to customer.' : 'Customer will be contacted directly.'}` 
         : "Order received but notification failed. Please contact customer manually.",
       businessEmail: {
         success: businessEmailSuccess,
@@ -281,6 +369,11 @@ const handler = async (req: Request): Promise<Response> => {
         success: customerEmailSuccess,
         emailId: customerEmailResponse?.data?.id,
         error: customerEmailError?.message
+      },
+      whatsapp: {
+        success: whatsappSuccess,
+        messageId: whatsappResponse?.sid,
+        error: whatsappError?.message
       }
     }), {
       status: 200,
