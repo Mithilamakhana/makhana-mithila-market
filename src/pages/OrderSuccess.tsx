@@ -6,16 +6,16 @@ import { CheckCircle, Home, ShoppingCart } from 'lucide-react';
 
 const OrderSuccess = () => {
   return (
-    <div className="min-h-screen py-12 flex items-center justify-center">
+    <div className="min-h-screen py-12 flex items-center justify-center bg-mithila-cream">
       <div className="container mx-auto px-4">
-        <div className="bg-white rounded-lg shadow-md p-8 max-w-2xl mx-auto text-center">
+        <div className="bg-card rounded-lg shadow-lg p-8 max-w-2xl mx-auto text-center border border-border">
           <div className="mb-6">
-            <CheckCircle className="h-20 w-20 text-green-500 mx-auto" />
+            <CheckCircle className="h-20 w-20 text-mithila-green mx-auto" />
           </div>
           
           <h1 className="text-2xl md:text-3xl font-bold text-mithila-green mb-4">Order Placed Successfully!</h1>
           
-          <p className="text-gray-600 mb-8">
+          <p className="text-muted-foreground mb-8">
             Thank you for shopping with Mithila Sattvik Makhana. Your order has been received and 
             is now being processed. We will contact you shortly with the delivery details.
           </p>
