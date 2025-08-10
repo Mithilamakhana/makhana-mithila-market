@@ -1,1 +1,31 @@
 project_id = "qpxwcijeguvvlbehklmm"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[auth]
+enabled = true
+port = 54324
+site_url = "https://qpxwcijeguvvlbehklmm.lovableproject.com"
+additional_redirect_urls = ["https://lovableproject.com"]
+jwt_expiry = 3600
+enable_signup = true
+enable_email_confirmations = false
+enable_sms_confirmations = false
+enable_phone_signups = false
+
+[db]
+port = 54322
+
+[functions.send-order-notification]
+verify_jwt = false
+
+[functions.create-razorpay-order]
+verify_jwt = false
+
+[functions.verify-razorpay-payment]
+verify_jwt = false
