@@ -63,7 +63,7 @@ const Footer = () => {
             
             <div className="flex space-x-4">
               <a
-                href="https://www.facebook.com/share/1AXPMmrwyD/"
+                href="https://www.facebook.com/profile.php?id=100066819836572"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center hover:bg-blue-600 hover:scale-110 transition-all duration-300 shadow-md"
