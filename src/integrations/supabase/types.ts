@@ -124,7 +124,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_customer_details_for_order: {
+        Args: { customer_email_param: string }
+        Returns: {
+          address: number
+          city: number
+          email: string
+          id: number
+          name: string
+          phone: number
+          pin: number
+          state: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
