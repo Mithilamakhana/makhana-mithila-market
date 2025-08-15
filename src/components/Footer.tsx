@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -88,6 +88,15 @@ const Footer = () => {
                 aria-label="Connect with us on LinkedIn"
               >
                 <Linkedin className="h-5 w-5" />
+              </a>
+              <a
+                href="https://www.youtube.com/@mithilasattvikmakhana"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center hover:bg-red-600 hover:scale-110 transition-all duration-300 shadow-md"
+                aria-label="Subscribe to our YouTube channel"
+              >
+                <Youtube className="h-5 w-5" />
               </a>
             </div>
           </div>
