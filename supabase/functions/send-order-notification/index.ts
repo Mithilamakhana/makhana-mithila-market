@@ -130,30 +130,27 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Processing order notification for:", customerData.name);
     console.log("Customer email:", customerData.email);
 
-    // Insert order into database
+    // Insert order into database using secure function
     console.log("Inserting order into database...");
-    const { data: insertedOrder, error: insertError } = await supabase
-      .from('orders')
-      .insert({
-        customer_name: customerData.name,
-        customer_email: customerData.email,
-        customer_phone: customerData.phone,
-        customer_address: customerData.address,
-        customer_city: customerData.city,
-        customer_state: customerData.state,
-        customer_pin: customerData.pincode,
-        total_amount: totalAmount,
-        order_items: items
-      })
-      .select()
-      .single();
+    const { data: orderId, error: insertError } = await supabase
+      .rpc('insert_order', {
+        order_items_param: items,
+        total_amount_param: totalAmount,
+        customer_name_param: customerData.name,
+        customer_email_param: customerData.email,
+        customer_phone_param: customerData.phone,
+        customer_address_param: customerData.address,
+        customer_city_param: customerData.city,
+        customer_state_param: customerData.state,
+        customer_pin_param: customerData.pincode
+      });
 
     if (insertError) {
       console.error("Error inserting order:", insertError);
       throw insertError;
     }
 
-    console.log("Order inserted successfully:", insertedOrder);
+    console.log("Order inserted successfully with ID:", orderId);
 
     // Generate order items HTML
     const orderItemsHtml = items.map(item => `

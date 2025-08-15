@@ -137,6 +137,36 @@ export type Database = {
           state: number
         }[]
       }
+      get_orders_for_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          created_at: string
+          customer_address: string | null
+          customer_city: string | null
+          customer_email: string | null
+          customer_name: string
+          customer_phone: string | null
+          customer_pin: string | null
+          customer_state: string | null
+          id: number
+          order_items: Json
+          total_amount: number
+        }[]
+      }
+      insert_order: {
+        Args: {
+          customer_address_param?: string
+          customer_city_param?: string
+          customer_email_param?: string
+          customer_name_param: string
+          customer_phone_param?: string
+          customer_pin_param?: string
+          customer_state_param?: string
+          order_items_param: Json
+          total_amount_param: number
+        }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never
