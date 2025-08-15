@@ -151,8 +151,12 @@ const Cart = () => {
     setIsProcessing(true);
     
     try {
-      // Create Razorpay order
+      // TODO: Razorpay integration commented out for now
+      // Temporarily skip payment processing and directly process the order
       const orderAmount = getTotalPrice();
+      
+      /* COMMENTED OUT RAZORPAY INTEGRATION
+      // Create Razorpay order
       const { data: razorpayOrder, error: razorpayError } = await supabase.functions.invoke('create-razorpay-order', {
         body: {
           amount: orderAmount,
@@ -250,6 +254,37 @@ const Cart = () => {
 
       const rzp = new (window as any).Razorpay(options);
       rzp.open();
+      */
+
+      // Directly process order without payment (temporary solution)
+      const { data, error } = await supabase.functions.invoke('send-order-notification', {
+        body: {
+          customerData: formData,
+          items: items,
+          totalAmount: orderAmount,
+          paymentId: 'TEMP_NO_PAYMENT',
+          orderId: `ORDER_${Date.now()}`
+        }
+      });
+
+      if (error) {
+        console.error('Error sending order notification:', error);
+        toast({
+          title: "Order Processing Error",
+          description: "There was an error processing your order. Please try again.",
+          variant: "destructive"
+        });
+      } else {
+        console.log('Order placed successfully:', data);
+        toast({
+          title: "Order Placed Successfully!",
+          description: "Thank you for your order. We'll contact you shortly.",
+        });
+        
+        // Clear cart and redirect
+        clearCart();
+        navigate('/order-success');
+      }
 
     } catch (error) {
       console.error('Checkout error:', error);
@@ -258,6 +293,7 @@ const Cart = () => {
         description: "There was an error processing your order. Please try again.",
         variant: "destructive"
       });
+    } finally {
       setIsProcessing(false);
     }
   };
