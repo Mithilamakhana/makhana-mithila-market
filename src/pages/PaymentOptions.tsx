@@ -99,7 +99,8 @@ const PaymentOptions = () => {
       amount: totalAmount,
       subMethods: [
         { id: 'scan_qr', name: 'Scan the QR code & pay via any UPI app', hasQR: true },
-        { id: 'enter_upi', name: 'Enter UPI ID', hasInput: true, placeholder: 'Enter UPI ID' }
+        { id: 'enter_upi', name: 'Enter UPI ID', hasInput: true, placeholder: 'Enter UPI ID' },
+        { id: 'enter_phone', name: 'Enter Phone Number', hasInput: true, placeholder: 'Enter Phone Number' }
       ]
     },
     {
