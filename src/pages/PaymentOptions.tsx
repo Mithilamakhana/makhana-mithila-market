@@ -89,7 +89,59 @@ const PaymentOptions = () => {
     }
   };
 
+  const handleUPIPayment = (upiId: string, phoneNumber: string) => {
+    const merchantName = "Mithila Sattvik Makhana";
+    const transactionNote = `Order payment for ${items.length} items`;
+    
+    if (phoneNumber) {
+      // Create UPI payment URLs for different apps
+      const upiUrl = `upi://pay?pa=${upiId || 'merchant@upi'}&pn=${encodeURIComponent(merchantName)}&am=${totalAmount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
+      
+      // Try to open UPI apps in order of preference
+      const paymentApps = [
+        { name: 'PhonePe', url: `phonepe://pay?pa=${upiId || 'merchant@upi'}&pn=${encodeURIComponent(merchantName)}&am=${totalAmount}&cu=INR&tn=${encodeURIComponent(transactionNote)}` },
+        { name: 'Paytm', url: `paytmmp://pay?pa=${upiId || 'merchant@upi'}&pn=${encodeURIComponent(merchantName)}&am=${totalAmount}&cu=INR&tn=${encodeURIComponent(transactionNote)}` },
+        { name: 'GPay', url: `tez://upi/pay?pa=${upiId || 'merchant@upi'}&pn=${encodeURIComponent(merchantName)}&am=${totalAmount}&cu=INR&tn=${encodeURIComponent(transactionNote)}` },
+        { name: 'Generic UPI', url: upiUrl }
+      ];
+
+      // Try to open the first available app
+      const tryOpenApp = (index: number) => {
+        if (index >= paymentApps.length) {
+          toast({
+            title: "No UPI app found",
+            description: "Please install a UPI app like PhonePe, Paytm, or GPay to make payment.",
+            variant: "destructive"
+          });
+          return;
+        }
+
+        const app = paymentApps[index];
+        window.location.href = app.url;
+        
+        // Fallback after a short delay
+        setTimeout(() => {
+          if (index < paymentApps.length - 1) {
+            tryOpenApp(index + 1);
+          }
+        }, 1000);
+      };
+
+      tryOpenApp(0);
+    } else if (upiId) {
+      // Direct UPI ID payment
+      const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(merchantName)}&am=${totalAmount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
+      window.location.href = upiUrl;
+    }
+
+    // Process the order after attempting payment
+    setTimeout(() => {
+      handlePaymentOption('UPI Payment');
+    }, 2000);
+  };
+
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
+  const [upiInputs, setUpiInputs] = useState<{[key: string]: string}>({});
 
   const paymentMethods = [
     {
@@ -238,25 +290,36 @@ const PaymentOptions = () => {
                             </div>
                           )}
                           
-                          {subMethod.hasInput && (
-                            <div className="ml-7 mt-2">
-                              <input
-                                type="text"
-                                placeholder={subMethod.placeholder}
-                                className="w-full p-2 border border-gray-300 rounded text-sm"
-                              />
-                            </div>
-                          )}
+                           {subMethod.hasInput && (
+                             <div className="ml-7 mt-2">
+                               <input
+                                 type="text"
+                                 placeholder={subMethod.placeholder}
+                                 className="w-full p-2 border border-gray-300 rounded text-sm"
+                                 value={upiInputs[subMethod.id] || ''}
+                                 onChange={(e) => setUpiInputs(prev => ({
+                                   ...prev,
+                                   [subMethod.id]: e.target.value
+                                 }))}
+                               />
+                             </div>
+                           )}
                         </div>
                       ))}
                       
-                      <Button 
-                        onClick={() => handlePaymentOption(method.name)}
-                        className="w-full mt-4 bg-blue-600 hover:bg-blue-700"
-                        disabled={isProcessing}
-                      >
-                        Pay ₹{method.amount}
-                      </Button>
+                       <Button 
+                         onClick={() => {
+                           if (method.id === 'upi') {
+                             handleUPIPayment(upiInputs['enter_upi'] || '', upiInputs['enter_phone'] || '');
+                           } else {
+                             handlePaymentOption(method.name);
+                           }
+                         }}
+                         className="w-full mt-4 bg-blue-600 hover:bg-blue-700"
+                         disabled={isProcessing}
+                       >
+                         Pay ₹{method.amount}
+                       </Button>
                     </div>
                   )}
                   
