@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import ProductsPage from "./pages/ProductsPage";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
+import PaymentOptions from "./pages/PaymentOptions";
 import About from "./pages/About";
 import OrderSuccess from "./pages/OrderSuccess";
 import Auth from "./pages/Auth";
@@ -35,6 +36,7 @@ const App = () => (
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/product/:id" element={<ProductDetail />} />
                   <Route path="/cart" element={<Cart />} />
+                  <Route path="/payment-options" element={<PaymentOptions />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/order-success" element={<OrderSuccess />} />
