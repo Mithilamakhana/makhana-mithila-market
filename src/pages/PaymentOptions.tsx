@@ -89,34 +89,48 @@ const PaymentOptions = () => {
     }
   };
 
-  const paymentOptions = [
+  const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
+
+  const paymentMethods = [
     {
-      id: 'paytm',
-      name: 'Paytm',
+      id: 'upi',
+      name: 'UPI Payment',
       icon: Smartphone,
-      color: 'bg-blue-600 hover:bg-blue-700',
-      description: 'Pay using Paytm wallet or UPI'
+      amount: totalAmount,
+      subMethods: [
+        { id: 'scan_qr', name: 'Scan the QR code & pay via any UPI app', hasQR: true },
+        { id: 'enter_upi', name: 'Enter UPI ID', hasInput: true, placeholder: 'Enter UPI ID' }
+      ]
     },
     {
-      id: 'phonepe',
-      name: 'PhonePe',
-      icon: Smartphone,
-      color: 'bg-purple-600 hover:bg-purple-700',
-      description: 'Pay using PhonePe wallet or UPI'
+      id: 'card',
+      name: 'Credit/Debit Card',
+      icon: CreditCard,
+      amount: totalAmount,
+      subMethods: []
     },
     {
-      id: 'gpay',
-      name: 'Google Pay',
-      icon: Smartphone,
-      color: 'bg-green-600 hover:bg-green-700',
-      description: 'Pay using Google Pay'
+      id: 'netbanking',
+      name: 'Net Banking',
+      icon: CreditCard,
+      amount: totalAmount,
+      subMethods: []
+    },
+    {
+      id: 'partial_cod',
+      name: 'Partial COD',
+      icon: Banknote,
+      amount: 50,
+      description: `Pay Balance ₹${totalAmount} at Delivery`,
+      subMethods: []
     },
     {
       id: 'cod',
       name: 'Cash on Delivery',
       icon: Banknote,
-      color: 'bg-orange-600 hover:bg-orange-700',
-      description: 'Pay when your order is delivered'
+      amount: totalAmount,
+      description: 'Pay when your order is delivered',
+      subMethods: []
     }
   ];
 
@@ -167,32 +181,96 @@ const PaymentOptions = () => {
 
           {/* Payment Options */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-mithila-green mb-4">Select Payment Method</h3>
+            <h3 className="text-lg font-semibold text-mithila-green mb-4">Pay via</h3>
             
-            {paymentOptions.map((option) => {
-              const IconComponent = option.icon;
+            {paymentMethods.map((method) => {
+              const IconComponent = method.icon;
+              const isSelected = selectedPayment === method.id;
+              
               return (
-                <button
-                  key={option.id}
-                  onClick={() => handlePaymentOption(option.name)}
-                  disabled={isProcessing}
-                  className={`w-full p-4 rounded-lg border-2 border-gray-200 hover:border-mithila-green transition-colors duration-200 text-left group ${
-                    isProcessing ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-md'
-                  }`}
-                >
-                  <div className="flex items-center space-x-4">
-                    <div className={`p-3 rounded-full ${option.color} text-white group-hover:scale-110 transition-transform duration-200`}>
-                      <IconComponent className="h-6 w-6" />
+                <div key={method.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => setSelectedPayment(isSelected ? null : method.id)}
+                    disabled={isProcessing}
+                    className={`w-full p-4 text-left transition-colors duration-200 ${
+                      isSelected ? 'bg-blue-50 border-blue-200' : 'hover:bg-gray-50'
+                    } ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-6 h-6 border border-gray-300 rounded flex items-center justify-center">
+                          {isSelected && <div className="w-3 h-3 bg-blue-600 rounded-full" />}
+                        </div>
+                        <IconComponent className="h-5 w-5 text-gray-600" />
+                        <span className="font-medium text-gray-900">{method.name}</span>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-semibold text-gray-900">₹{method.amount}</div>
+                        {method.description && (
+                          <div className="text-xs text-gray-500">{method.description}</div>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex-grow">
-                      <h4 className="text-lg font-semibold text-mithila-green">{option.name}</h4>
-                      <p className="text-sm text-gray-600">{option.description}</p>
+                  </button>
+                  
+                  {isSelected && method.subMethods.length > 0 && (
+                    <div className="border-t border-gray-200 p-4 bg-gray-50">
+                      {method.subMethods.map((subMethod, index) => (
+                        <div key={subMethod.id} className={index > 0 ? 'mt-4' : ''}>
+                          <div className="flex items-center space-x-3 mb-2">
+                            <div className="w-4 h-4 border border-gray-300 rounded-full flex items-center justify-center">
+                              <div className="w-2 h-2 bg-blue-600 rounded-full" />
+                            </div>
+                            <span className="text-sm text-gray-700">{subMethod.name}</span>
+                          </div>
+                          
+                          {subMethod.hasQR && (
+                            <div className="ml-7">
+                              <div className="bg-white p-4 rounded border text-center">
+                                <div className="w-32 h-32 bg-gray-200 mx-auto mb-2 flex items-center justify-center">
+                                  <span className="text-xs text-gray-500">QR Code</span>
+                                </div>
+                                <div className="text-center mt-3">
+                                  <span className="text-sm font-medium">OR</span>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                          
+                          {subMethod.hasInput && (
+                            <div className="ml-7 mt-2">
+                              <input
+                                type="text"
+                                placeholder={subMethod.placeholder}
+                                className="w-full p-2 border border-gray-300 rounded text-sm"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      
+                      <Button 
+                        onClick={() => handlePaymentOption(method.name)}
+                        className="w-full mt-4 bg-blue-600 hover:bg-blue-700"
+                        disabled={isProcessing}
+                      >
+                        Pay ₹{method.amount}
+                      </Button>
                     </div>
-                    <div className="text-mithila-green">
-                      <ArrowLeft className="h-5 w-5 rotate-180" />
+                  )}
+                  
+                  {isSelected && method.subMethods.length === 0 && (
+                    <div className="border-t border-gray-200 p-4 bg-gray-50">
+                      <Button 
+                        onClick={() => handlePaymentOption(method.name)}
+                        className="w-full bg-blue-600 hover:bg-blue-700"
+                        disabled={isProcessing}
+                      >
+                        {method.id === 'cod' || method.id === 'partial_cod' ? 'Place Order' : `Pay ₹${method.amount}`}
+                      </Button>
                     </div>
-                  </div>
-                </button>
+                  )}
+                </div>
               );
             })}
           </div>
