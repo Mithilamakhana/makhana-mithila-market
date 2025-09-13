@@ -148,14 +148,154 @@ const Cart = () => {
       return;
     }
 
-    // Navigate to payment options page with order data
-    navigate('/payment-options', {
-      state: {
-        customerData: formData,
-        items: items,
-        totalAmount: getTotalPrice()
+    setIsProcessing(true);
+    
+    try {
+      // TODO: Razorpay integration commented out for now
+      // Temporarily skip payment processing and directly process the order
+      const orderAmount = getTotalPrice();
+      
+      /* COMMENTED OUT RAZORPAY INTEGRATION
+      // Create Razorpay order
+      const { data: razorpayOrder, error: razorpayError } = await supabase.functions.invoke('create-razorpay-order', {
+        body: {
+          amount: orderAmount,
+          currency: 'INR',
+          receipt: `receipt_${Date.now()}`
+        }
+      });
+
+      if (razorpayError) {
+        console.error('Error creating Razorpay order:', razorpayError);
+        throw new Error(`Payment setup failed: ${razorpayError.message}`);
       }
-    });
+
+      // Initialize Razorpay payment
+      const options = {
+        key: 'rzp_test_9999999999', // Replace with your actual Razorpay Key ID
+        amount: razorpayOrder.amount,
+        currency: razorpayOrder.currency,
+        name: 'Mithila Sattvik Makhana',
+        description: 'Order Payment',
+        order_id: razorpayOrder.id,
+        handler: async function (response: any) {
+          try {
+            // Verify payment
+            const { data: verificationResult, error: verificationError } = await supabase.functions.invoke('verify-razorpay-payment', {
+              body: {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
+              }
+            });
+
+            if (verificationError || !verificationResult.isValid) {
+              console.error('Payment verification failed:', verificationError);
+              toast({
+                title: "Payment Verification Failed",
+                description: "Please contact support with your payment details.",
+                variant: "destructive"
+              });
+              return;
+            }
+
+            // Send order notification after successful payment
+            const { data, error } = await supabase.functions.invoke('send-order-notification', {
+              body: {
+                customerData: formData,
+                items: items,
+                totalAmount: orderAmount,
+                paymentId: response.razorpay_payment_id,
+                orderId: response.razorpay_order_id
+              }
+            });
+
+            if (error) {
+              console.error('Error sending order notification:', error);
+              toast({
+                title: "Payment Successful",
+                description: "Your payment was successful. We'll process your order shortly.",
+              });
+            } else {
+              console.log('Order placed successfully:', data);
+              toast({
+                title: "Order Placed Successfully!",
+                description: "Thank you for your purchase. We'll contact you shortly.",
+              });
+            }
+            
+            // Clear cart and redirect
+            clearCart();
+            navigate('/order-success');
+          } catch (error) {
+            console.error('Post-payment processing error:', error);
+            toast({
+              title: "Payment Successful",
+              description: "Payment completed. Please contact support if you don't receive confirmation.",
+            });
+            clearCart();
+            navigate('/order-success');
+          }
+        },
+        prefill: {
+          name: formData.name,
+          email: formData.email,
+          contact: formData.phone
+        },
+        theme: {
+          color: '#2E7D32'
+        },
+        modal: {
+          ondismiss: function() {
+            setIsProcessing(false);
+          }
+        }
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
+      */
+
+      // Directly process order without payment (temporary solution)
+      const { data, error } = await supabase.functions.invoke('send-order-notification', {
+        body: {
+          customerData: formData,
+          items: items,
+          totalAmount: orderAmount,
+          paymentId: 'TEMP_NO_PAYMENT',
+          orderId: `ORDER_${Date.now()}`
+        }
+      });
+
+      if (error) {
+        console.error('Error sending order notification:', error);
+        toast({
+          title: "Order Processing Error",
+          description: "There was an error processing your order. Please try again.",
+          variant: "destructive"
+        });
+      } else {
+        console.log('Order placed successfully:', data);
+        toast({
+          title: "Order Placed Successfully!",
+          description: "Thank you for your order. We'll contact you shortly.",
+        });
+        
+        // Clear cart and redirect
+        clearCart();
+        navigate('/order-success');
+      }
+
+    } catch (error) {
+      console.error('Checkout error:', error);
+      toast({
+        title: "Error",
+        description: "There was an error processing your order. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (items.length === 0) {
