@@ -221,7 +221,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     let businessEmailSuccess = false;
     let businessEmailResponse = null;
-    let businessEmailError = null;
+    let businessEmailError: Error | null = null;
 
     // Send email to business
     try {
@@ -237,13 +237,13 @@ const handler = async (req: Request): Promise<Response> => {
       businessEmailSuccess = true;
     } catch (error) {
       console.error("Failed to send business email:", error);
-      businessEmailError = error;
+      businessEmailError = error instanceof Error ? error : new Error(String(error));
     }
 
     // Send confirmation email to customer
     let customerEmailSuccess = false;
     let customerEmailResponse = null;
-    let customerEmailError = null;
+    let customerEmailError: Error | null = null;
     
     try {
       console.log("Sending customer confirmation to:", customerData.email);
@@ -297,13 +297,13 @@ const handler = async (req: Request): Promise<Response> => {
       customerEmailSuccess = true;
     } catch (error) {
       console.error("Failed to send customer email:", error);
-      customerEmailError = error;
+      customerEmailError = error instanceof Error ? error : new Error(String(error));
     }
 
     // Send WhatsApp message to customer
     let whatsappSuccess = false;
     let whatsappResponse = null;
-    let whatsappError = null;
+    let whatsappError: Error | null = null;
 
     if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && TWILIO_WHATSAPP_NUMBER) {
       try {
@@ -345,7 +345,7 @@ Thank you for choosing Mithila Sattvik Makhana! 🌿`;
         whatsappSuccess = true;
       } catch (error) {
         console.error("Failed to send WhatsApp message:", error);
-        whatsappError = error;
+        whatsappError = error instanceof Error ? error : new Error(String(error));
       }
     } else {
       console.log("WhatsApp credentials not configured, skipping WhatsApp notification");
