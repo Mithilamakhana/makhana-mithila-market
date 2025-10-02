@@ -87,6 +87,37 @@ export const products: Product[] = [
       fiber: "14.5g per 100g"
     },
     inStock: true
+  },
+  {
+    id: "flavored-makhana",
+    name: "Flavored Makhana Mix",
+    description: "Experience the perfect blend of taste and nutrition with our specially crafted flavored makhana. Lightly seasoned with authentic Indian spices, this crunchy snack is ideal for those who love a burst of flavor. Made with the finest fox nuts from Mithila, roasted to perfection and seasoned with our secret spice blend.",
+    shortDescription: "Deliciously seasoned makhana with authentic Indian spices",
+    price: 699,
+    weight: "200g",
+    image: product4,
+    images: [
+      product4,
+      roasted_product1,
+      roasted,
+      Product2
+    ],
+    benefits: [
+      "Rich in flavor and nutrients",
+      "Low calorie healthy snack",
+      "Perfect for evening cravings",
+      "Natural source of calcium",
+      "Gluten-free and vegan"
+    ],
+    ingredients: ["Organic Fox Nuts (Euryale Ferox)", "Rock Salt", "Black Pepper", "Turmeric", "Cumin", "Natural Spices"],
+    nutritionalInfo: {
+      calories: "360 kcal per 100g",
+      protein: "9.5g per 100g",
+      fat: "1.2g per 100g",
+      carbohydrates: "75.8g per 100g",
+      fiber: "14.0g per 100g"
+    },
+    inStock: true
   }
 ];
 
