@@ -1,5 +1,9 @@
-import brand_product1 from '/pictures/brand_product1.png'
-import Product2 from '/pictures/Product2.png'
+import teak_front from '/pictures/brand_product1.jpg'
+import teak_back from '/pictures/teak_back.jpg'
+import orange_front from '/pictures/orange_front.jpg'
+import orange_back from '/pictures/orange_back.jpg'
+import Jumbo_back from '/pictures/Jumbo_back.jpg'
+import Jumbo_front from '/pictures/Jumbo_front.jpg'
 import product4 from '/pictures/product4.png'
 import roasted_product1 from '/pictures/roasted_product1.png'
 import roasted from '/pictures/roasted.jpg'
@@ -29,14 +33,15 @@ export interface Product {
 export const products: Product[] = [
   {
     id: "premium-makhana",
-    name: "Premium Makhana",
+    name: "Makhana Mixx",
     description: "Our flagship product, these premium grade fox nuts are carefully sourced from the heart of Mithila region. Each fox nut is handpicked to ensure superior quality and taste. Rich in protein and low in fat, these makhanas are perfect for health-conscious snackers and those looking to add a nutritional boost to their diet.",
     shortDescription: "Premium quality fox nuts from the heart of Mithila",
-    price: 549,
+    price: 400,
     weight: "250g",
-    image: brand_product1,
+    image: teak_front,
     images: [
-      brand_product1,
+      teak_front,
+      teak_back,
       product4,
       roasted_product1,
       roasted,
@@ -61,13 +66,14 @@ export const products: Product[] = [
   },
   {
     id: "roasted-makhana",
-    name: "Premium Makhana",
+    name: "Sattvik Select",
     description: "Our flagship product, these premium grade fox nuts are carefully sourced from the heart of Mithila region. Each fox nut is handpicked to ensure superior quality and taste. Rich in protein and low in fat, these makhanas are perfect for health-conscious snackers and those looking to add a nutritional boost to their diet.",
     shortDescription: "Handpicked fox nuts from Mithila, prized for their superior size and quality",
-    price: 649,
+    price: 425,
     weight: "250g",
     image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
-    images: [Product2,
+    images: [orange_front,
+      orange_back,
       roasted_product1,
       roasted,
       pudding_product1],
@@ -90,17 +96,17 @@ export const products: Product[] = [
   },
   {
     id: "flavored-makhana",
-    name: "Flavored Makhana Mix",
+    name: "Shressth Jumbo",
     description: "Experience the perfect blend of taste and nutrition with our specially crafted flavored makhana. Lightly seasoned with authentic Indian spices, this crunchy snack is ideal for those who love a burst of flavor. Made with the finest fox nuts from Mithila, roasted to perfection and seasoned with our secret spice blend.",
     shortDescription: "Deliciously seasoned makhana with authentic Indian spices",
-    price: 699,
-    weight: "200g",
+    price: 500,
+    weight: "250g",
     image: product4,
     images: [
-      product4,
+      Jumbo_front,
+      Jumbo_back,
       roasted_product1,
       roasted,
-      Product2
     ],
     benefits: [
       "Rich in flavor and nutrients",
