@@ -58,7 +58,7 @@ const ProductsSection = () => {
               </div>
               <CardContent className="pt-6">
                 <h3 className="text-xl font-bold mb-2">{product.name}</h3>
-                <p className="text-gray-600 mb-4">{product.description}</p>
+                <div className="text-gray-600 mb-4" dangerouslySetInnerHTML={{ __html: product.description }} />
                 <p className="text-2xl font-bold text-primary">{product.price}</p>
               </CardContent>
               <CardFooter className="pt-0">

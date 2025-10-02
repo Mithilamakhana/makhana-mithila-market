@@ -4,8 +4,6 @@ import orange_front from '/pictures/orange_front.jpg'
 import orange_back from '/pictures/orange_back.jpg'
 import Jumbo_back from '/pictures/Jumbo_back.jpg'
 import Jumbo_front from '/pictures/Jumbo_front.jpg'
-import product4 from '/pictures/product4.png'
-import roasted_product1 from '/pictures/roasted_product1.png'
 import roasted from '/pictures/roasted.jpg'
 import pudding_product1 from '/pictures/pudding_product1.png'
 
@@ -34,16 +32,14 @@ export const products: Product[] = [
   {
     id: "premium-makhana",
     name: "Makhana Mixx",
-    description: "Our flagship product, these premium grade fox nuts are carefully sourced from the heart of Mithila region. Each fox nut is handpicked to ensure superior quality and taste. Rich in protein and low in fat, these makhanas are perfect for health-conscious snackers and those looking to add a nutritional boost to their diet.",
-    shortDescription: "Premium quality fox nuts from the heart of Mithila",
+    description: "Discover the authentic taste of Mithila with Makhana Mixx – a carefully curated blend of premium-grade fox nuts (makhana) featuring a mix of 4, 5, and 6 sutta sizes. This unique combination ensures the perfect balance of texture, crunch, and flavor in every bite. Sourced directly from the fertile lands of Mithila and processed with the utmost care, our makhana mix brings together variety and quality in one wholesome pack.",
+    shortDescription: "A premium blend of 4, 5 & 6 sutta-sized fox nuts, handpicked from the heart of Mithila.",
     price: 400,
     weight: "250g",
     image: teak_front,
     images: [
       teak_front,
       teak_back,
-      product4,
-      roasted_product1,
       roasted,
       pudding_product1,
     ],
@@ -68,13 +64,12 @@ export const products: Product[] = [
     id: "roasted-makhana",
     name: "Sattvik Select",
     description: "Our flagship product, these premium grade fox nuts are carefully sourced from the heart of Mithila region. Each fox nut is handpicked to ensure superior quality and taste. Rich in protein and low in fat, these makhanas are perfect for health-conscious snackers and those looking to add a nutritional boost to their diet.",
-    shortDescription: "Handpicked fox nuts from Mithila, prized for their superior size and quality",
+    shortDescription: "Handpicked fox nuts from Mithila, prized for their superior 6+ sutta size and unmatched quality.",
     price: 425,
     weight: "250g",
     image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
     images: [orange_front,
       orange_back,
-      roasted_product1,
       roasted,
       pudding_product1],
     benefits: [
@@ -97,15 +92,14 @@ export const products: Product[] = [
   {
     id: "flavored-makhana",
     name: "Shressth Jumbo",
-    description: "Experience the perfect blend of taste and nutrition with our specially crafted flavored makhana. Lightly seasoned with authentic Indian spices, this crunchy snack is ideal for those who love a burst of flavor. Made with the finest fox nuts from Mithila, roasted to perfection and seasoned with our secret spice blend.",
-    shortDescription: "Deliciously seasoned makhana with authentic Indian spices",
+    description: "At Shressth Jumbo, we believe that size matters—especially when it comes to taste and crunch! That’s why we carefully handpick only the biggest, fluffiest makhanas from the harvest. Each piece is selected for its superior size and texture, ensuring a premium snacking experience.No broken bits, no compromises—just the finest, crispiest lotus seeds nature has to offer.",
+    shortDescription: "Handpicked Jumbo Makhana – Only the Best",
     price: 500,
     weight: "250g",
-    image: product4,
+    image: Jumbo_front,
     images: [
       Jumbo_front,
       Jumbo_back,
-      roasted_product1,
       roasted,
     ],
     benefits: [
@@ -115,7 +109,7 @@ export const products: Product[] = [
       "Natural source of calcium",
       "Gluten-free and vegan"
     ],
-    ingredients: ["Organic Fox Nuts (Euryale Ferox)", "Rock Salt", "Black Pepper", "Turmeric", "Cumin", "Natural Spices"],
+    ingredients: ["100% Organic Fox Nuts (Euryale Ferox)", "Handpicked"],
     nutritionalInfo: {
       calories: "360 kcal per 100g",
       protein: "9.5g per 100g",
