@@ -17,6 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from '@/hooks/use-toast';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import MascotFloating from '@/components/MascotFloating';
+import ImageGalleryDialog from '@/components/ImageGalleryDialog';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,6 +25,8 @@ const ProductDetail = () => {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = React.useState(1);
   const [showPlusOne, setShowPlusOne] = React.useState(false);
+  const [isGalleryOpen, setIsGalleryOpen] = React.useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = React.useState(0);
   
   const product = id ? getProductById(id) : undefined;
   
@@ -65,11 +68,14 @@ const ProductDetail = () => {
                 <CarouselContent>
                   {product.images.map((image, index) => (
                     <CarouselItem key={index}>
-                      <AspectRatio ratio={1 / 1} className="bg-white">
+                      <AspectRatio ratio={1 / 1} className="bg-white cursor-pointer" onClick={() => {
+                        setSelectedImageIndex(index);
+                        setIsGalleryOpen(true);
+                      }}>
                         <img 
                           src={image} 
                           alt={`${product.name} - View ${index + 1}`} 
-                          className="h-full w-full object-cover"
+                          className="h-full w-full object-cover hover:opacity-90 transition-opacity"
                         />
                       </AspectRatio>
                     </CarouselItem>
@@ -79,11 +85,11 @@ const ProductDetail = () => {
                 <CarouselNext className="right-2" />
               </Carousel>
             ) : (
-              <AspectRatio ratio={1 / 1} className="bg-white">
+              <AspectRatio ratio={1 / 1} className="bg-white cursor-pointer" onClick={() => setIsGalleryOpen(true)}>
                 <img 
                   src={product.image} 
                   alt={product.name} 
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover hover:opacity-90 transition-opacity"
                 />
               </AspectRatio>
             )}
@@ -186,6 +192,14 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+
+      <ImageGalleryDialog
+        images={product.images.length > 1 ? product.images : [product.image]}
+        initialIndex={selectedImageIndex}
+        isOpen={isGalleryOpen}
+        onClose={() => setIsGalleryOpen(false)}
+        productName={product.name}
+      />
 
       <MascotFloating />
     </div>

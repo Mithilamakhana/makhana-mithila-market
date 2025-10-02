@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
 import { ShoppingCart, Images, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ImageGalleryDialog from './ImageGalleryDialog';
 
 interface ProductCardProps {
   product: Product;
@@ -16,7 +15,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPlusOne, setShowPlusOne] = useState(false);
-  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
   const nextImage = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -45,11 +43,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <img 
                 src={product.images[currentImageIndex]} 
                 alt={`${product.name} - View ${currentImageIndex + 1}`} 
-                className="h-full w-full object-contain md:object-contain transition-opacity duration-300 cursor-pointer"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsGalleryOpen(true);
-                }}
+                className="h-full w-full object-contain md:object-contain transition-opacity duration-300"
               />
             )}
           </div>
@@ -133,13 +127,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
       </div>
 
-      <ImageGalleryDialog
-        images={product.images}
-        initialIndex={currentImageIndex}
-        isOpen={isGalleryOpen}
-        onClose={() => setIsGalleryOpen(false)}
-        productName={product.name}
-      />
     </div>
   );
 };
