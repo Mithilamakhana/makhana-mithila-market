@@ -43,7 +43,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <img 
                 src={product.images[currentImageIndex]} 
                 alt={`${product.name} - View ${currentImageIndex + 1}`} 
-                className="h-full w-full object-cover transition-opacity duration-300"
+                className="h-full w-full object-contain md:object-contain transition-opacity duration-300"
               />
             )}
           </div>
