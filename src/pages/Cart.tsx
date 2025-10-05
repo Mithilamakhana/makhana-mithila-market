@@ -151,140 +151,105 @@ const Cart = () => {
     setIsProcessing(true);
     
     try {
-      // TODO: Razorpay integration commented out for now
-      // Temporarily skip payment processing and directly process the order
       const orderAmount = getTotalPrice();
       
-      /* COMMENTED OUT RAZORPAY INTEGRATION
-      // Create Razorpay order
-      const { data: razorpayOrder, error: razorpayError } = await supabase.functions.invoke('create-razorpay-order', {
+      // Create Cashfree order
+      const { data: cashfreeOrder, error: cashfreeError } = await supabase.functions.invoke('create-cashfree-order', {
         body: {
           amount: orderAmount,
-          currency: 'INR',
-          receipt: `receipt_${Date.now()}`
+          customer_details: {
+            customer_id: `cust_${Date.now()}`,
+            customer_email: formData.email,
+            customer_phone: formData.phone,
+            customer_name: formData.name,
+          },
+          order_meta: {
+            return_url: `${window.location.origin}/order-success`,
+          }
         }
       });
 
-      if (razorpayError) {
-        console.error('Error creating Razorpay order:', razorpayError);
-        throw new Error(`Payment setup failed: ${razorpayError.message}`);
+      if (cashfreeError) {
+        console.error('Error creating Cashfree order:', cashfreeError);
+        throw new Error(`Payment setup failed: ${cashfreeError.message}`);
       }
 
-      // Initialize Razorpay payment
-      const options = {
-        key: 'rzp_test_9999999999', // Replace with your actual Razorpay Key ID
-        amount: razorpayOrder.amount,
-        currency: razorpayOrder.currency,
-        name: 'Mithila Sattvik Makhana',
-        description: 'Order Payment',
-        order_id: razorpayOrder.id,
-        handler: async function (response: any) {
-          try {
-            // Verify payment
-            const { data: verificationResult, error: verificationError } = await supabase.functions.invoke('verify-razorpay-payment', {
-              body: {
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature
-              }
-            });
+      console.log('Cashfree order created:', cashfreeOrder);
 
-            if (verificationError || !verificationResult.isValid) {
-              console.error('Payment verification failed:', verificationError);
-              toast({
-                title: "Payment Verification Failed",
-                description: "Please contact support with your payment details.",
-                variant: "destructive"
-              });
-              return;
-            }
-
-            // Send order notification after successful payment
-            const { data, error } = await supabase.functions.invoke('send-order-notification', {
-              body: {
-                customerData: formData,
-                items: items,
-                totalAmount: orderAmount,
-                paymentId: response.razorpay_payment_id,
-                orderId: response.razorpay_order_id
-              }
-            });
-
-            if (error) {
-              console.error('Error sending order notification:', error);
-              toast({
-                title: "Payment Successful",
-                description: "Your payment was successful. We'll process your order shortly.",
-              });
-            } else {
-              console.log('Order placed successfully:', data);
-              toast({
-                title: "Order Placed Successfully!",
-                description: "Thank you for your purchase. We'll contact you shortly.",
-              });
-            }
-            
-            // Clear cart and redirect
-            clearCart();
-            navigate('/order-success');
-          } catch (error) {
-            console.error('Post-payment processing error:', error);
-            toast({
-              title: "Payment Successful",
-              description: "Payment completed. Please contact support if you don't receive confirmation.",
-            });
-            clearCart();
-            navigate('/order-success');
-          }
-        },
-        prefill: {
-          name: formData.name,
-          email: formData.email,
-          contact: formData.phone
-        },
-        theme: {
-          color: '#2E7D32'
-        },
-        modal: {
-          ondismiss: function() {
-            setIsProcessing(false);
-          }
-        }
-      };
-
-      const rzp = new (window as any).Razorpay(options);
-      rzp.open();
-      */
-
-      // Directly process order without payment (temporary solution)
-      const { data, error } = await supabase.functions.invoke('send-order-notification', {
-        body: {
-          customerData: formData,
-          items: items,
-          totalAmount: orderAmount,
-          paymentId: 'TEMP_NO_PAYMENT',
-          orderId: `ORDER_${Date.now()}`
-        }
+      // Initialize Cashfree Checkout
+      const cashfree = (window as any).Cashfree({
+        mode: "sandbox" // Use "production" for live environment
       });
 
-      if (error) {
-        console.error('Error sending order notification:', error);
-        toast({
-          title: "Order Processing Error",
-          description: "There was an error processing your order. Please try again.",
-          variant: "destructive"
+      const checkoutOptions = {
+        paymentSessionId: cashfreeOrder.payment_session_id,
+        returnUrl: `${window.location.origin}/order-success`,
+      };
+
+      // Open Cashfree payment modal
+      cashfree.checkout(checkoutOptions).then(async (result: any) => {
+        if (result.error) {
+          console.error('Payment error:', result.error);
+          toast({
+            title: "Payment Failed",
+            description: result.error.message || "Payment could not be processed",
+            variant: "destructive"
+          });
+          setIsProcessing(false);
+          return;
+        }
+
+        if (result.redirect) {
+          console.log('Payment redirect initiated');
+        }
+
+        // Verify payment
+        const { data: verificationResult, error: verificationError } = await supabase.functions.invoke('verify-cashfree-payment', {
+          body: {
+            order_id: cashfreeOrder.order_id,
+          }
         });
-      } else {
-        console.log('Order placed successfully:', data);
-        toast({
-          title: "Order Placed Successfully!",
-          description: "Thank you for your order. We'll contact you shortly.",
+
+        if (verificationError || !verificationResult.isValid) {
+          console.error('Payment verification failed:', verificationError);
+          toast({
+            title: "Payment Verification Failed",
+            description: "Please contact support with your order details.",
+            variant: "destructive"
+          });
+          setIsProcessing(false);
+          return;
+        }
+
+        // Send order notification after successful payment
+        const { data, error } = await supabase.functions.invoke('send-order-notification', {
+          body: {
+            customerData: formData,
+            items: items,
+            totalAmount: orderAmount,
+            paymentId: cashfreeOrder.cf_order_id,
+            orderId: cashfreeOrder.order_id
+          }
         });
+
+        if (error) {
+          console.error('Error sending order notification:', error);
+          toast({
+            title: "Payment Successful",
+            description: "Your payment was successful. We'll process your order shortly.",
+          });
+        } else {
+          console.log('Order placed successfully:', data);
+          toast({
+            title: "Order Placed Successfully!",
+            description: "Thank you for your purchase. We'll contact you shortly.",
+          });
+        }
         
         // Clear cart and redirect
         clearCart();
         navigate('/order-success');
-      }
+      });
 
     } catch (error) {
       console.error('Checkout error:', error);
@@ -293,7 +258,6 @@ const Cart = () => {
         description: "There was an error processing your order. Please try again.",
         variant: "destructive"
       });
-    } finally {
       setIsProcessing(false);
     }
   };
