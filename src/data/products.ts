@@ -4,7 +4,7 @@ import orange_front from '/pictures/orange_front.jpg'
 import orange_back from '/pictures/orange_back.jpg'
 import Jumbo_back from '/pictures/Jumbo_back.jpg'
 import Jumbo_front from '/pictures/Jumbo_front.jpg'
-import roasted from '/pictures/roasted.jpg'
+import new_makhana_hd from '/pictures/new_makhana_hd.jpg'
 import pudding_product1 from '/pictures/pudding_product1.png'
 
 export interface Product {
@@ -40,7 +40,7 @@ export const products: Product[] = [
     images: [
       teak_front,
       teak_back,
-      roasted,
+      new_makhana_hd,
       pudding_product1,
     ],
     benefits: [
@@ -70,7 +70,7 @@ export const products: Product[] = [
     image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
     images: [orange_front,
       orange_back,
-      roasted,
+      new_makhana_hd,
       pudding_product1],
     benefits: [
       "High in protein and low in fat",
@@ -100,7 +100,7 @@ export const products: Product[] = [
     images: [
       Jumbo_front,
       Jumbo_back,
-      roasted,
+      new_makhana_hd,
     ],
     benefits: [
       "Rich in flavor and nutrients",
