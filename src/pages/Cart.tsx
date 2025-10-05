@@ -184,6 +184,18 @@ const Cart = () => {
       const checkoutOptions = {
         paymentSessionId: cashfreeOrder.payment_session_id,
         returnUrl: `${window.location.origin}/order-success`,
+        redirectTarget: "_modal", // Keep it as modal
+        appearance: {
+          primary_color: "#D97706",
+          merchant_name: "Mithila Sattvik Makhana",
+        },
+        components: {
+          order_details: {
+            show_order_details: true,
+            amount: orderAmount,
+            currency: "INR"
+          }
+        }
       };
 
       // Open Cashfree payment modal

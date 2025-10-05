@@ -56,7 +56,12 @@ const handler = async (req: Request): Promise<Response> => {
       order_amount: amount,
       order_currency: "INR",
       customer_details,
-      order_meta: order_meta || {},
+      order_meta: {
+        ...order_meta,
+        notify_url: order_meta?.notify_url || null,
+        payment_methods: null
+      },
+      order_note: "Order from Mithila Sattvik Makhana",
     };
 
     // Create order on Cashfree
