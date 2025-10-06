@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.224.0/http/mod.ts";
-import { createHmac } from "https://deno.land/std@0.224.0/crypto/crypto.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -43,10 +42,25 @@ const handler = async (req: Request): Promise<Response> => {
     // Create the signature string
     const signatureBody = `${razorpay_order_id}|${razorpay_payment_id}`;
     
-    // Create HMAC SHA256 signature
-    const expectedSignature = await createHmac("sha256", new TextEncoder().encode(RAZORPAY_KEY_SECRET))
-      .update(new TextEncoder().encode(signatureBody))
-      .digest("hex");
+    // Create HMAC SHA256 signature using Web Crypto API
+    const encoder = new TextEncoder();
+    const keyData = encoder.encode(RAZORPAY_KEY_SECRET);
+    const messageData = encoder.encode(signatureBody);
+    
+    const cryptoKey = await crypto.subtle.importKey(
+      "raw",
+      keyData,
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"]
+    );
+    
+    const signature = await crypto.subtle.sign("HMAC", cryptoKey, messageData);
+    
+    // Convert signature to hex string
+    const expectedSignature = Array.from(new Uint8Array(signature))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
 
     // Compare signatures
     const isValid = expectedSignature === razorpay_signature;

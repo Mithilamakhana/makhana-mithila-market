@@ -178,7 +178,7 @@ const Cart = () => {
 
       // Initialize Cashfree Checkout
       const cashfree = (window as any).Cashfree({
-        mode: "sandbox" // Use "production" for live environment
+        mode: "production"
       });
 
       const checkoutOptions = {
