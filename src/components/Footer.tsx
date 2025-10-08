@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-r from-emerald-700 to-teal-800 text-white pt-8 sm:pt-10 pb-4 sm:pb-6">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10">
           <div>
             <Link to="/" className="flex items-center gap-2 mb-4 sm:mb-5">
               <img 
@@ -29,6 +29,16 @@ const Footer = () => {
               <li><Link to="/products" className="text-gray-300 hover:text-mithila-gold hover:underline text-sm transition-colors">Products</Link></li>
               <li><Link to="/about" className="text-gray-300 hover:text-mithila-gold hover:underline text-sm transition-colors">About Us</Link></li>
               <li><Link to="/cart" className="text-gray-300 hover:text-mithila-gold hover:underline text-sm transition-colors">Cart</Link></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="text-base sm:text-lg font-semibold mb-4 sm:mb-5 text-mithila-gold">Policies</h4>
+            <ul className="space-y-2 sm:space-y-3">
+              <li><Link to="/terms" className="text-gray-300 hover:text-mithila-gold hover:underline text-sm transition-colors">Terms & Conditions</Link></li>
+              <li><Link to="/privacy" className="text-gray-300 hover:text-mithila-gold hover:underline text-sm transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/refund-policy" className="text-gray-300 hover:text-mithila-gold hover:underline text-sm transition-colors">Refund Policy</Link></li>
+              <li><Link to="/shipping-policy" className="text-gray-300 hover:text-mithila-gold hover:underline text-sm transition-colors">Shipping Policy</Link></li>
             </ul>
           </div>
           

@@ -17,6 +17,10 @@ import Cart from "./pages/Cart";
 import About from "./pages/About";
 import OrderSuccess from "./pages/OrderSuccess";
 import Auth from "./pages/Auth";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import RefundPolicy from "./pages/RefundPolicy";
+import ShippingPolicy from "./pages/ShippingPolicy";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +44,10 @@ const App = () => (
                   <Route path="/about" element={<About />} />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/order-success" element={<OrderSuccess />} />
+                  <Route path="/terms" element={<TermsAndConditions />} />
+                  <Route path="/privacy" element={<PrivacyPolicy />} />
+                  <Route path="/refund-policy" element={<RefundPolicy />} />
+                  <Route path="/shipping-policy" element={<ShippingPolicy />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
