@@ -21,6 +21,8 @@ import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import RefundPolicy from "./pages/RefundPolicy";
 import ShippingPolicy from "./pages/ShippingPolicy";
+import SubmitTestimonial from "./pages/SubmitTestimonial";
+import AdminTestimonials from "./pages/AdminTestimonials";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +50,8 @@ const App = () => (
                   <Route path="/privacy" element={<PrivacyPolicy />} />
                   <Route path="/refund-policy" element={<RefundPolicy />} />
                   <Route path="/shipping-policy" element={<ShippingPolicy />} />
+                  <Route path="/submit-testimonial" element={<SubmitTestimonial />} />
+                  <Route path="/admin/testimonials" element={<AdminTestimonials />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
