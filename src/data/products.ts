@@ -58,7 +58,7 @@ export const products: Product[] = [
       carbohydrates: "76.9g per 100g",
       fiber: "14.5g per 100g"
     },
-    inStock: true
+    inStock: false
   },
   {
     id: "roasted-makhana",
@@ -87,7 +87,7 @@ export const products: Product[] = [
       carbohydrates: "76.9g per 100g",
       fiber: "14.5g per 100g"
     },
-    inStock: true
+    inStock: false
   },
   {
     id: "flavored-makhana",
@@ -117,7 +117,7 @@ export const products: Product[] = [
       carbohydrates: "75.8g per 100g",
       fiber: "14.0g per 100g"
     },
-    inStock: true
+    inStock: false
   }
 ];
 
