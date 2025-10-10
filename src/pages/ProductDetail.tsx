@@ -96,7 +96,14 @@ const ProductDetail = () => {
           </div>
           
           <div>
-            <h1 className="text-3xl font-bold text-mithila-green mb-2">{product.name}</h1>
+            <div className="flex items-start gap-3 mb-2">
+              <h1 className="text-3xl font-bold text-mithila-green">{product.name}</h1>
+              {!product.inStock && (
+                <span className="bg-red-500 text-white text-sm font-semibold px-3 py-1 rounded whitespace-nowrap mt-1">
+                  Out of Stock
+                </span>
+              )}
+            </div>
             <p className="text-gray-600 mb-4">{product.shortDescription}</p>
             
             <div className="flex items-center gap-4 mb-4">
@@ -109,15 +116,17 @@ const ProductDetail = () => {
             <div className="flex items-center gap-4 mb-6">
               <div className="flex items-center border border-gray-300 rounded-md">
                 <button 
-                  className="px-3 py-1 border-r border-gray-300 hover:bg-gray-100"
+                  className="px-3 py-1 border-r border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+                  disabled={!product.inStock}
                 >
                   -
                 </button>
                 <span className="px-4 py-1">{quantity}</span>
                 <button 
-                  className="px-3 py-1 border-l border-gray-300 hover:bg-gray-100"
+                  className="px-3 py-1 border-l border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => setQuantity(quantity + 1)}
+                  disabled={!product.inStock}
                 >
                   +
                 </button>
@@ -125,11 +134,12 @@ const ProductDetail = () => {
               
               <div className="relative">
                 <Button 
-                  className="bg-mithila-orange hover:bg-mithila-gold text-white"
+                  className="bg-mithila-orange hover:bg-mithila-gold text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={handleAddToCart}
+                  disabled={!product.inStock}
                 >
                   <ShoppingCart className="mr-2 h-5 w-5" />
-                  Add to Cart
+                  {product.inStock ? 'Add to Cart' : 'Out of Stock'}
                 </Button>
                 
                 <AnimatePresence>
