@@ -7,6 +7,7 @@ import { Button } from '../components/ui/button.tsx';
 import { ArrowRight } from 'lucide-react';
 import MakhanaSlideshow from '../components/MakhanaSlideshow.tsx';
 import MascotFloating from '../components/MascotFloating.tsx';
+import TestimonialsSection from '../components/TestimonialsSection.tsx';
 
 const Index = () => {
   return (
@@ -130,31 +131,7 @@ const Index = () => {
       </section>
 
       {/* Testimonial Section */}
-      <section className="py-10 sm:py-12 md:py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-mithila-green mb-3 sm:mb-4">What Our Customers Say</h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            <div className="bg-mithila-cream p-4 sm:p-6 rounded-lg shadow-md border border-mithila-gold/20">
-              <p className="text-gray-600 italic mb-3 sm:mb-4 text-sm sm:text-base">
-                "I've tried many makhana brands, but Mithila Sattvik Makhana stands out for its 
-                exceptional quality and taste. The fox nuts are perfectly sized and have a wonderful crunch!"
-              </p>
-              <p className="font-semibold text-mithila-green">- Ananya S., Delhi</p>
-            </div>
-            
-            <div className="bg-mithila-cream p-4 sm:p-6 rounded-lg shadow-md border border-mithila-gold/20">
-              <p className="text-gray-600 italic mb-3 sm:mb-4 text-sm sm:text-base">
-                "As someone who's very health conscious, I appreciate that these makhanas are 100% natural. 
-                They've become my go-to snack during work hours and have helped me avoid unhealthy alternatives."
-              </p>
-              <p className="font-semibold text-mithila-green">- Rajesh K., Mumbai</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <TestimonialsSection />
 
       {/* Add Mascot Floating Component */}
       <MascotFloating />
