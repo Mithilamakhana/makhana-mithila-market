@@ -4,6 +4,7 @@ import { Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface Testimonial {
   id: string;
@@ -57,53 +58,56 @@ const TestimonialsSection = () => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {testimonials.map((testimonial) => (
-                <Card key={testimonial.id} className="bg-secondary border-none h-full">
-                  <CardContent className="p-8">
-                    <div className="flex flex-col h-full">
-                      <div className="mb-4 flex gap-1">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star
-                            key={i}
-                            className={`w-5 h-5 ${
-                              i < testimonial.rating
-                                ? 'fill-yellow-400 text-yellow-400'
-                                : 'text-gray-300'
-                            }`}
-                          />
-                        ))}
-                      </div>
-                      <div className="mb-6">
-                        <svg
-                          className="w-10 h-10 text-primary/30"
-                          fill="currentColor"
-                          viewBox="0 0 32 32"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M10.7 25.4c-1.9 0-3.5-0.7-4.8-2-1.3-1.3-2-3-2-4.9 0-1.6 0.4-3.2 1.3-4.7 0.9-1.5 2-2.8 3.4-3.9 1.5-1.1 2.9-1.9 4.3-2.5 1.4-0.6 3-1 4.7-1.2l0.4 2.5c-2.3 0.2-4.3 0.8-6 1.8-1.8 1-3 2.3-3.7 3.9 0.3-0.2 0.7-0.3 1.2-0.4 0.4-0.1 0.8-0.2 1.2-0.2 1.8 0 3.2 0.6 4.4 1.7 1.1 1.1 1.7 2.6 1.7 4.4 0 1.8-0.6 3.3-1.8 4.5-1.1 1.3-2.6 1.9-4.3 1.9z"></path>
-                          <path d="M24.7 25.4c-1.9 0-3.5-0.7-4.8-2-1.3-1.3-2-3-2-4.9 0-1.6 0.4-3.2 1.3-4.7 0.9-1.5 2-2.8 3.4-3.9 1.5-1.1 2.9-1.9 4.3-2.5 1.4-0.6 3-1 4.7-1.2l0.4 2.5c-2.3 0.2-4.3 0.8-6 1.8-1.8 1-3 2.3-3.7 3.9 0.3-0.2 0.7-0.3 1.2-0.4 0.4-0.1 0.8-0.2 1.2-0.2 1.8 0 3.2 0.6 4.4 1.7 1.1 1.1 1.7 2.6 1.7 4.4 0 1.8-0.6 3.3-1.8 4.5-1.1 1.3-2.6 1.9-4.3 1.9z"></path>
-                        </svg>
-                      </div>
-                      <p className="text-lg mb-6 flex-grow">{testimonial.comment}</p>
-                      <div className="flex items-center">
-                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
-                          <span className="text-lg font-bold text-primary">
-                            {testimonial.name.split(' ').map(n => n[0]).join('')}
-                          </span>
+            <ScrollArea className="w-full whitespace-nowrap">
+              <div className="flex gap-6 pb-4">
+                {testimonials.map((testimonial) => (
+                  <Card key={testimonial.id} className="bg-secondary border-none w-[350px] flex-shrink-0">
+                    <CardContent className="p-8">
+                      <div className="flex flex-col h-full">
+                        <div className="mb-4 flex gap-1">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-5 h-5 ${
+                                i < testimonial.rating
+                                  ? 'fill-yellow-400 text-yellow-400'
+                                  : 'text-gray-300'
+                              }`}
+                            />
+                          ))}
                         </div>
-                        <div>
-                          <h4 className="font-bold">{testimonial.name}</h4>
-                          {testimonial.title && (
-                            <p className="text-sm text-gray-600">{testimonial.title}</p>
-                          )}
+                        <div className="mb-6">
+                          <svg
+                            className="w-10 h-10 text-primary/30"
+                            fill="currentColor"
+                            viewBox="0 0 32 32"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path d="M10.7 25.4c-1.9 0-3.5-0.7-4.8-2-1.3-1.3-2-3-2-4.9 0-1.6 0.4-3.2 1.3-4.7 0.9-1.5 2-2.8 3.4-3.9 1.5-1.1 2.9-1.9 4.3-2.5 1.4-0.6 3-1 4.7-1.2l0.4 2.5c-2.3 0.2-4.3 0.8-6 1.8-1.8 1-3 2.3-3.7 3.9 0.3-0.2 0.7-0.3 1.2-0.4 0.4-0.1 0.8-0.2 1.2-0.2 1.8 0 3.2 0.6 4.4 1.7 1.1 1.1 1.7 2.6 1.7 4.4 0 1.8-0.6 3.3-1.8 4.5-1.1 1.3-2.6 1.9-4.3 1.9z"></path>
+                            <path d="M24.7 25.4c-1.9 0-3.5-0.7-4.8-2-1.3-1.3-2-3-2-4.9 0-1.6 0.4-3.2 1.3-4.7 0.9-1.5 2-2.8 3.4-3.9 1.5-1.1 2.9-1.9 4.3-2.5 1.4-0.6 3-1 4.7-1.2l0.4 2.5c-2.3 0.2-4.3 0.8-6 1.8-1.8 1-3 2.3-3.7 3.9 0.3-0.2 0.7-0.3 1.2-0.4 0.4-0.1 0.8-0.2 1.2-0.2 1.8 0 3.2 0.6 4.4 1.7 1.1 1.1 1.7 2.6 1.7 4.4 0 1.8-0.6 3.3-1.8 4.5-1.1 1.3-2.6 1.9-4.3 1.9z"></path>
+                          </svg>
+                        </div>
+                        <p className="text-lg mb-6 flex-grow whitespace-normal">{testimonial.comment}</p>
+                        <div className="flex items-center">
+                          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                            <span className="text-lg font-bold text-primary">
+                              {testimonial.name.split(' ').map(n => n[0]).join('')}
+                            </span>
+                          </div>
+                          <div>
+                            <h4 className="font-bold">{testimonial.name}</h4>
+                            {testimonial.title && (
+                              <p className="text-sm text-gray-600">{testimonial.title}</p>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
             
             <div className="text-center mt-12">
               <Button onClick={() => navigate('/submit-testimonial')} variant="outline">
