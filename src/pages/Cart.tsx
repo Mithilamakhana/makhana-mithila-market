@@ -164,7 +164,7 @@ const Cart = () => {
             customer_name: formData.name,
           },
           order_meta: {
-            return_url: `${window.location.origin}/order-success`,
+            return_url: `${import.meta.env.VITE_BASE_URL}/order-success`,
           }
         }
       });
@@ -183,7 +183,7 @@ const Cart = () => {
 
       const checkoutOptions = {
         paymentSessionId: cashfreeOrder.payment_session_id,
-        returnUrl: `${window.location.origin}/order-success`,
+  returnUrl: `${import.meta.env.VITE_BASE_URL}/order-success`,
         redirectTarget: "_modal", // Keep it as modal
         appearance: {
           primary_color: "#D97706",

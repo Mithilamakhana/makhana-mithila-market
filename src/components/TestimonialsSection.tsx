@@ -1,10 +1,11 @@
-import { useEffect, useState, useCallback } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
-import useEmblaCarousel from "embla-carousel-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
+import { useMediaQuery } from '@/hooks/use-mobile';
 
 interface Testimonial {
   id: string;
@@ -18,19 +19,12 @@ interface Testimonial {
 const TestimonialsSection = () => {
   const navigate = useNavigate();
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    loop: true,
-    align: "start",
-    slidesToScroll: 1
-  });
 
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
+  const isMobile = useMediaQuery("(max-width: 640px)");
+  const isTablet = useMediaQuery("(min-width: 641px) and (max-width: 1023px)");
+  let slidesToShow = 3;
+  if (isMobile) slidesToShow = 1;
+  else if (isTablet) slidesToShow = 2;
 
   useEffect(() => {
     fetchTestimonials();
@@ -52,12 +46,12 @@ const TestimonialsSection = () => {
     }
   };
   return (
-    <section id="testimonials" className="section bg-white">
-      <div className="container">
-        <div className="max-w-xl mx-auto text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">What Our Customers Say</h2>
-          <div className="w-20 h-1 bg-accent mx-auto mb-6"></div>
-          <p className="text-lg text-gray-600">
+    <section id="testimonials" className="py-8 sm:py-10 md:py-12 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-mithila-blue mb-3 sm:mb-4">What Our Customers Say</h2>
+          <div className="w-16 sm:w-20 h-1 bg-mithila-gold mx-auto mb-4 sm:mb-6"></div>
+          <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg px-4">
             Don't just take our word for it - hear what our satisfied customers have to say about Makhana Mithila products.
           </p>
         </div>
@@ -71,79 +65,70 @@ const TestimonialsSection = () => {
           </div>
         ) : (
           <>
-            <div className="relative">
-              <div className="overflow-hidden" ref={emblaRef}>
-                <div className="flex gap-6">
-                  {testimonials.map((testimonial) => (
-                    <div key={testimonial.id} className="flex-[0_0_calc(25%-18px)] min-w-0">
-                      <Card className="bg-white h-full hover:shadow-lg transition-all duration-300">
-                        <CardContent className="p-6">
-                          <div className="flex flex-col h-full">
-                            <div className="mb-4 flex gap-1">
-                              {Array.from({ length: 5 }).map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`w-5 h-5 ${
-                                    i < testimonial.rating
-                                      ? 'fill-primary text-primary'
-                                      : 'text-gray-300'
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                            <div className="mb-6">
-                              <svg
-                                className="w-10 h-10 text-primary/30"
-                                fill="currentColor"
-                                viewBox="0 0 32 32"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M10.7 25.4c-1.9 0-3.5-0.7-4.8-2-1.3-1.3-2-3-2-4.9 0-1.6 0.4-3.2 1.3-4.7 0.9-1.5 2-2.8 3.4-3.9 1.5-1.1 2.9-1.9 4.3-2.5 1.4-0.6 3-1 4.7-1.2l0.4 2.5c-2.3 0.2-4.3 0.8-6 1.8-1.8 1-3 2.3-3.7 3.9 0.3-0.2 0.7-0.3 1.2-0.4 0.4-0.1 0.8-0.2 1.2-0.2 1.8 0 3.2 0.6 4.4 1.7 1.1 1.1 1.7 2.6 1.7 4.4 0 1.8-0.6 3.3-1.8 4.5-1.1 1.3-2.6 1.9-4.3 1.9z"></path>
-                                <path d="M24.7 25.4c-1.9 0-3.5-0.7-4.8-2-1.3-1.3-2-3-2-4.9 0-1.6 0.4-3.2 1.3-4.7 0.9-1.5 2-2.8 3.4-3.9 1.5-1.1 2.9-1.9 4.3-2.5 1.4-0.6 3-1 4.7-1.2l0.4 2.5c-2.3 0.2-4.3 0.8-6 1.8-1.8 1-3 2.3-3.7 3.9 0.3-0.2 0.7-0.3 1.2-0.4 0.4-0.1 0.8-0.2 1.2-0.2 1.8 0 3.2 0.6 4.4 1.7 1.1 1.1 1.7 2.6 1.7 4.4 0 1.8-0.6 3.3-1.8 4.5-1.1 1.3-2.6 1.9-4.3 1.9z"></path>
-                              </svg>
-                            </div>
-                            <p className="text-gray-600 mb-6 flex-grow">{testimonial.comment}</p>
-                            <div className="flex items-center">
-                              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
-                                <span className="text-lg font-bold text-primary">
-                                  {testimonial.name.split(' ').map(n => n[0]).join('')}
-                                </span>
-                              </div>
-                              <div>
-                                <h4 className="font-bold text-primary">{testimonial.name}</h4>
-                                {testimonial.title && (
-                                  <p className="text-sm text-gray-600">{testimonial.title}</p>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </div>
-                  ))}
-                </div>
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full max-w-6xl mx-auto px-4 md:px-0"
+            >
+              <CarouselContent>
+                {testimonials.map((testimonial, index) => (
+                  <CarouselItem
+                    key={testimonial.id}
+                    className={
+                      slidesToShow === 1
+                        ? "basis-full"
+                        : slidesToShow === 2
+                        ? "md:basis-1/2"
+                        : "md:basis-1/2 lg:basis-1/3"
+                    }
+                  >
+                    <Card className="overflow-hidden border-2 border-mithila-gold/20 hover:border-mithila-gold/50 transition-all shadow-md h-full flex flex-col justify-between p-6 bg-mithila-cream">
+                      {/* Stars at top */}
+                      <div className="flex gap-1 mb-2">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-5 h-5 ${
+                              i < testimonial.rating
+                                ? 'fill-mithila-green text-mithila-green'
+                                : 'text-gray-300'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      {/* Quote icon */}
+                      <div className="mb-2">
+                        <svg className="w-8 h-8 text-mithila-green/40" fill="currentColor" viewBox="0 0 24 24"><path d="M7.17 6.17A5.97 5.97 0 0 0 2 12c0 3.31 2.69 6 6 6 1.1 0 2-.9 2-2s-.9-2-2-2c-1.1 0-2-.9-2-2 0-1.3 1.04-2.36 2.34-1.99.66.18 1.34-.19 1.52-.85.18-.66-.19-1.34-.85-1.52A5.97 5.97 0 0 0 7.17 6.17zm9 0A5.97 5.97 0 0 0 11 12c0 3.31 2.69 6 6 6 1.1 0 2-.9 2-2s-.9-2-2-2c-1.1 0-2-.9-2-2 0-1.3 1.04-2.36 2.34-1.99.66.18 1.34-.19 1.52-.85.18-.66-.19-1.34-.85-1.52A5.97 5.97 0 0 0 16.17 6.17z"/></svg>
+                      </div>
+                      {/* Testimonial comment */}
+                      <p className="text-gray-700 text-base mb-6">{testimonial.comment}</p>
+                      {/* User info */}
+                      <div className="flex items-center mt-auto">
+                        <div className="w-12 h-12 rounded-full bg-mithila-green/10 flex items-center justify-center mr-4">
+                          <span className="text-lg font-bold text-mithila-green">
+                            {testimonial.name.split(' ').map(n => n[0]).join('')}
+                          </span>
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-mithila-green text-base">{testimonial.name}</h4>
+                          {testimonial.title && (
+                            <p className="text-sm text-gray-500">{testimonial.title}</p>
+                          )}
+                        </div>
+                      </div>
+                    </Card>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="flex items-center justify-center mt-4 md:mt-6 gap-2">
+                <CarouselPrevious className="static transform-none bg-mithila-blue/90 text-white hover:bg-mithila-blue border-none mx-1 h-8 w-8 md:h-10 md:w-10" />
+                <CarouselNext className="static transform-none bg-mithila-blue/90 text-white hover:bg-mithila-blue border-none mx-1 h-8 w-8 md:h-10 md:w-10" />
               </div>
-              
-              <div className="flex justify-center gap-4 mt-8">
-                <button
-                  onClick={scrollPrev}
-                  className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-colors"
-                  aria-label="Previous testimonials"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </button>
-                <button
-                  onClick={scrollNext}
-                  className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-colors"
-                  aria-label="Next testimonials"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </button>
-              </div>
-            </div>
-            
+            </Carousel>
             <div className="text-center mt-12 mb-16">
-              <Button onClick={() => navigate('/submit-testimonial')} variant="outline" className="text-primary border-primary hover:bg-primary/10">
+              <Button onClick={() => navigate('/submit-testimonial')} variant="outline" className="text-mithila-blue border-mithila-blue hover:bg-mithila-blue/10">
                 Share Your Experience
               </Button>
             </div>
