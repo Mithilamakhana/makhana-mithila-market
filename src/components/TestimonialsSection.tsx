@@ -52,7 +52,7 @@ const TestimonialsSection = () => {
     }
   };
   return (
-    <section id="testimonials" className="section bg-secondary">
+    <section id="testimonials" className="section bg-white">
       <div className="container">
         <div className="max-w-xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Customers Say</h2>
@@ -142,7 +142,7 @@ const TestimonialsSection = () => {
               </div>
             </div>
             
-            <div className="text-center mt-12">
+            <div className="text-center mt-12 mb-16">
               <Button onClick={() => navigate('/submit-testimonial')} variant="outline">
                 Share Your Experience
               </Button>
