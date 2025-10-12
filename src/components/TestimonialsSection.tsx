@@ -52,7 +52,7 @@ const TestimonialsSection = () => {
     }
   };
   return (
-    <section id="testimonials" className="section bg-white">
+    <section id="testimonials" className="section bg-secondary">
       <div className="container">
         <div className="max-w-xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Customers Say</h2>
@@ -76,7 +76,7 @@ const TestimonialsSection = () => {
                 <div className="flex gap-6">
                   {testimonials.map((testimonial) => (
                     <div key={testimonial.id} className="flex-[0_0_calc(25%-18px)] min-w-0">
-                      <Card className="bg-secondary border-none h-full">
+                      <Card className="bg-white border-none h-full shadow-md">
                         <CardContent className="p-8">
                           <div className="flex flex-col h-full">
                             <div className="mb-4 flex gap-1">
@@ -85,7 +85,7 @@ const TestimonialsSection = () => {
                                   key={i}
                                   className={`w-5 h-5 ${
                                     i < testimonial.rating
-                                      ? 'fill-yellow-400 text-yellow-400'
+                                      ? 'fill-primary text-primary'
                                       : 'text-gray-300'
                                   }`}
                                 />
@@ -102,7 +102,7 @@ const TestimonialsSection = () => {
                                 <path d="M24.7 25.4c-1.9 0-3.5-0.7-4.8-2-1.3-1.3-2-3-2-4.9 0-1.6 0.4-3.2 1.3-4.7 0.9-1.5 2-2.8 3.4-3.9 1.5-1.1 2.9-1.9 4.3-2.5 1.4-0.6 3-1 4.7-1.2l0.4 2.5c-2.3 0.2-4.3 0.8-6 1.8-1.8 1-3 2.3-3.7 3.9 0.3-0.2 0.7-0.3 1.2-0.4 0.4-0.1 0.8-0.2 1.2-0.2 1.8 0 3.2 0.6 4.4 1.7 1.1 1.1 1.7 2.6 1.7 4.4 0 1.8-0.6 3.3-1.8 4.5-1.1 1.3-2.6 1.9-4.3 1.9z"></path>
                               </svg>
                             </div>
-                            <p className="text-lg mb-6 flex-grow">{testimonial.comment}</p>
+                            <p className="text-lg mb-6 flex-grow text-gray-900">{testimonial.comment}</p>
                             <div className="flex items-center">
                               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
                                 <span className="text-lg font-bold text-primary">
@@ -110,7 +110,7 @@ const TestimonialsSection = () => {
                                 </span>
                               </div>
                               <div>
-                                <h4 className="font-bold">{testimonial.name}</h4>
+                                <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
                                 {testimonial.title && (
                                   <p className="text-sm text-gray-600">{testimonial.title}</p>
                                 )}
