@@ -13,7 +13,6 @@ import MascotFloating from '@/components/MascotFloating';
 const SubmitTestimonial = () => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
-  const [title, setTitle] = useState('');
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
@@ -35,7 +34,6 @@ const SubmitTestimonial = () => {
         .insert([
           {
             name,
-            title,
             comment,
             rating,
           }
@@ -76,15 +74,7 @@ const SubmitTestimonial = () => {
                 />
               </div>
 
-              <div>
-                <Label htmlFor="title">Title (Optional)</Label>
-                <Input
-                  id="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="e.g., Food Enthusiast, Health Conscious Mom"
-                />
-              </div>
+
 
               <div>
                 <Label htmlFor="comment">Your Review *</Label>
