@@ -39,30 +39,44 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Verifying Cashfree payment for order:", order_id);
 
     // Fetch order details from Cashfree
-    const cashfreeResponse = await fetch(`https://sandbox.cashfree.com/pg/orders/${order_id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-client-id": CASHFREE_APP_ID,
-        "x-client-secret": CASHFREE_SECRET_KEY,
-        "x-api-version": "2023-08-01",
-      },
-    });
-
-    if (!cashfreeResponse.ok) {
-      const errorText = await cashfreeResponse.text();
-      console.error("Cashfree API error:", errorText);
-      throw new Error(`Payment verification failed: ${errorText}`);
+    let orderDetails = null;
+    let attempts = 0;
+    const maxAttempts = 5;
+    const delayMs = 2000;
+    let lastStatus = null;
+    const validStatuses = ["PAID", "SUCCESS", "COMPLETED"];
+    while (attempts < maxAttempts) {
+      const cashfreeResponse = await fetch(`https://sandbox.cashfree.com/pg/orders/${order_id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-client-id": CASHFREE_APP_ID,
+          "x-client-secret": CASHFREE_SECRET_KEY,
+          "x-api-version": "2023-08-01",
+        },
+      });
+      if (!cashfreeResponse.ok) {
+        const errorText = await cashfreeResponse.text();
+        console.error("Cashfree API error:", errorText);
+        throw new Error(`Payment verification failed: ${errorText}`);
+      }
+      orderDetails = await cashfreeResponse.json();
+      lastStatus = orderDetails.order_status;
+      console.log(`Attempt ${attempts + 1}: Payment verification for order ${order_id}:`, lastStatus);
+      if (validStatuses.includes(lastStatus)) {
+        break;
+      }
+      if (lastStatus !== "ACTIVE") {
+        break;
+      }
+      attempts++;
+      if (attempts < maxAttempts) {
+        // Wait before next attempt
+        await new Promise(res => setTimeout(res, delayMs));
+      }
     }
-
-    const orderDetails = await cashfreeResponse.json();
-    console.log(`Payment verification for order ${order_id}:`, orderDetails.order_status);
-
-    // Check if payment is successful
-  // Accept multiple successful statuses
-  const validStatuses = ["PAID", "SUCCESS", "COMPLETED"];
-  const isValid = validStatuses.includes(orderDetails.order_status);
-  console.log("Cashfree order status:", orderDetails.order_status, "isValid:", isValid, "orderDetails:", orderDetails);
+    const isValid = validStatuses.includes(lastStatus);
+    console.log("Final Cashfree order status:", lastStatus, "isValid:", isValid, "orderDetails:", orderDetails);
 
     return new Response(JSON.stringify({ 
       isValid,
