@@ -59,7 +59,10 @@ const handler = async (req: Request): Promise<Response> => {
     console.log(`Payment verification for order ${order_id}:`, orderDetails.order_status);
 
     // Check if payment is successful
-    const isValid = orderDetails.order_status === "PAID";
+  // Accept multiple successful statuses
+  const validStatuses = ["PAID", "SUCCESS", "COMPLETED"];
+  const isValid = validStatuses.includes(orderDetails.order_status);
+  console.log("Cashfree order status:", orderDetails.order_status, "isValid:", isValid, "orderDetails:", orderDetails);
 
     return new Response(JSON.stringify({ 
       isValid,

@@ -64,7 +64,13 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Compare signatures
     const isValid = expectedSignature === razorpay_signature;
-    
+    console.log("Razorpay signature verification:", {
+      expectedSignature,
+      receivedSignature: razorpay_signature,
+      isValid,
+      razorpay_order_id,
+      razorpay_payment_id
+    });
     console.log(`Payment verification ${isValid ? 'successful' : 'failed'} for payment:`, razorpay_payment_id);
 
     return new Response(JSON.stringify({ 
