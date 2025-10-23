@@ -46,7 +46,7 @@ const handler = async (req: Request): Promise<Response> => {
     let lastStatus = null;
     const validStatuses = ["PAID", "SUCCESS", "COMPLETED"];
     while (attempts < maxAttempts) {
-      const cashfreeResponse = await fetch(`https://sandbox.cashfree.com/pg/orders/${order_id}`, {
+      const cashfreeResponse = await fetch(`https://api.cashfree.com/pg/orders/${order_id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

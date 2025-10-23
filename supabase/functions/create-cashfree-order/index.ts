@@ -30,8 +30,9 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const CASHFREE_APP_ID = Deno.env.get("CASHFREE_APP_ID");
-    const CASHFREE_SECRET_KEY = Deno.env.get("CASHFREE_SECRET_KEY");
+  // Use sandbox credentials for local development
+  const CASHFREE_APP_ID = Deno.env.get("CASHFREE_SANDBOX_APP_ID") || Deno.env.get("CASHFREE_APP_ID");
+  const CASHFREE_SECRET_KEY = Deno.env.get("CASHFREE_SANDBOX_SECRET_KEY") || Deno.env.get("CASHFREE_SECRET_KEY");
     
     if (!CASHFREE_APP_ID || !CASHFREE_SECRET_KEY) {
       console.error("Cashfree credentials not configured");
@@ -56,11 +57,11 @@ const handler = async (req: Request): Promise<Response> => {
       order_amount: amount,
       order_currency: "INR",
       customer_details,
-      // order_meta: {
-      //   ...order_meta, // COMMENTED: This may include ngrok return_url
-      //   notify_url: order_meta?.notify_url || null,
-      //   payment_methods: null
-      // },
+      order_meta: {
+        ...order_meta, // This may include ngrok return_url
+        notify_url: order_meta?.notify_url || null,
+        payment_methods: null
+      },
       // To use a production return_url, uncomment and set below:
       // order_meta: {
       //   return_url: "https://your-production-domain.com/order-success",
@@ -71,7 +72,9 @@ const handler = async (req: Request): Promise<Response> => {
     };
 
     // Create order on Cashfree
-    const cashfreeResponse = await fetch("https://api.cashfree.com/pg/orders", {
+  // Use sandbox endpoint for local development
+  const cashfreeApiUrl = "https://sandbox.cashfree.com/pg/orders";
+  const cashfreeResponse = await fetch(cashfreeApiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
