@@ -329,7 +329,10 @@ const Cart = () => {
                     <div className="flex-grow">
                       <h3 className="font-semibold text-mithila-green">{item.product.name}</h3>
                       <p className="text-gray-500 text-sm">{item.product.weight}</p>
-                      <p className="text-mithila-blue font-semibold mt-1">₹{item.product.price}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <p className="text-gray-400 text-sm line-through">₹{item.product.price}</p>
+                        <p className="text-mithila-blue font-semibold">₹{item.product.price - 100}</p>
+                      </div>
                     </div>
                     
                     <div className="flex items-center gap-4">
@@ -381,6 +384,14 @@ const Cart = () => {
                   <span>Delivery Charge</span>
                   <span>{getDeliveryCharge() === 0 ? 'FREE' : `₹${getDeliveryCharge()}`}</span>
                 </div>
+                
+                {getTotalItems() === 1 && (
+                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-3 mt-2">
+                    <p className="text-green-700 text-sm font-semibold flex items-center gap-2">
+                      🎉 Add one more packet and get FREE shipping!
+                    </p>
+                  </div>
+                )}
                 
                 <div className="border-t border-gray-200 pt-3 mt-3">
                   <div className="flex justify-between text-lg font-semibold text-mithila-green">
