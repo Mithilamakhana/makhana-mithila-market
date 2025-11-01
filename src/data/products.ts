@@ -34,7 +34,7 @@ export const products: Product[] = [
     name: "Makhana Mixx",
     description: "Discover the authentic taste of Mithila with Makhana Mixx – a carefully curated blend of premium-grade fox nuts (makhana) featuring a mix of 4, 5, and 6 sutta sizes. This unique combination ensures the perfect balance of texture, crunch, and flavor in every bite. Sourced directly from the fertile lands of Mithila and processed with the utmost care, our makhana mix brings together variety and quality in one wholesome pack.",
     shortDescription: "A premium blend of 4, 5 & 6 sutta-sized fox nuts, handpicked from the heart of Mithila.",
-    price: 400,
+    price: 425,
     weight: "250g",
     image: teak_front,
     images: [
@@ -58,14 +58,14 @@ export const products: Product[] = [
       carbohydrates: "76.9g per 100g",
       fiber: "14.5g per 100g"
     },
-    inStock: false
+    inStock: true
   },
   {
     id: "roasted-makhana",
     name: "Sattvik Select",
     description: "Our flagship product, these premium grade fox nuts are carefully sourced from the heart of Mithila region. Each fox nut is handpicked to ensure superior quality and taste. Rich in protein and low in fat, these makhanas are perfect for health-conscious snackers and those looking to add a nutritional boost to their diet.",
     shortDescription: "Handpicked fox nuts from Mithila, prized for their superior 6+ sutta size and unmatched quality.",
-    price: 425,
+    price: 450,
     weight: "250g",
     image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
     images: [orange_front,
@@ -87,14 +87,14 @@ export const products: Product[] = [
       carbohydrates: "76.9g per 100g",
       fiber: "14.5g per 100g"
     },
-    inStock: false
+    inStock: true
   },
   {
     id: "flavored-makhana",
     name: "Shressth Jumbo",
     description: "At Shressth Jumbo, we believe that size matters—especially when it comes to taste and crunch! That’s why we carefully handpick only the biggest, fluffiest makhanas from the harvest. Each piece is selected for its superior size and texture, ensuring a premium snacking experience.No broken bits, no compromises—just the finest, crispiest lotus seeds nature has to offer.",
     shortDescription: "Handpicked Jumbo Makhana – Only the Best",
-    price: 500,
+    price: 525,
     weight: "250g",
     image: Jumbo_front,
     images: [
@@ -117,7 +117,7 @@ export const products: Product[] = [
       carbohydrates: "75.8g per 100g",
       fiber: "14.0g per 100g"
     },
-    inStock: false
+    inStock: true
   }
 ];
 
