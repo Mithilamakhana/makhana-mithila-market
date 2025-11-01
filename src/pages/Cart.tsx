@@ -10,7 +10,7 @@ import MascotFloating from "../components/MascotFloating.tsx";
 import { indianStates, citiesByState } from "../data/indianStatesAndCities.ts";
 
 const Cart = () => {
-  const { items, updateQuantity, removeFromCart, getTotalPrice, clearCart } = useCart();
+  const { items, updateQuantity, removeFromCart, getTotalPrice, getSubtotal, getDiscount, getDeliveryCharge, clearCart } = useCart();
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
   const [formData, setFormData] = useState({
@@ -369,12 +369,17 @@ const Cart = () => {
               <div className="space-y-3">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span>₹{getTotalPrice()}</span>
+                  <span>₹{getSubtotal()}</span>
+                </div>
+                
+                <div className="flex justify-between text-green-600">
+                  <span>Discount</span>
+                  <span>- ₹{getDiscount()}</span>
                 </div>
                 
                 <div className="flex justify-between text-gray-600">
-                  <span>Shipping</span>
-                  <span>₹0</span>
+                  <span>Delivery Charge</span>
+                  <span>{getDeliveryCharge() === 0 ? 'FREE' : `₹${getDeliveryCharge()}`}</span>
                 </div>
                 
                 <div className="border-t border-gray-200 pt-3 mt-3">

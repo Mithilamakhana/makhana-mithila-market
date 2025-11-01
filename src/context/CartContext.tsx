@@ -15,6 +15,9 @@ interface CartContextType {
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   getTotalItems: () => number;
+  getSubtotal: () => number;
+  getDiscount: () => number;
+  getDeliveryCharge: () => number;
   getTotalPrice: () => number;
 }
 
@@ -70,8 +73,24 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     return items.reduce((total, item) => total + item.quantity, 0);
   };
 
-  const getTotalPrice = () => {
+  const getSubtotal = () => {
     return items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+  };
+
+  const getDiscount = () => {
+    return items.length > 0 ? 100 : 0;
+  };
+
+  const getDeliveryCharge = () => {
+    const totalItems = getTotalItems();
+    return totalItems === 1 ? 75 : 0;
+  };
+
+  const getTotalPrice = () => {
+    const subtotal = getSubtotal();
+    const discount = getDiscount();
+    const deliveryCharge = getDeliveryCharge();
+    return subtotal - discount + deliveryCharge;
   };
 
   return (
@@ -83,6 +102,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         updateQuantity,
         clearCart,
         getTotalItems,
+        getSubtotal,
+        getDiscount,
+        getDeliveryCharge,
         getTotalPrice
       }}
     >
