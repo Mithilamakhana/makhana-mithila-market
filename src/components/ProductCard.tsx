@@ -38,6 +38,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border border-mithila-gold/20">
       <Link to={`/product/${product.id}`}>
         <div className="relative bg-mithila-beige h-64 sm:h-72 md:h-80 flex justify-center items-center overflow-hidden">
+          {/* Discount Badge */}
+          <div className="absolute top-3 left-3 z-10">
+            <div className="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1.5 rounded-lg shadow-lg transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+              <div className="text-xs font-bold">SAVE ₹100</div>
+              <div className="text-[10px] font-medium">Limited Offer!</div>
+            </div>
+          </div>
+          
           <div className="relative w-full h-full">
             {product.images.length > 0 && (
               <img 
