@@ -67,7 +67,7 @@ export const products: Product[] = [
     shortDescription: "Handpicked fox nuts from Mithila, prized for their superior 6+ sutta size and unmatched quality.",
     price: 550,
     weight: "250g",
-    image: "/lovable-uploads/72f30427-c9c7-472a-a0f9-e397cfc22279.png",
+    image: orange_front,
     images: [orange_front,
       orange_back,
       new_makhana_hd,
