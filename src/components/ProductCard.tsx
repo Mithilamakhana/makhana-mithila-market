@@ -103,7 +103,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <p className="text-gray-600 mb-2 sm:mb-3 text-xs sm:text-sm">{product.shortDescription}</p>
         
         <div className="flex items-center justify-between mb-3 sm:mb-4">
-          <span className="text-base sm:text-lg font-bold text-mithila-blue">₹{product.price}</span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs sm:text-sm text-gray-400 line-through">₹{product.price}</span>
+            <span className="text-base sm:text-lg font-bold text-mithila-blue">₹{product.price - 100}</span>
+          </div>
           <span className="text-xs sm:text-sm text-gray-500">{product.weight}</span>
         </div>
         

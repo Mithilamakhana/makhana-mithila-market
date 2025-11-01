@@ -10,7 +10,7 @@ import MascotFloating from "../components/MascotFloating.tsx";
 import { indianStates, citiesByState } from "../data/indianStatesAndCities.ts";
 
 const Cart = () => {
-  const { items, updateQuantity, removeFromCart, getTotalPrice, getSubtotal, getDiscount, getDeliveryCharge, clearCart } = useCart();
+  const { items, updateQuantity, removeFromCart, getTotalPrice, getSubtotal, getDiscount, getDeliveryCharge, getTotalItems, clearCart } = useCart();
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
   const [formData, setFormData] = useState({
@@ -373,7 +373,7 @@ const Cart = () => {
                 </div>
                 
                 <div className="flex justify-between text-green-600">
-                  <span>Discount</span>
+                  <span>Discount ({getTotalItems()} × ₹100)</span>
                   <span>- ₹{getDiscount()}</span>
                 </div>
                 

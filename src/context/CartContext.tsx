@@ -78,7 +78,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getDiscount = () => {
-    return items.length > 0 ? 100 : 0;
+    const totalItems = getTotalItems();
+    return totalItems * 100;
   };
 
   const getDeliveryCharge = () => {

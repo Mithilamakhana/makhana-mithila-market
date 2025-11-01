@@ -107,7 +107,11 @@ const ProductDetail = () => {
             <p className="text-gray-600 mb-4">{product.shortDescription}</p>
             
             <div className="flex items-center gap-4 mb-4">
-              <span className="text-2xl font-bold text-mithila-blue">₹{product.price}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-lg text-gray-400 line-through">₹{product.price}</span>
+                <span className="text-2xl font-bold text-mithila-blue">₹{product.price - 100}</span>
+                <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-md font-semibold">Save ₹100</span>
+              </div>
               <span className="text-gray-500">{product.weight}</span>
             </div>
             
