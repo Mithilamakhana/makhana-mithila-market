@@ -64,7 +64,7 @@ export const products: Product[] = [
     id: "roasted-makhana",
     name: "Sattvik Select",
     description: "Our flagship product, these premium grade fox nuts are carefully sourced from the heart of Mithila region. Each fox nut is handpicked to ensure superior quality and taste. Rich in protein and low in fat, these makhanas are perfect for health-conscious snackers and those looking to add a nutritional boost to their diet.",
-    shortDescription: "Handpicked fox nuts from Mithila, prized for their superior 6+ sutta size and unmatched quality.",
+    shortDescription: "Handpicked fox nuts from Mithila, prized for their superior 5+ sutta size and unmatched quality.",
     price: 550,
     weight: "250g",
     image: orange_front,

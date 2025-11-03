@@ -82,7 +82,7 @@ const Footer = () => {
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="https://www.instagram.com/mithila_sattvik_makhan/"
+                href="https://www.instagram.com/mithilasattvikmakhana?igsh=MXA0MWQxN3c2dnhubA%3D%3D&utm_source=qr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:scale-110 transition-all duration-300 shadow-md"
