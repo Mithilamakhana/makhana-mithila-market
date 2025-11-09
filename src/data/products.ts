@@ -35,7 +35,7 @@ export const products: Product[] = [
     description: "Discover the authentic taste of Mithila with Makhana Mixx – a carefully curated blend of premium-grade fox nuts (makhana) featuring a mix of 4, 5, and 6 sutta sizes. This unique combination ensures the perfect balance of texture, crunch, and flavor in every bite. Sourced directly from the fertile lands of Mithila and processed with the utmost care, our makhana mix brings together variety and quality in one wholesome pack.",
     shortDescription: "A premium blend of 4, 5 & 6 sutta-sized fox nuts, handpicked from the heart of Mithila.",
     price: 515,
-    weight: "200",
+    weight: "200g",
     image: teak_front,
     images: [
       teak_front,
