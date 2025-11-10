@@ -375,9 +375,17 @@ const Cart = () => {
                   <span>₹{getSubtotal()}</span>
                 </div>
                 
-                <div className="flex justify-between text-green-600">
-                  <span>Discount ({getTotalItems()} × ₹100)</span>
-                  <span>- ₹{getDiscount()}</span>
+                <div className="space-y-1">
+                  <div className="flex justify-between text-green-600">
+                    <span>Discount ({getTotalItems()} × ₹100)</span>
+                    <span>- ₹{getTotalItems() * 100}</span>
+                  </div>
+                  {getTotalItems() >= 3 && (
+                    <div className="flex justify-between text-green-600">
+                      <span>Bonus Discount (3+ packets)</span>
+                      <span>- ₹100</span>
+                    </div>
+                  )}
                 </div>
                 
                 <div className="flex justify-between text-gray-600">
@@ -389,6 +397,14 @@ const Cart = () => {
                   <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-3 mt-2">
                     <p className="text-green-700 text-sm font-semibold flex items-center gap-2">
                       🎉 Add one more packet and get FREE shipping!
+                    </p>
+                  </div>
+                )}
+                
+                {getTotalItems() === 2 && (
+                  <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg p-3 mt-2">
+                    <p className="text-amber-700 text-sm font-semibold flex items-center gap-2">
+                      🎁 Add one more packet and get ₹100 extra discount!
                     </p>
                   </div>
                 )}

@@ -79,7 +79,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const getDiscount = () => {
     const totalItems = getTotalItems();
-    return totalItems * 100;
+    const baseDiscount = totalItems * 100;
+    const bonusDiscount = totalItems >= 3 ? 100 : 0;
+    return baseDiscount + bonusDiscount;
   };
 
   const getDeliveryCharge = () => {
