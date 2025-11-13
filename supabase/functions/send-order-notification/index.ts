@@ -296,63 +296,63 @@ const handler = async (req: Request): Promise<Response> => {
       customerEmailError = error instanceof Error ? error : new Error(String(error));
     }
 
-    // Send WhatsApp message to customer
-    let whatsappSuccess = false;
-    let whatsappResponse = null;
-    let whatsappError: Error | null = null;
+    // Send WhatsApp message to customer - COMMENTED OUT
+    // let whatsappSuccess = false;
+    // let whatsappResponse = null;
+    // let whatsappError: Error | null = null;
 
-    if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && TWILIO_WHATSAPP_NUMBER) {
-      try {
-        console.log("Sending WhatsApp message to:", customerData.phone);
+    // if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && TWILIO_WHATSAPP_NUMBER) {
+    //   try {
+    //     console.log("Sending WhatsApp message to:", customerData.phone);
         
-        // Create WhatsApp message with order details
-        const orderItemsText = items.map(item => 
-          `• ${item.product.name} (${item.product.weight}) - Qty: ${item.quantity} - ₹${item.product.price * item.quantity}`
-        ).join('\n');
+    //     // Create WhatsApp message with order details
+    //     const orderItemsText = items.map(item => 
+    //       `• ${item.product.name} (${item.product.weight}) - Qty: ${item.quantity} - ₹${item.product.price * item.quantity}`
+    //     ).join('\n');
 
-        const whatsappMessage = `🛒 *Order Confirmation - Mithila Sattvik Makhana*
+    //     const whatsappMessage = `🛒 *Order Confirmation - Mithila Sattvik Makhana*
 
-Dear ${customerData.name},
+    // Dear ${customerData.name},
 
-Thank you for your order! Here are your order details:
+    // Thank you for your order! Here are your order details:
 
-*Order Items:*
-${orderItemsText}
+    // *Order Items:*
+    // ${orderItemsText}
 
-*Total Amount: ₹${totalAmount}*
+    // *Total Amount: ₹${totalAmount}*
 
-*Delivery Address:*
-${customerData.address}
-${customerData.city}, ${customerData.state} - ${customerData.pincode}
+    // *Delivery Address:*
+    // ${customerData.address}
+    // ${customerData.city}, ${customerData.state} - ${customerData.pincode}
 
-We will contact you soon to confirm your order and arrange delivery.
+    // We will contact you soon to confirm your order and arrange delivery.
 
-Thank you for choosing Mithila Sattvik Makhana! 🌿`;
+    // Thank you for choosing Mithila Sattvik Makhana! 🌿`;
 
-        whatsappResponse = await sendWhatsAppMessage(
-          customerData.phone,
-          whatsappMessage,
-          TWILIO_ACCOUNT_SID,
-          TWILIO_AUTH_TOKEN,
-          TWILIO_WHATSAPP_NUMBER
-        );
+    //     whatsappResponse = await sendWhatsAppMessage(
+    //       customerData.phone,
+    //       whatsappMessage,
+    //       TWILIO_ACCOUNT_SID,
+    //       TWILIO_AUTH_TOKEN,
+    //       TWILIO_WHATSAPP_NUMBER
+    //     );
         
-        console.log("WhatsApp message sent successfully:", whatsappResponse);
-        whatsappSuccess = true;
-      } catch (error) {
-        console.error("Failed to send WhatsApp message:", error);
-        whatsappError = error instanceof Error ? error : new Error(String(error));
-      }
-    } else {
-      console.log("WhatsApp credentials not configured, skipping WhatsApp notification");
-    }
+    //     console.log("WhatsApp message sent successfully:", whatsappResponse);
+    //     whatsappSuccess = true;
+    //   } catch (error) {
+    //     console.error("Failed to send WhatsApp message:", error);
+    //     whatsappError = error instanceof Error ? error : new Error(String(error));
+    //   }
+    // } else {
+    //   console.log("WhatsApp credentials not configured, skipping WhatsApp notification");
+    // }
 
-    // Return response indicating email and WhatsApp status
+    // Return response indicating email status
     return new Response(JSON.stringify({ 
-      success: businessEmailSuccess,
-      message: businessEmailSuccess 
-        ? `Order notification sent successfully. ${whatsappSuccess ? 'WhatsApp message sent to customer.' : 'Customer will be contacted directly.'}` 
-        : "Order received but notification failed. Please contact customer manually.",
+      success: businessEmailSuccess && customerEmailSuccess,
+      message: businessEmailSuccess && customerEmailSuccess
+        ? "Order confirmation sent successfully to both business and customer via email."
+        : "Order received but some notifications failed. Please check email configuration.",
       businessEmail: {
         success: businessEmailSuccess,
         emailId: businessEmailResponse?.data?.id,
@@ -362,11 +362,6 @@ Thank you for choosing Mithila Sattvik Makhana! 🌿`;
         success: customerEmailSuccess,
         emailId: customerEmailResponse?.data?.id,
         error: customerEmailError?.message
-      },
-      whatsapp: {
-        success: whatsappSuccess,
-        messageId: whatsappResponse?.sid,
-        error: whatsappError?.message
       }
     }), {
       status: 200,
