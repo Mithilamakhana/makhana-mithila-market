@@ -168,10 +168,10 @@ const handler = async (req: Request): Promise<Response> => {
       <html>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
           <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-            <h1 style="color: #2E7D32; text-align: center;">New Order Received! (Business Notification)</h1>
+            <h1 style="color: #2E7D32; text-align: center;">New Order Received!</h1>
             
-            <div style="background-color: #e3f2fd; padding: 15px; border-radius: 8px; margin: 20px 0;">
-              <p style="margin: 0; color: #1565c0;"><strong>This is your business notification.</strong> Customer confirmation emails require domain verification at <a href="https://resend.com/domains" style="color: #1565c0;">resend.com/domains</a></p>
+            <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0;">
+              <p style="margin: 0; color: #856404;"><strong>Note:</strong> Customer confirmation email will be sent once domain is verified. For now, all order details are included below.</p>
             </div>
             
             <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
@@ -248,17 +248,21 @@ const handler = async (req: Request): Promise<Response> => {
     try {
       console.log("Sending customer confirmation to:", customerData.email);
       customerEmailResponse = await resend.emails.send({
-        from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
+        from: "Mithila Sattvik Makhana <orders@mithilasattvikmakhana.com>",
         to: [customerData.email],
-        subject: `Order Confirmation - ₹${totalAmount} | ${dateTime}`,
+        subject: `Order Confirmation for ${customerData.name} - ₹${totalAmount} | ${dateTime}`,
         html: `
           <html>
             <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
               <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-                <h1 style="color: #2E7D32; text-align: center;">Thank You for Your Order!</h1>
+                <h1 style="color: #2E7D32; text-align: center;">Order Received!</h1>
+                
+                <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                  <p style="margin: 0; color: #856404;"><strong>Note:</strong> This email was sent to the business email due to domain verification requirements. Customer email: ${customerData.email}</p>
+                </div>
                 
                 <p>Dear ${customerData.name},</p>
-                <p>Thank you for choosing Mithila Sattvik Makhana! We have received your order successfully.</p>
+                <p>Thank you for your order! Here are the details:</p>
                 
                 <div style="margin: 20px 0;">
                   <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
@@ -296,63 +300,63 @@ const handler = async (req: Request): Promise<Response> => {
       customerEmailError = error instanceof Error ? error : new Error(String(error));
     }
 
-    // Send WhatsApp message to customer - COMMENTED OUT
-    // let whatsappSuccess = false;
-    // let whatsappResponse = null;
-    // let whatsappError: Error | null = null;
+    // Send WhatsApp message to customer
+    let whatsappSuccess = false;
+    let whatsappResponse = null;
+    let whatsappError: Error | null = null;
 
-    // if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && TWILIO_WHATSAPP_NUMBER) {
-    //   try {
-    //     console.log("Sending WhatsApp message to:", customerData.phone);
+    if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && TWILIO_WHATSAPP_NUMBER) {
+      try {
+        console.log("Sending WhatsApp message to:", customerData.phone);
         
-    //     // Create WhatsApp message with order details
-    //     const orderItemsText = items.map(item => 
-    //       `• ${item.product.name} (${item.product.weight}) - Qty: ${item.quantity} - ₹${item.product.price * item.quantity}`
-    //     ).join('\n');
+        // Create WhatsApp message with order details
+        const orderItemsText = items.map(item => 
+          `• ${item.product.name} (${item.product.weight}) - Qty: ${item.quantity} - ₹${item.product.price * item.quantity}`
+        ).join('\n');
 
-    //     const whatsappMessage = `🛒 *Order Confirmation - Mithila Sattvik Makhana*
+        const whatsappMessage = `🛒 *Order Confirmation - Mithila Sattvik Makhana*
 
-    // Dear ${customerData.name},
+Dear ${customerData.name},
 
-    // Thank you for your order! Here are your order details:
+Thank you for your order! Here are your order details:
 
-    // *Order Items:*
-    // ${orderItemsText}
+*Order Items:*
+${orderItemsText}
 
-    // *Total Amount: ₹${totalAmount}*
+*Total Amount: ₹${totalAmount}*
 
-    // *Delivery Address:*
-    // ${customerData.address}
-    // ${customerData.city}, ${customerData.state} - ${customerData.pincode}
+*Delivery Address:*
+${customerData.address}
+${customerData.city}, ${customerData.state} - ${customerData.pincode}
 
-    // We will contact you soon to confirm your order and arrange delivery.
+We will contact you soon to confirm your order and arrange delivery.
 
-    // Thank you for choosing Mithila Sattvik Makhana! 🌿`;
+Thank you for choosing Mithila Sattvik Makhana! 🌿`;
 
-    //     whatsappResponse = await sendWhatsAppMessage(
-    //       customerData.phone,
-    //       whatsappMessage,
-    //       TWILIO_ACCOUNT_SID,
-    //       TWILIO_AUTH_TOKEN,
-    //       TWILIO_WHATSAPP_NUMBER
-    //     );
+        whatsappResponse = await sendWhatsAppMessage(
+          customerData.phone,
+          whatsappMessage,
+          TWILIO_ACCOUNT_SID,
+          TWILIO_AUTH_TOKEN,
+          TWILIO_WHATSAPP_NUMBER
+        );
         
-    //     console.log("WhatsApp message sent successfully:", whatsappResponse);
-    //     whatsappSuccess = true;
-    //   } catch (error) {
-    //     console.error("Failed to send WhatsApp message:", error);
-    //     whatsappError = error instanceof Error ? error : new Error(String(error));
-    //   }
-    // } else {
-    //   console.log("WhatsApp credentials not configured, skipping WhatsApp notification");
-    // }
+        console.log("WhatsApp message sent successfully:", whatsappResponse);
+        whatsappSuccess = true;
+      } catch (error) {
+        console.error("Failed to send WhatsApp message:", error);
+        whatsappError = error instanceof Error ? error : new Error(String(error));
+      }
+    } else {
+      console.log("WhatsApp credentials not configured, skipping WhatsApp notification");
+    }
 
-    // Return response indicating email status
+    // Return response indicating email and WhatsApp status
     return new Response(JSON.stringify({ 
-      success: businessEmailSuccess && customerEmailSuccess,
-      message: businessEmailSuccess && customerEmailSuccess
-        ? "Order confirmation sent successfully to both business and customer via email."
-        : "Order received but some notifications failed. Please check email configuration.",
+      success: businessEmailSuccess,
+      message: businessEmailSuccess 
+        ? `Order notification sent successfully. ${whatsappSuccess ? 'WhatsApp message sent to customer.' : 'Customer will be contacted directly.'}` 
+        : "Order received but notification failed. Please contact customer manually.",
       businessEmail: {
         success: businessEmailSuccess,
         emailId: businessEmailResponse?.data?.id,
@@ -362,6 +366,11 @@ const handler = async (req: Request): Promise<Response> => {
         success: customerEmailSuccess,
         emailId: customerEmailResponse?.data?.id,
         error: customerEmailError?.message
+      },
+      whatsapp: {
+        success: whatsappSuccess,
+        messageId: whatsappResponse?.sid,
+        error: whatsappError?.message
       }
     }), {
       status: 200,
