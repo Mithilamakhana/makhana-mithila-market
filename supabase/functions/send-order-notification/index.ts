@@ -248,21 +248,17 @@ const handler = async (req: Request): Promise<Response> => {
     try {
       console.log("Sending customer confirmation to:", customerData.email);
       customerEmailResponse = await resend.emails.send({
-        from: "Mithila Sattvik Makhana <orders@mithilasattvikmakhana.com>",
+        from: "Mithila Sattvik Makhana <onboarding@resend.dev>",
         to: [customerData.email],
-        subject: `Order Confirmation for ${customerData.name} - ₹${totalAmount} | ${dateTime}`,
+        subject: `Order Confirmation - ₹${totalAmount} | ${dateTime}`,
         html: `
           <html>
             <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
               <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-                <h1 style="color: #2E7D32; text-align: center;">Order Received!</h1>
-                
-                <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                  <p style="margin: 0; color: #856404;"><strong>Note:</strong> This email was sent to the business email due to domain verification requirements. Customer email: ${customerData.email}</p>
-                </div>
+                <h1 style="color: #2E7D32; text-align: center;">Thank You for Your Order!</h1>
                 
                 <p>Dear ${customerData.name},</p>
-                <p>Thank you for your order! Here are the details:</p>
+                <p>Thank you for choosing Mithila Sattvik Makhana! We have received your order successfully.</p>
                 
                 <div style="margin: 20px 0;">
                   <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
