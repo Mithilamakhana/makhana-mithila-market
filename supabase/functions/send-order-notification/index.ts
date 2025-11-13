@@ -168,10 +168,10 @@ const handler = async (req: Request): Promise<Response> => {
       <html>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
           <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-            <h1 style="color: #2E7D32; text-align: center;">New Order Received!</h1>
+            <h1 style="color: #2E7D32; text-align: center;">New Order Received! (Business Notification)</h1>
             
-            <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0;">
-              <p style="margin: 0; color: #856404;"><strong>Note:</strong> Customer confirmation email will be sent once domain is verified. For now, all order details are included below.</p>
+            <div style="background-color: #e3f2fd; padding: 15px; border-radius: 8px; margin: 20px 0;">
+              <p style="margin: 0; color: #1565c0;"><strong>This is your business notification.</strong> Customer confirmation emails require domain verification at <a href="https://resend.com/domains" style="color: #1565c0;">resend.com/domains</a></p>
             </div>
             
             <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
