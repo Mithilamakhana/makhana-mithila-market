@@ -6,6 +6,9 @@ import Jumbo_back from '/pictures/Jumbo_back.jpg'
 import Jumbo_front from '/pictures/Jumbo_front.jpg'
 import new_makhana_hd from '/pictures/new_makhana_hd.jpg'
 import pudding_product1 from '/pictures/pudding_product1.png'
+import jumbo_3 from '/pictures/jumbo_3.jpg'
+import mix_3 from '/pictures/mix_3.jpg'
+import select_3 from '/pictures/select_3.jpg'
 
 export interface Product {
   id: string;
@@ -40,6 +43,7 @@ export const products: Product[] = [
     images: [
       teak_front,
       teak_back,
+      mix_3,
       new_makhana_hd,
       pudding_product1,
     ],
@@ -70,6 +74,7 @@ export const products: Product[] = [
     image: orange_front,
     images: [orange_front,
       orange_back,
+      select_3,
       new_makhana_hd,
       pudding_product1],
     benefits: [
@@ -100,6 +105,7 @@ export const products: Product[] = [
     images: [
       Jumbo_front,
       Jumbo_back,
+      jumbo_3,
       new_makhana_hd,
     ],
     benefits: [
