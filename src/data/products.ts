@@ -6,7 +6,7 @@ import Jumbo_back from '/pictures/Jumbo_back.jpg'
 import Jumbo_front from '/pictures/Jumbo_front.jpg'
 import new_makhana_hd from '/pictures/new_makhana_hd.jpg'
 import pudding_product1 from '/pictures/pudding_product1.png'
-import jumbo_3 from '/pictures/jumbo_3.jpg'
+import jumbo_3 from '/pictures/Jumbo_3.jpg'
 import mix_3 from '/pictures/mix_3.jpg'
 import select_3 from '/pictures/select_3.jpg'
 
