@@ -99,7 +99,7 @@ export const products: Product[] = [
     name: "Shressth Jumbo",
     description: "At Shressth Jumbo, we believe that size matters—especially when it comes to taste and crunch! That’s why we carefully handpick only the biggest, fluffiest makhanas from the harvest. Each piece is selected for its superior size and texture, ensuring a premium snacking experience.No broken bits, no compromises—just the finest, crispiest lotus seeds nature has to offer.",
     shortDescription: "Handpicked Jumbo Makhana – Only the Best",
-    price: 600,
+    price: 510,
     weight: "185g",
     image: Jumbo_front,
     images: [

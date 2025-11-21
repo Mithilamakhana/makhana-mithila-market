@@ -195,7 +195,7 @@ export type Database = {
         }[]
       }
       get_orders_for_admin: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           created_at: string
           customer_address: string | null
@@ -209,6 +209,12 @@ export type Database = {
           order_items: Json
           total_amount: number
         }[]
+        SetofOptions: {
+          from: "*"
+          to: "orders"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
       has_role: {
         Args: {
