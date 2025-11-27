@@ -200,6 +200,8 @@ const Cart = () => {
       });
 
       // STEP 2: Now proceed to payment gateway
+      const returnUrl = `${window.location.origin}/order-success`;
+      
       const { data: cashfreeOrder, error: cashfreeError } = await supabase.functions.invoke('create-cashfree-order', {
         body: {
           amount: orderAmount,
@@ -210,7 +212,7 @@ const Cart = () => {
             customer_name: formData.name,
           },
           order_meta: {
-            return_url: `${import.meta.env.VITE_BASE_URL}/order-success`,
+            return_url: returnUrl,
           }
         }
       });
@@ -245,7 +247,7 @@ const Cart = () => {
 
       const checkoutOptions = {
         paymentSessionId: cashfreeOrder.payment_session_id,
-        returnUrl: `${import.meta.env.VITE_BASE_URL}/order-success`,
+        returnUrl: returnUrl,
         redirectTarget: "_modal",
         appearance: {
           primary_color: "#D97706",
