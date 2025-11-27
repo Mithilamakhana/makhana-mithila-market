@@ -154,7 +154,14 @@ const Cart = () => {
       const orderAmount = getTotalPrice();
       const returnUrl = `${window.location.origin}/order-success`;
       
-      // STEP 1: Create payment order first
+      // STEP 1: Save order data to sessionStorage for verification after payment redirect
+      sessionStorage.setItem('pendingOrder', JSON.stringify({
+        items,
+        formData,
+        totalAmount: orderAmount
+      }));
+
+      // STEP 2: Create payment order
       toast({
         title: "Processing Payment",
         description: "Initializing secure payment...",
@@ -233,70 +240,12 @@ const Cart = () => {
           return;
         }
 
-        if (result.redirect) {
-          console.log('Payment redirect initiated');
-        }
-
-        // STEP 2: Verify payment first
-        toast({
-          title: "Verifying Payment",
-          description: "Please wait while we confirm your payment...",
-        });
-
-        const { data: verificationResult, error: verificationError } = await supabase.functions.invoke('verify-cashfree-payment', {
-          body: {
-            order_id: cashfreeOrder.order_id,
-          }
-        });
-
-        if (verificationError || !verificationResult.isValid) {
-          console.error('Payment verification failed:', verificationError);
-          toast({
-            title: "Payment Verification Failed",
-            description: "We couldn't verify your payment. Please contact support with your order details.",
-            variant: "destructive"
-          });
-          setIsProcessing(false);
-          return;
-        }
-
-        console.log('Payment verified successfully');
-
-        // STEP 3: Now send order confirmation emails after successful payment
-        toast({
-          title: "Payment Confirmed",
-          description: "Sending order confirmation emails...",
-        });
-
-        const { data: notificationData, error: notificationError } = await supabase.functions.invoke('send-order-notification', {
-          body: {
-            customerData: formData,
-            items: items,
-            totalAmount: orderAmount,
-            paymentId: verificationResult.orderDetails.cf_order_id,
-            orderId: cashfreeOrder.order_id
-          }
-        });
-
-        if (notificationError) {
-          console.error('Error sending order notification:', notificationError);
-          // Payment was successful, so we still proceed but notify about email issue
-          toast({
-            title: "Payment Successful",
-            description: "Payment completed but there was an issue sending confirmation emails. We'll contact you soon!",
-            variant: "default"
-          });
-        } else {
-          console.log('Order notification sent successfully:', notificationData);
-          toast({
-            title: "Order Complete!",
-            description: "Payment successful and confirmation emails sent!",
-          });
-        }
+        // Payment gateway will redirect to order-success page
+        // Verification and email sending will happen there
+        console.log('Payment redirect initiated');
         
-        // Clear cart and redirect
+        // Clear cart as payment is being processed
         clearCart();
-        navigate('/order-success');
       });
 
     } catch (error: any) {
