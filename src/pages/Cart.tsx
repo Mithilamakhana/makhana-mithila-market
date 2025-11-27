@@ -152,8 +152,54 @@ const Cart = () => {
     
     try {
       const orderAmount = getTotalPrice();
+      const tempOrderId = `ORD${Date.now()}`;
       
-      // Create Cashfree order
+      // STEP 1: Send order confirmation emails FIRST
+      toast({
+        title: "Processing Order",
+        description: "Sending order confirmation...",
+      });
+      
+      const { data: notificationData, error: notificationError } = await supabase.functions.invoke('send-order-notification', {
+        body: {
+          customerData: formData,
+          items: items,
+          totalAmount: orderAmount,
+          paymentId: 'PENDING',
+          orderId: tempOrderId
+        }
+      });
+
+      if (notificationError) {
+        console.error('Error sending order notification:', notificationError);
+        
+        // Check if it's a connection error (ngrok offline, etc.)
+        const errorMessage = notificationError.message || '';
+        if (errorMessage.includes('offline') || errorMessage.includes('ERR_NGROK') || errorMessage.includes('Failed to fetch')) {
+          toast({
+            title: "Connection Error",
+            description: "Unable to connect to our servers. Please check your internet connection and try again.",
+            variant: "destructive"
+          });
+        } else {
+          toast({
+            title: "Notification Failed",
+            description: "We couldn't send the order confirmation. Please contact support or try again.",
+            variant: "destructive"
+          });
+        }
+        setIsProcessing(false);
+        return;
+      }
+
+      console.log('Order notification sent successfully:', notificationData);
+      
+      toast({
+        title: "Order Confirmed",
+        description: "Email sent! Proceeding to payment...",
+      });
+
+      // STEP 2: Now proceed to payment gateway
       const { data: cashfreeOrder, error: cashfreeError } = await supabase.functions.invoke('create-cashfree-order', {
         body: {
           amount: orderAmount,
@@ -171,7 +217,23 @@ const Cart = () => {
 
       if (cashfreeError) {
         console.error('Error creating Cashfree order:', cashfreeError);
-        throw new Error(`Payment setup failed: ${cashfreeError.message}`);
+        
+        const errorMessage = cashfreeError.message || '';
+        if (errorMessage.includes('offline') || errorMessage.includes('ERR_NGROK') || errorMessage.includes('Failed to fetch')) {
+          toast({
+            title: "Connection Error",
+            description: "Unable to connect to payment gateway. Please check your internet connection.",
+            variant: "destructive"
+          });
+        } else {
+          toast({
+            title: "Payment Setup Failed",
+            description: "Unable to initialize payment. Please try again or contact support.",
+            variant: "destructive"
+          });
+        }
+        setIsProcessing(false);
+        return;
       }
 
       console.log('Cashfree order created:', cashfreeOrder);
@@ -183,8 +245,8 @@ const Cart = () => {
 
       const checkoutOptions = {
         paymentSessionId: cashfreeOrder.payment_session_id,
-  returnUrl: `${import.meta.env.VITE_BASE_URL}/order-success`,
-        redirectTarget: "_modal", // Keep it as modal
+        returnUrl: `${import.meta.env.VITE_BASE_URL}/order-success`,
+        redirectTarget: "_modal",
         appearance: {
           primary_color: "#D97706",
           merchant_name: "Mithila Sattvik Makhana",
@@ -204,7 +266,7 @@ const Cart = () => {
           console.error('Payment error:', result.error);
           toast({
             title: "Payment Failed",
-            description: result.error.message || "Payment could not be processed",
+            description: "Unable to process payment. Please try again or contact support.",
             variant: "destructive"
           });
           setIsProcessing(false);
@@ -226,50 +288,42 @@ const Cart = () => {
           console.error('Payment verification failed:', verificationError);
           toast({
             title: "Payment Verification Failed",
-            description: "Please contact support with your order details.",
+            description: "We couldn't verify your payment. Please contact support with your order details.",
             variant: "destructive"
           });
           setIsProcessing(false);
           return;
         }
 
-        // Send order notification after successful payment
-        const { data, error } = await supabase.functions.invoke('send-order-notification', {
-          body: {
-            customerData: formData,
-            items: items,
-            totalAmount: orderAmount,
-            paymentId: cashfreeOrder.cf_order_id,
-            orderId: cashfreeOrder.order_id
-          }
+        // Payment successful
+        toast({
+          title: "Payment Successful!",
+          description: "Your order has been confirmed and you'll receive updates via email.",
         });
-
-        if (error) {
-          console.error('Error sending order notification:', error);
-          toast({
-            title: "Payment Successful",
-            description: "Your payment was successful. We'll process your order shortly.",
-          });
-        } else {
-          console.log('Order placed successfully:', data);
-          toast({
-            title: "Order Placed Successfully!",
-            description: "Thank you for your purchase. We'll contact you shortly.",
-          });
-        }
         
         // Clear cart and redirect
         clearCart();
         navigate('/order-success');
       });
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Checkout error:', error);
-      toast({
-        title: "Error",
-        description: "There was an error processing your order. Please try again.",
-        variant: "destructive"
-      });
+      
+      // User-friendly error message
+      const errorMessage = error?.message || '';
+      if (errorMessage.includes('offline') || errorMessage.includes('ERR_NGROK') || errorMessage.includes('Failed to fetch') || errorMessage.includes('NetworkError')) {
+        toast({
+          title: "Connection Error",
+          description: "Unable to connect to our servers. Please check your internet connection and try again.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Order Processing Failed",
+          description: "Something went wrong. Please try again or contact our support team for help.",
+          variant: "destructive"
+        });
+      }
       setIsProcessing(false);
     }
   };
