@@ -152,55 +152,13 @@ const Cart = () => {
     
     try {
       const orderAmount = getTotalPrice();
-      const tempOrderId = `ORD${Date.now()}`;
-      
-      // STEP 1: Send order confirmation emails FIRST
-      toast({
-        title: "Processing Order",
-        description: "Sending order confirmation...",
-      });
-      
-      const { data: notificationData, error: notificationError } = await supabase.functions.invoke('send-order-notification', {
-        body: {
-          customerData: formData,
-          items: items,
-          totalAmount: orderAmount,
-          paymentId: 'PENDING',
-          orderId: tempOrderId
-        }
-      });
-
-      if (notificationError) {
-        console.error('Error sending order notification:', notificationError);
-        
-        // Check if it's a connection error (ngrok offline, etc.)
-        const errorMessage = notificationError.message || '';
-        if (errorMessage.includes('offline') || errorMessage.includes('ERR_NGROK') || errorMessage.includes('Failed to fetch')) {
-          toast({
-            title: "Connection Error",
-            description: "Unable to connect to our servers. Please check your internet connection and try again.",
-            variant: "destructive"
-          });
-        } else {
-          toast({
-            title: "Notification Failed",
-            description: "We couldn't send the order confirmation. Please contact support or try again.",
-            variant: "destructive"
-          });
-        }
-        setIsProcessing(false);
-        return;
-      }
-
-      console.log('Order notification sent successfully:', notificationData);
-      
-      toast({
-        title: "Order Confirmed",
-        description: "Email sent! Proceeding to payment...",
-      });
-
-      // STEP 2: Now proceed to payment gateway
       const returnUrl = `${window.location.origin}/order-success`;
+      
+      // STEP 1: Create payment order first
+      toast({
+        title: "Processing Payment",
+        description: "Initializing secure payment...",
+      });
       
       const { data: cashfreeOrder, error: cashfreeError } = await supabase.functions.invoke('create-cashfree-order', {
         body: {
@@ -279,7 +237,12 @@ const Cart = () => {
           console.log('Payment redirect initiated');
         }
 
-        // Verify payment
+        // STEP 2: Verify payment first
+        toast({
+          title: "Verifying Payment",
+          description: "Please wait while we confirm your payment...",
+        });
+
         const { data: verificationResult, error: verificationError } = await supabase.functions.invoke('verify-cashfree-payment', {
           body: {
             order_id: cashfreeOrder.order_id,
@@ -297,11 +260,39 @@ const Cart = () => {
           return;
         }
 
-        // Payment successful
+        console.log('Payment verified successfully');
+
+        // STEP 3: Now send order confirmation emails after successful payment
         toast({
-          title: "Payment Successful!",
-          description: "Your order has been confirmed and you'll receive updates via email.",
+          title: "Payment Confirmed",
+          description: "Sending order confirmation emails...",
         });
+
+        const { data: notificationData, error: notificationError } = await supabase.functions.invoke('send-order-notification', {
+          body: {
+            customerData: formData,
+            items: items,
+            totalAmount: orderAmount,
+            paymentId: verificationResult.orderDetails.cf_order_id,
+            orderId: cashfreeOrder.order_id
+          }
+        });
+
+        if (notificationError) {
+          console.error('Error sending order notification:', notificationError);
+          // Payment was successful, so we still proceed but notify about email issue
+          toast({
+            title: "Payment Successful",
+            description: "Payment completed but there was an issue sending confirmation emails. We'll contact you soon!",
+            variant: "default"
+          });
+        } else {
+          console.log('Order notification sent successfully:', notificationData);
+          toast({
+            title: "Order Complete!",
+            description: "Payment successful and confirmation emails sent!",
+          });
+        }
         
         // Clear cart and redirect
         clearCart();
