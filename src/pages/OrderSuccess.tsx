@@ -17,7 +17,11 @@ const OrderSuccess = () => {
     const verifyAndNotify = async () => {
       const orderId = searchParams.get('order_id');
       
+      console.log('OrderSuccess page loaded with search params:', window.location.href);
+      console.log('Order ID from params:', orderId);
+      
       if (!orderId) {
+        console.error('No order ID found in URL');
         setVerificationStatus('error');
         setErrorMessage('No order ID found. Please contact support.');
         setIsVerifying(false);
