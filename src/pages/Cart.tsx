@@ -152,7 +152,7 @@ const Cart = () => {
     
     try {
       const orderAmount = getTotalPrice();
-      const returnUrl = `${window.location.origin}/order-success`;
+      const returnUrl = `${window.location.origin}/#/order-success`;
       
       // STEP 1: Save order data to sessionStorage for verification after payment redirect
       sessionStorage.setItem('pendingOrder', JSON.stringify({
