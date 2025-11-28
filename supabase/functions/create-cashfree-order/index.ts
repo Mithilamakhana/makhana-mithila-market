@@ -56,10 +56,17 @@ const handler = async (req: Request): Promise<Response> => {
       order_amount: amount,
       order_currency: "INR",
       customer_details,
-      order_meta: {
-        return_url: order_meta?.return_url ? `${order_meta.return_url}?order_id={order_id}` : undefined,
-        notify_url: order_meta?.notify_url || undefined,
-      },
+      // order_meta: {
+      //   ...order_meta, // This may include ngrok return_url
+      //   notify_url: order_meta?.notify_url || null,
+      //   payment_methods: null
+      // },
+      // To use a production return_url, uncomment and set below:
+      // order_meta: {
+      //   return_url: "https://your-production-domain.com/order-success",
+      //   notify_url: null,
+      //   payment_methods: null
+      // },
       order_note: "Order from Mithila Sattvik Makhana",
     };
 

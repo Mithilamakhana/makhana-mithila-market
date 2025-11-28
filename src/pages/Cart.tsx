@@ -152,21 +152,8 @@ const Cart = () => {
     
     try {
       const orderAmount = getTotalPrice();
-      const returnUrl = `${window.location.origin}/#/order-success`;
       
-      // STEP 1: Save order data to sessionStorage for verification after payment redirect
-      sessionStorage.setItem('pendingOrder', JSON.stringify({
-        items,
-        formData,
-        totalAmount: orderAmount
-      }));
-
-      // STEP 2: Create payment order
-      toast({
-        title: "Processing Payment",
-        description: "Initializing secure payment...",
-      });
-      
+      // Create Cashfree order
       const { data: cashfreeOrder, error: cashfreeError } = await supabase.functions.invoke('create-cashfree-order', {
         body: {
           amount: orderAmount,
@@ -177,30 +164,14 @@ const Cart = () => {
             customer_name: formData.name,
           },
           order_meta: {
-            return_url: returnUrl,
+            return_url: `${import.meta.env.VITE_BASE_URL}/order-success`,
           }
         }
       });
 
       if (cashfreeError) {
         console.error('Error creating Cashfree order:', cashfreeError);
-        
-        const errorMessage = cashfreeError.message || '';
-        if (errorMessage.includes('offline') || errorMessage.includes('ERR_NGROK') || errorMessage.includes('Failed to fetch')) {
-          toast({
-            title: "Connection Error",
-            description: "Unable to connect to payment gateway. Please check your internet connection.",
-            variant: "destructive"
-          });
-        } else {
-          toast({
-            title: "Payment Setup Failed",
-            description: "Unable to initialize payment. Please try again or contact support.",
-            variant: "destructive"
-          });
-        }
-        setIsProcessing(false);
-        return;
+        throw new Error(`Payment setup failed: ${cashfreeError.message}`);
       }
 
       console.log('Cashfree order created:', cashfreeOrder);
@@ -212,8 +183,8 @@ const Cart = () => {
 
       const checkoutOptions = {
         paymentSessionId: cashfreeOrder.payment_session_id,
-        returnUrl: returnUrl,
-        redirectTarget: "_modal",
+  returnUrl: `${import.meta.env.VITE_BASE_URL}/order-success`,
+        redirectTarget: "_modal", // Keep it as modal
         appearance: {
           primary_color: "#D97706",
           merchant_name: "Mithila Sattvik Makhana",
@@ -233,39 +204,72 @@ const Cart = () => {
           console.error('Payment error:', result.error);
           toast({
             title: "Payment Failed",
-            description: "Unable to process payment. Please try again or contact support.",
+            description: result.error.message || "Payment could not be processed",
             variant: "destructive"
           });
           setIsProcessing(false);
           return;
         }
 
-        // Payment gateway will redirect to order-success page
-        // Verification and email sending will happen there
-        console.log('Payment redirect initiated');
+        if (result.redirect) {
+          console.log('Payment redirect initiated');
+        }
+
+        // Verify payment
+        const { data: verificationResult, error: verificationError } = await supabase.functions.invoke('verify-cashfree-payment', {
+          body: {
+            order_id: cashfreeOrder.order_id,
+          }
+        });
+
+        if (verificationError || !verificationResult.isValid) {
+          console.error('Payment verification failed:', verificationError);
+          toast({
+            title: "Payment Verification Failed",
+            description: "Please contact support with your order details.",
+            variant: "destructive"
+          });
+          setIsProcessing(false);
+          return;
+        }
+
+        // Send order notification after successful payment
+        const { data, error } = await supabase.functions.invoke('send-order-notification', {
+          body: {
+            customerData: formData,
+            items: items,
+            totalAmount: orderAmount,
+            paymentId: cashfreeOrder.cf_order_id,
+            orderId: cashfreeOrder.order_id
+          }
+        });
+
+        if (error) {
+          console.error('Error sending order notification:', error);
+          toast({
+            title: "Payment Successful",
+            description: "Your payment was successful. We'll process your order shortly.",
+          });
+        } else {
+          console.log('Order placed successfully:', data);
+          toast({
+            title: "Order Placed Successfully!",
+            description: "Thank you for your purchase. We'll contact you shortly.",
+          });
+        }
         
-        // Clear cart as payment is being processed
+        // Clear cart and redirect
         clearCart();
+        navigate('/order-success');
       });
 
-    } catch (error: any) {
+    } catch (error) {
       console.error('Checkout error:', error);
-      
-      // User-friendly error message
-      const errorMessage = error?.message || '';
-      if (errorMessage.includes('offline') || errorMessage.includes('ERR_NGROK') || errorMessage.includes('Failed to fetch') || errorMessage.includes('NetworkError')) {
-        toast({
-          title: "Connection Error",
-          description: "Unable to connect to our servers. Please check your internet connection and try again.",
-          variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "Order Processing Failed",
-          description: "Something went wrong. Please try again or contact our support team for help.",
-          variant: "destructive"
-        });
-      }
+      toast({
+        title: "Error",
+        description: "There was an error processing your order. Please try again.",
+        variant: "destructive"
+      });
       setIsProcessing(false);
     }
   };
