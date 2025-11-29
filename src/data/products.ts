@@ -38,7 +38,7 @@ export const products: Product[] = [
     description: "Discover the authentic taste of Mithila with Makhana Mixx – a carefully curated blend of premium-grade fox nuts (makhana) featuring a mix of 4, 5, and 6 sutta sizes. This unique combination ensures the perfect balance of texture, crunch, and flavor in every bite. Sourced directly from the fertile lands of Mithila and processed with the utmost care, our makhana mix brings together variety and quality in one wholesome pack.",
     shortDescription: "A premium blend of 4, 5 & 6 sutta-sized fox nuts, handpicked from the heart of Mithila.",
     price: 450,
-    weight: "200g",
+    weight: "190g",
     image: teak_front,
     images: [
       teak_front,
@@ -100,7 +100,7 @@ export const products: Product[] = [
     description: "At Shressth Jumbo, we believe that size matters—especially when it comes to taste and crunch! That’s why we carefully handpick only the biggest, fluffiest makhanas from the harvest. Each piece is selected for its superior size and texture, ensuring a premium snacking experience.No broken bits, no compromises—just the finest, crispiest lotus seeds nature has to offer.",
     shortDescription: "Handpicked Jumbo Makhana – Only the Best",
     price: 510,
-    weight: "185g",
+    weight: "165g",
     image: Jumbo_front,
     images: [
       Jumbo_front,
