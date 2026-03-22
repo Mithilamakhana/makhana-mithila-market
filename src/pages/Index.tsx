@@ -106,10 +106,10 @@ const Index = () => {
               Perfect for weddings, festivals, corporate gifting & more
             </p>
             <a
-              href="tel:9876543210"
+              href="tel:9288205923"
               className="inline-flex items-center gap-2 bg-mithila-orange hover:bg-mithila-gold text-white font-bold text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
             >
-              📞 Contact Now: 9876543210
+              📞 Contact Now: 9288205923
             </a>
           </div>
         </div>
