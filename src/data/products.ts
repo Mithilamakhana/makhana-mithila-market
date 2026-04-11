@@ -124,6 +124,35 @@ export const products: Product[] = [
       fiber: "14.0g per 100g"
     },
     inStock: true
+  },
+  {
+    id: "tawa-roast-makhana",
+    name: "Tawa Roast Makhana",
+    description: "Premium raw makhana that's perfect for easy tawa roasting—budget-friendly without compromising on quality. Sourced directly from the fertile lands of Mithila, these fox nuts are ideal for home roasting enthusiasts who love to prepare their makhana fresh on the tawa with their favourite spices and seasonings.",
+    shortDescription: "Premium raw makhana perfect for easy tawa roasting—budget-friendly without compromising on quality.",
+    price: 700,
+    weight: "500g",
+    image: new_makhana_hd,
+    images: [
+      new_makhana_hd,
+      pudding_product1,
+    ],
+    benefits: [
+      "Budget-friendly premium quality",
+      "Perfect for home tawa roasting",
+      "High in protein and low in fat",
+      "Natural source of calcium",
+      "Gluten-free and vegan"
+    ],
+    ingredients: ["100% Organic Fox Nuts (Euryale Ferox)"],
+    nutritionalInfo: {
+      calories: "347 kcal per 100g",
+      protein: "9.7g per 100g",
+      fat: "0.1g per 100g",
+      carbohydrates: "76.9g per 100g",
+      fiber: "14.5g per 100g"
+    },
+    inStock: true
   }
 ];
 
