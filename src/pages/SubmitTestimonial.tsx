@@ -53,6 +53,29 @@ const SubmitTestimonial = () => {
     }
   };
 
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen py-12">
+        <div className="container mx-auto px-4 max-w-2xl text-center">
+          <Card>
+            <CardHeader>
+              <CardTitle>Sign In Required</CardTitle>
+              <CardDescription>Please sign in to submit a testimonial.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button onClick={() => navigate('/auth')}>Sign In</Button>
+            </CardContent>
+          </Card>
+        </div>
+        <MascotFloating />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen py-12">
       <div className="container mx-auto px-4 max-w-2xl">
