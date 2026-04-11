@@ -130,7 +130,7 @@ export const products: Product[] = [
     name: "Tawa Roast Makhana",
     description: "Premium raw makhana that's perfect for easy tawa roasting—budget-friendly without compromising on quality. Sourced directly from the fertile lands of Mithila, these fox nuts are ideal for home roasting enthusiasts who love to prepare their makhana fresh on the tawa with their favourite spices and seasonings.",
     shortDescription: "Premium raw makhana perfect for easy tawa roasting—budget-friendly without compromising on quality.",
-    price: 700,
+    price: 850,
     weight: "500g",
     image: new_makhana_hd,
     images: [
