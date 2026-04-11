@@ -9,9 +9,11 @@ import { Star } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import MascotFloating from '@/components/MascotFloating';
+import { useAuth } from '@/context/AuthContext';
 
 const SubmitTestimonial = () => {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
   const [name, setName] = useState('');
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
