@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from "../context/CartContext.tsx";
 import { Button } from "../components/ui/button.tsx";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select.tsx";
-import { ArrowLeft, Trash2, ShoppingCart } from 'lucide-react';
+import { ArrowLeft, Trash2, ShoppingCart, Truck, Gift, Check } from 'lucide-react';
 import { toast } from "../components/ui/use-toast.ts";
 import { supabase } from "../integrations/supabase/client.ts";
 import MascotFloating from "../components/MascotFloating.tsx";
@@ -393,21 +393,41 @@ const Cart = () => {
                   <span>{getDeliveryCharge() === 0 ? 'FREE' : `₹${getDeliveryCharge()}`}</span>
                 </div>
                 
-                {getTotalItems() === 1 && (
-                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-3 mt-2">
-                    <p className="text-green-700 text-sm font-semibold flex items-center gap-2">
-                      🎉 Add one more packet and get FREE shipping!
-                    </p>
+                <div className="mt-3 rounded-md border border-mithila-green/20 bg-mithila-beige p-4">
+                  <p className="mb-3 text-sm font-semibold text-mithila-green" aria-live="polite">
+                    {getTotalItems() === 1
+                      ? 'Add 1 more packet to unlock free delivery.'
+                      : getTotalItems() === 2
+                        ? 'Free delivery unlocked! Add 1 more packet for an extra ₹100 off.'
+                        : 'Free delivery and your extra ₹100 discount are unlocked!'}
+                  </p>
+                  <div
+                    className="h-2 overflow-hidden rounded-full bg-white"
+                    role="progressbar"
+                    aria-label="Cart rewards progress"
+                    aria-valuemin={0}
+                    aria-valuemax={3}
+                    aria-valuenow={Math.min(getTotalItems(), 3)}
+                  >
+                    <div
+                      className={`h-full rounded-full bg-mithila-green transition-[width] duration-300 ${
+                        getTotalItems() >= 3 ? 'w-full' : getTotalItems() === 2 ? 'w-2/3' : 'w-1/3'
+                      }`}
+                    />
                   </div>
-                )}
-                
-                {getTotalItems() === 2 && (
-                  <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg p-3 mt-2">
-                    <p className="text-amber-700 text-sm font-semibold flex items-center gap-2">
-                      🎁 Add one more packet and get ₹100 extra discount!
-                    </p>
+                  <div className="mt-2 flex justify-between gap-3 text-xs">
+                    <span className={`flex items-center gap-1 ${getTotalItems() >= 2 ? 'font-semibold text-mithila-green' : 'text-gray-600'}`}>
+                      {getTotalItems() >= 2 && <Check className="h-3.5 w-3.5" aria-hidden="true" />}
+                      <Truck className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                      Free delivery · 2 packets
+                    </span>
+                    <span className={`flex items-center gap-1 text-right ${getTotalItems() >= 3 ? 'font-semibold text-mithila-green' : 'text-gray-600'}`}>
+                      {getTotalItems() >= 3 && <Check className="h-3.5 w-3.5" aria-hidden="true" />}
+                      <Gift className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                      Extra ₹100 off · 3 packets
+                    </span>
                   </div>
-                )}
+                </div>
                 
                 <div className="border-t border-gray-200 pt-3 mt-3">
                   <div className="flex justify-between text-lg font-semibold text-mithila-green">
