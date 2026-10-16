@@ -1,0 +1,2 @@
+- [ ] Add the three-product sampler offer to the homepage and product listing.
+- [ ] Add a floating WhatsApp contact button across the site.
