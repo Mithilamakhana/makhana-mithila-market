@@ -8,6 +8,7 @@ import { ArrowRight } from 'lucide-react';
 import MakhanaSlideshow from '../components/MakhanaSlideshow.tsx';
 import MascotFloating from '../components/MascotFloating.tsx';
 import TestimonialsSection from '../components/TestimonialsSection.tsx';
+import VarietySampler from '../components/VarietySampler';
 
 const Index = () => {
   return (
@@ -80,6 +81,8 @@ const Index = () => {
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
+
+          <VarietySampler />
           
           <div className="text-center mt-8 sm:mt-12">
             <Link to="/products">
