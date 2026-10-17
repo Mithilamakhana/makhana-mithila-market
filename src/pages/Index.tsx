@@ -8,6 +8,7 @@ import { ArrowRight } from 'lucide-react';
 import MakhanaSlideshow from '../components/MakhanaSlideshow.tsx';
 import MascotFloating from '../components/MascotFloating.tsx';
 import TestimonialsSection from '../components/TestimonialsSection.tsx';
+import VarietySampler from '../components/VarietySampler';
 
 const Index = () => {
   return (
@@ -80,6 +81,8 @@ const Index = () => {
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
+
+          <VarietySampler />
           
           <div className="text-center mt-8 sm:mt-12">
             <Link to="/products">
@@ -88,6 +91,29 @@ const Index = () => {
                 <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Bulk Order Section */}
+      <section className="py-10 sm:py-12 md:py-16 bg-gradient-to-r from-mithila-green to-mithila-blue">
+        <div className="container mx-auto px-4">
+          <div className="text-center text-white">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
+              🎉 Bulk Orders? Big Savings!
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl mb-2 max-w-2xl mx-auto opacity-90">
+              Planning for events, gifting, or reselling? Order in bulk and get <span className="text-mithila-gold font-bold text-xl sm:text-2xl">exclusive discounts!</span>
+            </p>
+            <p className="text-sm sm:text-base mb-6 opacity-80">
+              Perfect for weddings, festivals, corporate gifting & more
+            </p>
+            <a
+              href="tel:9288205923"
+              className="inline-flex items-center gap-2 bg-mithila-orange hover:bg-mithila-gold text-white font-bold text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+              📞 Contact Now: 9288205923
+            </a>
           </div>
         </div>
       </section>
