@@ -3,6 +3,7 @@ import React from 'react';
 import { products } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
 import MascotFloating from '@/components/MascotFloating';
+import VarietySampler from '@/components/VarietySampler';
 
 const ProductsPage = () => {
   return (
@@ -21,6 +22,8 @@ const ProductsPage = () => {
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
+
+        <VarietySampler />
       </div>
 
       <MascotFloating />

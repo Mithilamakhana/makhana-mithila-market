@@ -22,6 +22,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import RefundPolicy from "./pages/RefundPolicy";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import SubmitTestimonial from "./pages/SubmitTestimonial";
+import WhatsAppChatButton from "./components/WhatsAppChatButton";
 
 
 const queryClient = new QueryClient();
@@ -55,6 +56,7 @@ const App = () => (
                 </Routes>
               </div>
               <Footer />
+              <WhatsAppChatButton />
             </div>
           </HashRouter>
         </TooltipProvider>
