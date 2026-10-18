@@ -23,6 +23,7 @@ import RefundPolicy from "./pages/RefundPolicy";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import SubmitTestimonial from "./pages/SubmitTestimonial";
 import WhatsAppChatButton from "./components/WhatsAppChatButton";
+import AnnouncementBar from "./components/AnnouncementBar";
 
 
 const queryClient = new QueryClient();
@@ -37,8 +38,9 @@ const App = () => (
           <HashRouter>
             <ScrollToTop />
             <div className="flex flex-col min-h-screen overflow-x-hidden">
+              <AnnouncementBar />
               <Navbar />
-              <div className="flex-grow pt-16 sm:pt-20">
+              <div className="flex-grow pt-28 sm:pt-32">
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/products" element={<ProductsPage />} />

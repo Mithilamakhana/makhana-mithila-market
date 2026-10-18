@@ -8,6 +8,7 @@ import { toast } from "../components/ui/use-toast.ts";
 import { supabase } from "../integrations/supabase/client.ts";
 import MascotFloating from "../components/MascotFloating.tsx";
 import { indianStates, citiesByState } from "../data/indianStatesAndCities.ts";
+import { getDiscountedUnitPrice, getFestivalEligiblePacketCount, isFestivalEligibleProduct } from "../lib/pricing.ts";
 
 const Cart = () => {
   const { items, updateQuantity, removeFromCart, getTotalPrice, getSubtotal, getDiscount, getDeliveryCharge, getTotalItems, clearCart } = useCart();
@@ -28,6 +29,10 @@ const Cart = () => {
     pincode: ''
   });
   const [availableCities, setAvailableCities] = useState<string[]>([]);
+  const eligiblePacketCount = getFestivalEligiblePacketCount(items.map(item => ({
+    productId: item.product.id,
+    quantity: item.quantity,
+  })));
   
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -330,8 +335,8 @@ const Cart = () => {
                       <h3 className="font-semibold text-mithila-green">{item.product.name}</h3>
                       <p className="text-gray-500 text-sm">{item.product.weight}</p>
                       <div className="flex items-center gap-2 mt-1">
-                        <p className="text-gray-400 text-sm line-through">₹{item.product.price}</p>
-                        <p className="text-mithila-blue font-semibold">₹{item.product.price - 150}</p>
+                        {isFestivalEligibleProduct(item.product.id) && <p className="text-gray-400 text-sm line-through">₹{item.product.price}</p>}
+                        <p className="text-mithila-blue font-semibold">₹{getDiscountedUnitPrice(item.product.id, item.product.price)}</p>
                       </div>
                     </div>
                     
@@ -377,8 +382,8 @@ const Cart = () => {
                 
                 <div className="space-y-1">
                   <div className="flex justify-between text-green-600">
-                    <span>Festival Offer ({getTotalItems()} × ₹150)</span>
-                    <span>- ₹{getTotalItems() * 150}</span>
+                    <span>Festival Offer ({eligiblePacketCount} eligible packets × ₹150)</span>
+                    <span>- ₹{eligiblePacketCount * 150}</span>
                   </div>
                   {getTotalItems() >= 3 && (
                     <div className="flex justify-between text-green-600">
@@ -387,6 +392,9 @@ const Cart = () => {
                     </div>
                   )}
                 </div>
+                {eligiblePacketCount === 0 && (
+                  <p className="text-xs text-gray-500">Tawa Roast Makhana is not included in the Festival Offer.</p>
+                )}
                 
                 <div className="flex justify-between text-gray-600">
                   <span>Delivery Charge</span>
