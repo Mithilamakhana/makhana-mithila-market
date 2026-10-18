@@ -37,7 +37,7 @@ const TestimonialsSection = () => {
         .select('*')
         .eq('approved', true)
         .order('created_at', { ascending: false })
-        .limit(6);
+        .limit(100);
 
       if (error) throw error;
       setTestimonials(data || []);
