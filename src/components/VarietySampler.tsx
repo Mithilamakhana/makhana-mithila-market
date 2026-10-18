@@ -10,7 +10,7 @@ const samplerProducts = ['flavored-makhana', 'roasted-makhana', 'premium-makhana
   .filter((product): product is Product => product !== undefined);
 
 const originalPrice = samplerProducts.reduce((total, product) => total + product.price, 0);
-const samplerPrice = originalPrice - 400;
+const samplerPrice = originalPrice - 550;
 
 const VarietySampler = () => {
   const { addToCart } = useCart();
@@ -23,7 +23,7 @@ const VarietySampler = () => {
     samplerProducts.forEach((product) => addToCart(product));
     toast({
       title: 'Sampler added to your cart',
-      description: 'Three varieties, with free delivery and ₹100 extra off included.',
+      description: 'Three varieties, with Festival Offer, free delivery and ₹100 extra off included.',
     });
     navigate('/cart');
   };
@@ -46,10 +46,10 @@ const VarietySampler = () => {
             <span className="text-sm text-gray-500 line-through">₹{originalPrice}</span>
             <span className="text-xl font-bold text-mithila-green">₹{samplerPrice}</span>
             <span className="inline-flex items-center gap-1 text-sm font-semibold text-mithila-green">
-              <Check className="h-4 w-4" aria-hidden="true" /> Save ₹400
+              <Check className="h-4 w-4" aria-hidden="true" /> Save ₹550
             </span>
           </div>
-          <p className="mt-1 text-xs text-gray-600">Includes ₹100 off each pack, an extra ₹100 trio discount, and free delivery.</p>
+          <p className="mt-1 text-xs text-gray-600">Includes ₹150 Festival Offer off each pack, an extra ₹100 trio discount, and free delivery.</p>
         </div>
 
         <div className="flex shrink-0 items-center justify-center gap-3 sm:gap-4" aria-label="One pack of each sampler variety">

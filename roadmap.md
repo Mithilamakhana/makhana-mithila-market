@@ -1,2 +1,3 @@
 - [x] Add the three-product sampler offer to the homepage and product listing.
 - [x] Add a floating WhatsApp contact button across the site.
+- [ ] Set product-specific ratings, exclude Tawa Roast Makhana from the Festival Offer, add the announcement banner, and correct the footer phone link.

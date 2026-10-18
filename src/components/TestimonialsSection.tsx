@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Star } from "lucide-react";
+import { Star, BadgeCheck } from "lucide-react";
+import type { CarouselApi } from "@/components/ui/carousel";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +20,14 @@ interface Testimonial {
 const TestimonialsSection = () => {
   const navigate = useNavigate();
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [api, setApi] = useState<CarouselApi>();
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (!api || paused) return;
+    const id = setInterval(() => api.scrollNext(), 3500);
+    return () => clearInterval(id);
+  }, [api, paused]);
 
   const isMobile = useMediaQuery("(max-width: 640px)");
   const isTablet = useMediaQuery("(min-width: 641px) and (max-width: 1023px)");
@@ -37,7 +46,7 @@ const TestimonialsSection = () => {
         .select('*')
         .eq('approved', true)
         .order('created_at', { ascending: false })
-        .limit(6);
+        .limit(100);
 
       if (error) throw error;
       setTestimonials(data || []);
@@ -70,6 +79,11 @@ const TestimonialsSection = () => {
                 align: "start",
                 loop: true,
               }}
+              setApi={setApi}
+              onMouseEnter={() => setPaused(true)}
+              onMouseLeave={() => setPaused(false)}
+              onTouchStart={() => setPaused(true)}
+              onTouchEnd={() => setPaused(false)}
               className="w-full max-w-6xl mx-auto px-4 md:px-0"
             >
               <CarouselContent>
@@ -113,6 +127,9 @@ const TestimonialsSection = () => {
                         </div>
                         <div>
                           <h4 className="font-bold text-mithila-green text-base">{testimonial.name}</h4>
+                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-mithila-green bg-mithila-green/10 px-2 py-0.5 rounded-full mt-1">
+                            <BadgeCheck className="w-3.5 h-3.5" /> Verified Buyer
+                          </span>
                           {testimonial.title && (
                             <p className="text-sm text-gray-500">{testimonial.title}</p>
                           )}
