@@ -14,6 +14,7 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
+  const reviewStats = useReviewStats();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPlusOne, setShowPlusOne] = useState(false);
 
