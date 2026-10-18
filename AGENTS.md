@@ -1,1 +1,1 @@
-Keep reusable promotional offers and persistent contact actions in shared components so their behavior stays consistent across pages.
+Keep reusable promotional offers and persistent contact actions in shared components, and centralize discount eligibility and calculations so cart totals and product prices stay consistent.

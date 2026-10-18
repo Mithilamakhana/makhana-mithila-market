@@ -2,6 +2,7 @@
 import { createContext, useState, useContext, ReactNode } from "react";
 import { Product } from "../data/products";
 import { toast } from "@/components/ui/use-toast";
+import { calculateCartDiscount } from "@/lib/pricing";
 
 interface CartItem {
   product: Product;
@@ -78,10 +79,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getDiscount = () => {
-    const totalItems = getTotalItems();
-    const baseDiscount = totalItems * 150;
-    const bonusDiscount = totalItems >= 3 ? 100 : 0;
-    return baseDiscount + bonusDiscount;
+    return calculateCartDiscount(items.map(item => ({
+      productId: item.product.id,
+      quantity: item.quantity,
+    })));
   };
 
   const getDeliveryCharge = () => {
