@@ -41,8 +41,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Discount Badge */}
           <div className="absolute top-3 left-3 z-10">
             <div className="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1.5 rounded-lg shadow-lg transform -rotate-3 hover:rotate-0 transition-transform duration-300">
-              <div className="text-xs font-bold">SAVE ₹100</div>
-              <div className="text-[10px] font-medium">Limited Offer!</div>
+              <div className="text-xs font-bold">SAVE ₹150</div>
+              <div className="text-[10px] font-medium">Festival Offer</div>
             </div>
           </div>
           
@@ -105,7 +105,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="flex items-center justify-between mb-3 sm:mb-4">
           <div className="flex items-center gap-2">
             <span className="text-xs sm:text-sm text-gray-400 line-through">₹{product.price}</span>
-            <span className="text-base sm:text-lg font-bold text-mithila-blue">₹{product.price - 100}</span>
+            <span className="text-base sm:text-lg font-bold text-mithila-blue">₹{product.price - 150}</span>
           </div>
           <span className="text-xs sm:text-sm text-gray-500">{product.weight}</span>
         </div>

@@ -331,7 +331,7 @@ const Cart = () => {
                       <p className="text-gray-500 text-sm">{item.product.weight}</p>
                       <div className="flex items-center gap-2 mt-1">
                         <p className="text-gray-400 text-sm line-through">₹{item.product.price}</p>
-                        <p className="text-mithila-blue font-semibold">₹{item.product.price - 100}</p>
+                        <p className="text-mithila-blue font-semibold">₹{item.product.price - 150}</p>
                       </div>
                     </div>
                     
@@ -377,8 +377,8 @@ const Cart = () => {
                 
                 <div className="space-y-1">
                   <div className="flex justify-between text-green-600">
-                    <span>Discount ({getTotalItems()} × ₹100)</span>
-                    <span>- ₹{getTotalItems() * 100}</span>
+                    <span>Festival Offer ({getTotalItems()} × ₹150)</span>
+                    <span>- ₹{getTotalItems() * 150}</span>
                   </div>
                   {getTotalItems() >= 3 && (
                     <div className="flex justify-between text-green-600">
