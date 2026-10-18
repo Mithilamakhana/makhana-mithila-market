@@ -1,4 +1,5 @@
 
+import { useReviewStats } from '@/hooks/use-review-stats';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '@/data/products';
@@ -100,6 +101,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </span>
           )}
         </div>
+        {reviewStats && reviewStats.count > 0 && (
+          <p className="text-xs sm:text-sm text-gray-600 mb-1">
+            <span className="text-mithila-gold font-semibold">★ {reviewStats.average.toFixed(1)}</span> ({reviewStats.count}+ reviews)
+          </p>
+        )}
         <p className="text-gray-600 mb-2 sm:mb-3 text-xs sm:text-sm">{product.shortDescription}</p>
         
         <div className="flex items-center justify-between mb-3 sm:mb-4">
