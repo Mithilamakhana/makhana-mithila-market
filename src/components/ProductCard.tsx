@@ -1,4 +1,5 @@
 
+import { useReviewStats } from '@/hooks/use-review-stats';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '@/data/products';
@@ -13,6 +14,7 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
+  const reviewStats = useReviewStats();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPlusOne, setShowPlusOne] = useState(false);
 
@@ -41,8 +43,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Discount Badge */}
           <div className="absolute top-3 left-3 z-10">
             <div className="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1.5 rounded-lg shadow-lg transform -rotate-3 hover:rotate-0 transition-transform duration-300">
-              <div className="text-xs font-bold">SAVE ₹100</div>
-              <div className="text-[10px] font-medium">Limited Offer!</div>
+              <div className="text-xs font-bold">SAVE ₹150</div>
+              <div className="text-[10px] font-medium">Festival Offer</div>
             </div>
           </div>
           
@@ -100,12 +102,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </span>
           )}
         </div>
+        {reviewStats && reviewStats.count > 0 && (
+          <p className="text-xs sm:text-sm text-gray-600 mb-1">
+            <span className="text-mithila-gold font-semibold">★ {reviewStats.average.toFixed(1)}</span> ({reviewStats.count}+ reviews)
+          </p>
+        )}
         <p className="text-gray-600 mb-2 sm:mb-3 text-xs sm:text-sm">{product.shortDescription}</p>
         
         <div className="flex items-center justify-between mb-3 sm:mb-4">
           <div className="flex items-center gap-2">
             <span className="text-xs sm:text-sm text-gray-400 line-through">₹{product.price}</span>
-            <span className="text-base sm:text-lg font-bold text-mithila-blue">₹{product.price - 100}</span>
+            <span className="text-base sm:text-lg font-bold text-mithila-blue">₹{product.price - 150}</span>
           </div>
           <span className="text-xs sm:text-sm text-gray-500">{product.weight}</span>
         </div>
