@@ -86,7 +86,26 @@ const handler = async (req: Request): Promise<Response> => {
     if (!cashfreeResponse.ok) {
       const errorText = await cashfreeResponse.text();
       console.error("Cashfree API error:", errorText);
-      throw new Error(`Cashfree order creation failed: ${errorText}`);
+      let gatewayError: { code?: string; message?: string } = {};
+      try {
+        gatewayError = JSON.parse(errorText);
+      } catch {
+        gatewayError = {};
+      }
+
+      const transactionsDisabled = gatewayError.message?.toLowerCase().includes("transactions are not enabled for your payment gateway account");
+      return new Response(
+        JSON.stringify({
+          code: transactionsDisabled ? "cashfree_transactions_not_enabled" : "cashfree_order_creation_failed",
+          message: transactionsDisabled
+            ? "Cashfree has not enabled transactions for this merchant account. Contact Cashfree to activate live payments, then try again."
+            : gatewayError.message || "Cashfree could not create the payment order. Please try again later.",
+        }),
+        {
+          status: transactionsDisabled ? 403 : 502,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
     }
 
     const cashfreeOrder = await cashfreeResponse.json();
