@@ -17,6 +17,7 @@ export interface Product {
   shortDescription: string;
   price: number;
   rating: number;
+  reviewCountLabel: string;
   weight: string;
   image: string;
   images: string[]; // New field for multiple images
@@ -40,6 +41,7 @@ export const products: Product[] = [
     shortDescription: "A premium blend of 4, 5 & 6 sutta-sized fox nuts, handpicked from the heart of Mithila.",
     price: 450,
     rating: 4.8,
+    reviewCountLabel: '40+',
     weight: "175g",
     image: teak_front,
     images: [
@@ -73,6 +75,7 @@ export const products: Product[] = [
     shortDescription: "Handpicked fox nuts from Mithila, prized for their superior 5+ sutta size and unmatched quality.",
     price: 435,
     rating: 4.5,
+    reviewCountLabel: '60+',
     weight: "180g",
     image: orange_front,
     images: [orange_front,
@@ -104,6 +107,7 @@ export const products: Product[] = [
     shortDescription: "Handpicked Jumbo Makhana – Only the Best",
     price: 510,
     rating: 5,
+    reviewCountLabel: '20+',
     weight: "145g",
     image: Jumbo_front,
     images: [
@@ -136,6 +140,7 @@ export const products: Product[] = [
     shortDescription: "Premium raw makhana perfect for easy tawa roasting—budget-friendly without compromising on quality.",
     price: 850,
     rating: 4.9,
+    reviewCountLabel: '40+',
     weight: "500g",
     image: new_makhana_hd,
     images: [

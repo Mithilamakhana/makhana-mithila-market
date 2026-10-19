@@ -18,14 +18,12 @@ import { toast } from '@/hooks/use-toast';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import MascotFloating from '@/components/MascotFloating';
 import ImageGalleryDialog from '@/components/ImageGalleryDialog';
-import { useReviewStats } from '@/hooks/use-review-stats';
 import { getDiscountedUnitPrice, isFestivalEligibleProduct } from '@/lib/pricing';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const reviewStats = useReviewStats();
   const [quantity, setQuantity] = React.useState(1);
   const [showPlusOne, setShowPlusOne] = React.useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = React.useState(false);
@@ -111,7 +109,7 @@ const ProductDetail = () => {
             </div>
             <p className="text-sm text-gray-600 mb-4">
               <span className="font-semibold text-mithila-gold">★ {product.rating.toFixed(1)}</span>
-              {reviewStats && reviewStats.count > 0 && <span> · {reviewStats.count} store reviews</span>}
+              <span> · {product.reviewCountLabel} reviews</span>
             </p>
             <p className="text-gray-600 mb-4">{product.shortDescription}</p>
             

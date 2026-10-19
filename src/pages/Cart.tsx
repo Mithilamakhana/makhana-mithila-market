@@ -176,6 +176,24 @@ const Cart = () => {
 
       if (cashfreeError) {
         console.error('Error creating Cashfree order:', cashfreeError);
+        const errorContext = 'context' in cashfreeError ? cashfreeError.context : null;
+        const errorPayload = errorContext instanceof Response
+          ? await errorContext.clone().json().catch(() => null)
+          : null;
+        const gatewayMessage = errorPayload && typeof errorPayload === 'object' && 'error' in errorPayload
+          ? String(errorPayload.error)
+          : cashfreeError.message;
+
+        if (/transactions are not enabled for your payment gateway account/i.test(gatewayMessage)) {
+          toast({
+            title: "Cashfree payments aren't enabled yet",
+            description: "Cashfree is blocking live payments for this merchant account. Contact Cashfree to enable transactions, or use your sandbox credentials to test checkout.",
+            variant: "destructive"
+          });
+          setIsProcessing(false);
+          return;
+        }
+
         throw new Error(`Payment setup failed: ${cashfreeError.message}`);
       }
 
