@@ -1,5 +1,4 @@
 
-import { useReviewStats } from '@/hooks/use-review-stats';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '@/data/products';
@@ -15,7 +14,6 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
-  const reviewStats = useReviewStats();
   const festivalEligible = isFestivalEligibleProduct(product.id);
   const discountedPrice = getDiscountedUnitPrice(product.id, product.price);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -107,7 +105,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
         <p className="text-xs sm:text-sm text-gray-600 mb-1">
           <span className="text-mithila-gold font-semibold">★ {product.rating.toFixed(1)}</span>
-          {reviewStats && reviewStats.count > 0 && <span> · {reviewStats.count} store reviews</span>}
+          <span> · {product.reviewCountLabel} reviews</span>
         </p>
         <p className="text-gray-600 mb-2 sm:mb-3 text-xs sm:text-sm">{product.shortDescription}</p>
         

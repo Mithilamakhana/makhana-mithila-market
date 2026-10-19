@@ -1,1 +1,2 @@
 Keep reusable promotional offers and persistent contact actions in shared components, and centralize discount eligibility and calculations so cart totals and product prices stay consistent.
+Keep product-specific ratings and review-count labels in shared product data so cards and detail pages stay consistent.
