@@ -9,6 +9,7 @@ import pudding_product1 from '/pictures/pudding_product1.png'
 import jumbo_3 from '/pictures/Jumbo_3.jpg'
 import mix_3 from '/pictures/mix_3.jpg'
 import select_3 from '/pictures/select_3.jpg'
+import { productReviewCountLabels } from './product-review-counts';
 
 export interface Product {
   id: string;
@@ -41,7 +42,7 @@ export const products: Product[] = [
     shortDescription: "A premium blend of 4, 5 & 6 sutta-sized fox nuts, handpicked from the heart of Mithila.",
     price: 450,
     rating: 4.8,
-    reviewCountLabel: '40+',
+    reviewCountLabel: productReviewCountLabels['premium-makhana'],
     weight: "175g",
     image: teak_front,
     images: [
@@ -75,7 +76,7 @@ export const products: Product[] = [
     shortDescription: "Handpicked fox nuts from Mithila, prized for their superior 5+ sutta size and unmatched quality.",
     price: 435,
     rating: 4.5,
-    reviewCountLabel: '60+',
+    reviewCountLabel: productReviewCountLabels['roasted-makhana'],
     weight: "180g",
     image: orange_front,
     images: [orange_front,
@@ -107,7 +108,7 @@ export const products: Product[] = [
     shortDescription: "Handpicked Jumbo Makhana – Only the Best",
     price: 510,
     rating: 5,
-    reviewCountLabel: '20+',
+    reviewCountLabel: productReviewCountLabels['flavored-makhana'],
     weight: "145g",
     image: Jumbo_front,
     images: [
@@ -140,7 +141,7 @@ export const products: Product[] = [
     shortDescription: "Premium raw makhana perfect for easy tawa roasting—budget-friendly without compromising on quality.",
     price: 850,
     rating: 4.9,
-    reviewCountLabel: '40+',
+    reviewCountLabel: productReviewCountLabels['tawa-roast-makhana'],
     weight: "500g",
     image: new_makhana_hd,
     images: [
